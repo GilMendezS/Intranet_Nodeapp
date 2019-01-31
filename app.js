@@ -17,6 +17,8 @@ const PORT = process.env.PORT || 3000;
 const usersRoutes = require('./api/routes/user');
 const API_VERSION = process.env.API_VERSION;
 
+app.use(express.static(`${__dirname}/public`))
+
 app.use(`${API_VERSION}/users`, usersRoutes);
 
 app.listen(PORT, () => {
