@@ -5,4 +5,6 @@ router.get('/', AreaController.getAreas);
 
 router.post('/', AreaController.addArea);
 
+router.get('/:id', AreaController.getArea);
+
 module.exports = router;

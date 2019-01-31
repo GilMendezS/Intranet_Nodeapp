@@ -1,11 +1,10 @@
 'use strict';
+const sequelize = require('../api/utils/database');
+const User = sequelize.import(__dirname+"/user");
 module.exports = (sequelize, DataTypes) => {
   const Area = sequelize.define('Area', {
     title: DataTypes.STRING,
-    user_id: DataTypes.INTEGER
   }, {});
-  Area.associate = function(models) {
-    
-  };
+  Area.belongsTo(User, {as : 'User'})
   return Area;
 };
