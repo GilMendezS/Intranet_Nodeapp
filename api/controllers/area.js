@@ -43,3 +43,35 @@ exports.addArea = async(req, res ,next) => {
         })
     }
 }
+exports.updateArea = async(req, res, next) => {
+    try {
+        const areaId = req.params.id;
+        const updatedArea = await Area.update(req.body, {
+            where: {
+                id: areaId
+            }
+        })
+        return res.status(200).json({
+            message: 'Area updated',
+            data: updatedArea
+        })
+    } catch (error) {
+        
+    }
+}
+exports.removeArea = async (req, res, next) => {
+    try {
+        await Area.destroy({where:{
+            id: req.params.id
+        }})
+        return res.status(200).json({
+            message: 'Area removed',
+            success: true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error removing the area',
+            sucess: false
+        })
+    }   
+}

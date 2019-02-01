@@ -7,4 +7,8 @@ router.post('/', AreaController.addArea);
 
 router.get('/:id', AreaController.getArea);
 
+router.put('/:id', AreaController.updateArea);
+
+router.delete('/:id', AreaController.removeArea);
+
 module.exports = router;
