@@ -1,8 +1,21 @@
 const Status = require('../models/models').Status;
 
-exports.getStatuss = async (req, res, next) => {
+exports.getStatusProjects = async (req, res, next) => {
     try {
-        const statuses = await Status.findAll();
+        const statuses = await Status.scope('projects').findAll();
+        return res.status(200).json({
+            data: statuses
+        })
+    } catch (error) {
+        return res.status(200).json({
+            message: 'Error fetching the statuses',
+            error
+        })
+    }
+}
+exports.getStatusViatics = async (req, res, next) => {
+    try {
+        const statuses = await Status.scope('viatics').findAll();
         return res.status(200).json({
             data: statuses
         })

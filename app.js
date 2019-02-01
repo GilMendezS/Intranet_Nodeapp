@@ -22,11 +22,13 @@ const authRoutes = require('./api/routes/auth');
 const areasRoutes = require('./api/routes/areas');
 const departmentsRoutes = require('./api/routes/department');
 const positionsRoutes = require('./api/routes/position');
+const statusRoutes = require('./api/routes/status');
 app.use(`${API_VERSION}/users`, usersRoutes);
 app.use(`${API_VERSION}/auth`, authRoutes);
 app.use(`${API_VERSION}/areas`, areasRoutes);
 app.use(`${API_VERSION}/departments`, departmentsRoutes);
 app.use(`${API_VERSION}/positions`, positionsRoutes);
+app.use(`${API_VERSION}/status`, statusRoutes);
 
 app.listen(PORT, () => {
     console.log(`Http server on :${PORT}`);
