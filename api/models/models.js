@@ -6,3 +6,4 @@ exports.User = sequelize.import(path.join(rootDir,'models','user'));
 exports.Area = sequelize.import(path.join(rootDir,'models','area'));
 exports.Department = sequelize.import(path.join(rootDir,'models','department'));
 exports.Position = sequelize.import(path.join(rootDir,'models','position'));
+exports.Status = sequelize.import(path.join(rootDir,'models','status'));
