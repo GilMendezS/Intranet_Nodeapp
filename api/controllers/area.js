@@ -30,7 +30,7 @@ exports.addArea = async(req, res ,next) => {
     try {
         const area = await Area.build({
             title: req.body.title,
-            UserId: 1
+            UserId: req.body.UserId
         }).save()
         return res.status(200).json({
             messsage: 'Area created',

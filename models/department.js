@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Department.associate = function(models) {
     // associations can be defined here
   };
-  Department.belongsTo(User, {as: 'Responsable'});
+  Department.belongsTo(User, {as: 'User'});
   Department.belongsTo(Area, {as: 'Area'});
   return Department;
 };

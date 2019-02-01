@@ -20,9 +20,11 @@ const API_VERSION = process.env.API_VERSION;
 const usersRoutes = require('./api/routes/user');
 const authRoutes = require('./api/routes/auth');
 const areasRoutes = require('./api/routes/areas');
+const departmentsRoutes = require('./api/routes/department');
 app.use(`${API_VERSION}/users`, usersRoutes);
 app.use(`${API_VERSION}/auth`, authRoutes);
 app.use(`${API_VERSION}/areas`, areasRoutes);
+app.use(`${API_VERSION}/departments`, departmentsRoutes);
 
 app.listen(PORT, () => {
     console.log(`Http server on :${PORT}`);
