@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './views/Login.vue'
 
 import ProjectsRoutes from './routes/project';
+import CompanyRoutes from './routes/company';
 
 Vue.use(Router)
 
@@ -15,6 +16,7 @@ export default new Router({
       name: 'login',
       component: Login
     },
-    ...ProjectsRoutes
+    ...ProjectsRoutes,
+    ...CompanyRoutes
   ]
 })

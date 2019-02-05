@@ -10,12 +10,13 @@
             {{ n }}
 
         </v-tab>
+       
         <v-tab-item
             
         >
             <v-card flat>
             <v-card-text>
-                
+                Áreas
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -24,7 +25,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Presupuestos
+                Departamentos
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -33,16 +34,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Preventa
-            </v-card-text>
-            </v-card>
-        </v-tab-item>
-        <v-tab-item
-            
-        >
-            <v-card flat>
-            <v-card-text>
-                Terminados
+                Puestos
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -55,10 +47,12 @@
 <script>
 
 export default {
-
+    components : {
+        
+    },
     data: () => {
         return {
-            tabs: ['Activos','Presupuestos','Preventa','Terminados']
+            tabs: ['Áreas','Departamentos','Puestos']
         }
     }
 }
