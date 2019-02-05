@@ -10,6 +10,11 @@ import CompanyTabs from '../components/company/CompanyTabs.vue';
 export default {
     components: {
         'v-company-tabs':CompanyTabs
+    },
+    mounted () {
+        this.$store.dispatch('areas/loadAreas');
+        this.$store.dispatch('users/loadUsers');
+        
     }
 }
 </script>

@@ -16,7 +16,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Áreas
+                <v-areas></v-areas>
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -45,10 +45,10 @@
 </template>
 
 <script>
-
+import AreasDataTable from './AreasDataTable.vue'
 export default {
     components : {
-        
+        'v-areas': AreasDataTable
     },
     data: () => {
         return {
