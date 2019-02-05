@@ -24,6 +24,19 @@ export default {
     return {
       //
     }
+  },
+  computed: {
+    message() {
+      return this.$store.getters['message'];
+    }
+  },
+  watch: {
+    message(){
+      if (this.message != ''){
+        this.$toasted.info(this.message)
+      }
+    }
   }
+  
 }
 </script>
