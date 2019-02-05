@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat color="white">
-      <v-toolbar-title>Departamentos</v-toolbar-title>
+      <v-toolbar-title>Puestos</v-toolbar-title>
       <v-divider
         class="mx-2"
         inset
@@ -9,7 +9,7 @@
       ></v-divider>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" @click="showForm" dark class="mb-2">Agregar departamento</v-btn>
+        <v-btn slot="activator" color="primary" @click="showForm" dark class="mb-2">Agregar puesto</v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{formTitle}}</span>
@@ -21,22 +21,24 @@
                   <v-text-field v-model="editedItem.title" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12 >
-                    <v-select
-                    v-model="editedItem.UserId"
-                    :items="filteredUsers"
-                    item-value="id"
-                    item-text="text"
-                    label="Responsable"
-                    ></v-select>
-                  
-                </v-flex>
-                <v-flex xs12 >
+                    
                     <v-select
                     v-model="editedItem.AreaId"
                     :items="filteredAreas"
                     item-value="id"
                     item-text="text"
                     label="Área"
+                    ></v-select>
+                  
+                </v-flex>
+                <v-flex xs12 >
+                    <v-select
+                    :disabled="!editedItem.AreaId"
+                    v-model="editedItem.DepartmentId"
+                    :items="filteredDepartments"
+                    item-value="id"
+                    item-text="text"
+                    label="Departamento"
                     ></v-select>
                   
                 </v-flex>
@@ -54,7 +56,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="departments"
+      :items="positions"
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
@@ -83,7 +85,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Department from '../../models/department.js';
+import Position from '../../models/position.js';
 export default {
     data: () => ({
       dialog: false,
@@ -100,17 +102,17 @@ export default {
       ],
       desserts: [],
       editedIndex: -1,
-      editedItem: new Department(),
-      defaultItem: new Department(),
+      editedItem: new Position(),
+      defaultItem: new Position(),
     }),
     methods: {
         initialize(){
-            this.$store.dispatch('departments/loaDepartments');
+            this.$store.dispatch('positions/loadPositions');
         },
         showForm(){
             this.creating = true;
             this.editedItem = this.defaultItem;
-            this.formTitle = 'Registrar Departamento'
+            this.formTitle = 'Registrar Puesto'
         },
         close () {
             this.dialog = false
@@ -119,19 +121,20 @@ export default {
         save(){
             this.dialog = false;
             if(this.creating){
-                this.$store.dispatch('departments/createDepartment', this.editedItem);
-                this.defaultItem = new Department();
+                this.$store.dispatch('positions/createPosition', this.editedItem);
+                this.defaultItem = new Position();
             }
             else {
                 
-                this.$store.dispatch('departments/updateDepartment', this.editedItem);
+                this.$store.dispatch('positions/updatePosition', this.editedItem);
             }
         },
-        editItem(area){
+        editItem(position){
             this.dialog = true;
-            this.formTitle = 'Editar departamento';
+            this.formTitle = 'Editar puesto';
             this.creating = false;
-            this.editedItem = area;
+            this.editedItem = position;
+            console.log("TO EDIT: ",this.editedItem)
         },
         deleteItem(area){
 
@@ -140,17 +143,20 @@ export default {
     },
     computed: {
         ...mapGetters({
-            'departments': 'departments/getDepartments',
+            'positions': 'positions/getPositions',
             'users': 'users/getUsers',
-            'areas': 'areas/getAreas'
+            'areas': 'areas/getAreas',
+            'departments': 'departments/getDepartments'
         }),
-        filteredUsers() {
-            return this.users.map( u => {
+        filteredDepartments() {
+            const areaId = this.editedItem.AreaId;
+            const items =  this.departments.filter(d => d.AreaId == areaId).map( d => {
                 return {
-                    id: u.id,
-                    text: `${u.name} ${u.lastname}`
+                    id: d.id,
+                    text: d.title
                 }
-            });
+            })
+            return items;
         },
         filteredAreas() {
             return this.areas.map( a => {

@@ -14,6 +14,7 @@ export default {
     mounted () {
         this.$store.dispatch('areas/loadAreas');
         this.$store.dispatch('departments/loadDepartments');
+        this.$store.dispatch('positions/loadPositions');
         this.$store.dispatch('users/loadUsers');
         
     }
