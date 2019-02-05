@@ -7,9 +7,8 @@ const User = sequelize.import(path.join(rootDir,'models','user.js'))
 exports.getUsers = (req, res ,next) =>  {
     User.findAll()
     .then(users => {
-        console.log(users)
         return res.status(200).json(
-            users
+            {data: users}
         )
     })
     .catch(err => {
