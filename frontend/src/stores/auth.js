@@ -35,7 +35,7 @@ export default {
                 router.push('/projects')
             })
             .catch(err => {
-                Vue.$toasted.show(err)
+                
             })
         },
         logoutUser: ({commit}) => {

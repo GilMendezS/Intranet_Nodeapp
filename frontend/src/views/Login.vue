@@ -60,7 +60,6 @@ export default {
     },
     methods: {
         onLogin(){
-            console.log(this.user)
             this.$store.dispatch('auth/loginUser', this.user);
         }
     },
