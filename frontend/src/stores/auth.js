@@ -12,7 +12,7 @@ export default {
         },
         setUser: (state, payload) => {
             state.user = payload;
-            localStorage.setItem('ss', JSON.stringify(payload))
+            localStorage.setItem('user', JSON.stringify(payload))
         },
         logout: state => {
             state.user = null;
