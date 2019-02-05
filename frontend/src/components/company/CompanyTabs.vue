@@ -25,7 +25,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Departamentos
+                <v-departments></v-departments>
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -46,9 +46,11 @@
 
 <script>
 import AreasDataTable from './AreasDataTable.vue'
+import DepartmentsTable from './DepartmentsTable.vue';
 export default {
     components : {
-        'v-areas': AreasDataTable
+        'v-areas': AreasDataTable,
+        'v-departments':DepartmentsTable
     },
     data: () => {
         return {

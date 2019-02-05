@@ -3,14 +3,15 @@ import Vuex from 'vuex'
 import auth from './stores/auth';
 import areas from './stores/area';
 import users from './stores/user';
-
+import departments from './stores/department';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     auth,
     areas,
-    users
+    users,
+    departments
   },
   state: {
     api: 'http://localhost:8081/api/v1',

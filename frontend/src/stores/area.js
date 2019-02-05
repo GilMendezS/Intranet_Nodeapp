@@ -50,7 +50,6 @@ export default {
             })
         },
         updateArea: ({dispatch,commit, rootGetters}, payload) => {
-            console.log("payload from store: ",payload)
             fetch(`${rootGetters.api}/areas/${payload.id}`, {
                 method: 'PUT',
                 headers: {
