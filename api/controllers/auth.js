@@ -9,6 +9,7 @@ exports.postLogin = async (req, res ,next) => {
         if(!user){
             return res.status(404).json({
                 message: 'Email not found',
+                success: false
             })
         }
         const result = await user.checkPassword(req.body.password);
@@ -39,7 +40,8 @@ exports.postLogin = async (req, res ,next) => {
         console.log(error)
         return res.status(500).json({
             message: 'Error checking this credentials',
-            error
+            error,
+            success: false
         })
     }
     

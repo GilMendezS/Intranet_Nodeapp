@@ -17,10 +17,12 @@ export default {
         logout: state => {
             state.user = null;
             state.token = null;
+            localStorage.clear();
+            router.push('/')
         } 
     },
     actions: {
-        loginUser: ({commit, rootGetters}, payload) => {
+        loginUser: ({dispatch, commit, rootGetters}, payload) => {
             fetch(`${rootGetters.api}/auth/login`,{
                 method: 'POST',
                 headers: {
@@ -30,12 +32,18 @@ export default {
             })
             .then(res => res.json())
             .then( data => {
-                commit('setToken', data.token);
-                commit('setUser', data.user);
-                router.push('/projects')
+                if (data.success){
+                    commit('setToken', data.token);
+                    commit('setUser', data.user);
+                    router.push('/projects')
+                }
+                else {
+                    dispatch('syncMessage', data.message, {root:true})
+                }
+                
             })
             .catch(err => {
-                
+                dispatch('syncMessage', 'Ha surgido un error, vuelve a intentarlo.', {root:true})
             })
         },
         logoutUser: ({commit}) => {
@@ -48,6 +56,9 @@ export default {
         },
         getToken: state => {
             return state.token;
+        },
+        isAuthenticated: state => {
+            return state.token && state.user;
         }
     }
 }
