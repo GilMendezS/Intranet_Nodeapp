@@ -25,12 +25,9 @@ export default {
             fetch(`${rootGetters.api}/areas`)
             .then(res => res.json())
             .then(info => {
-                
                 commit('setAreas', info.data)
             })
-            .catch(err => {
-                console.log(err)
-            })
+            
         },
         createArea: ({dispatch, commit, rootGetters}, payload) => {
             fetch(`${rootGetters.api}/areas`,{
@@ -59,11 +56,28 @@ export default {
             })
             .then(res => res.json())
             .then(response => {
-                dispatch('syncMessage', 'Área actualizada con éxito', {root:true})
+                dispatch('syncMessage', response.message, {root:true})
             })
             .catch(err => {
                 console.log(err)
             })
+        },
+        removeArea: ({dispatch, commit, rootGetters}, payload) => {
+            fetch(`${rootGetters.api}/area/${payload.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.success){
+                    commit('removeArea', area)
+
+                }
+                dispatch('syncMessage', response.message, {root:true})
+            })
+
         }
     },
     getters: {
