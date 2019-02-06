@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <v-toolbar flat color="white">
       <v-toolbar-title>Áreas</v-toolbar-title>
       <v-divider
@@ -52,13 +53,14 @@
         <td class="justify-center layout px-0">
           <v-icon
             small
-            class="mr-2"
+            class="mr-2 blue--text"
             @click="editItem(props.item)"
           >
             edit
           </v-icon>
           <v-icon
             small
+            class="red--text"
             @click="deleteItem(props.item)"
           >
             delete
@@ -69,6 +71,7 @@
         <v-btn color="primary" @click="initialize">Reload</v-btn>
       </template>
     </v-data-table>
+    
   </div>
 </template>
 <script>
@@ -93,6 +96,9 @@ export default {
       editedItem: new Area(),
       defaultItem: new Area(),
     }),
+    mounted() {
+      
+    },
     methods: {
         initialize(){
             this.$store.dispatch('areas/loadAreas');
@@ -124,7 +130,10 @@ export default {
             this.editedItem = area;
         },
         deleteItem(area){
-
+         
+        },
+        continueRemoving(area){
+          this.$store.dispatch('areas/removeArea', area)
         }
 
     },

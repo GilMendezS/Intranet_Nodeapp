@@ -134,7 +134,6 @@ export default {
             this.formTitle = 'Editar puesto';
             this.creating = false;
             this.editedItem = position;
-            console.log("TO EDIT: ",this.editedItem)
         },
         deleteItem(area){
 
