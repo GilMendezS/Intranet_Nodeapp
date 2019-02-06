@@ -8,7 +8,7 @@ module.exports = {
 
       Example:
     */
-    return queryInterface.bulkInsert('Users', [{
+    return queryInterface.bulkInsert('users', [{
         name: 'Admin ',
         lastname: "Viatics",
         email: "admin@mail.com",
@@ -27,6 +27,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('users', null, {});
   }
 };

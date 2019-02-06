@@ -1,16 +1,17 @@
-const Project = require('../models/models').Project;
+const DataTable = require('../helpers/SSP');
 const Type = require('../models/models').Type;
-
+const Project = require('../models/models').Project;
+const COLUMNS_PROJECTS = require('../dt_definitions/project');
 
 exports.getProjects = async (req, res, next) => {
     try {
-        const projects = await Project.findAll();
-        return res.status(200).json({
-            data: projects
-        })
+        const datatable = new DataTable();
+        const data = await datatable.simple(req, null, 'Projects', 'Projects.id', COLUMNS_PROJECTS);
+        return res.status(200).json(data);
     } catch (error) {
         return res.status(500).json({
-            message:'Error fetching the projects'
+            message:'Error fetching the projects',
+            error
         })
     }
 }

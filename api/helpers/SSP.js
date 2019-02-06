@@ -112,7 +112,7 @@ class SSP{
         const select_columns = this.pluck(columns, "db").join(',');
         let data = await this.sql_exec(bindings, `
             SELECT ${select_columns}
-            FROM ${table}
+            FROM '${table}'
             ${where}
             ${order}
             ${limit}

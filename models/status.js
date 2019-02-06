@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const PROJECTS = 'projects';
   const VIATICS = 'viatics';
-  const Status = sequelize.define('Status', {
+  const Status = sequelize.define('status', {
     name: DataTypes.STRING,
     title: DataTypes.STRING,
     for: DataTypes.STRING

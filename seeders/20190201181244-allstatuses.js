@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('Statuses', [
+      return queryInterface.bulkInsert('statuses', [
         //projects
         {
           name: 'inactive',
@@ -124,6 +124,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('Statuses', null, {});
+    return queryInterface.bulkDelete('statuses', null, {});
   }
 };

@@ -3,7 +3,7 @@ const sequelize = require('../api/utils/database');
 const Department = sequelize.import(`${__dirname}/department`);
 const Area = sequelize.import(`${__dirname}/area`);
 module.exports = (sequelize, DataTypes) => {
-  const Position = sequelize.define('Position', {
+  const Position = sequelize.define('position', {
     title: DataTypes.STRING,
     AreaId: DataTypes.INTEGER,
     DepartmentId: DataTypes.INTEGER

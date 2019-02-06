@@ -3,7 +3,7 @@ const User = require('../api/models/models').User;
 const Status = require('../api/models/models').Status;
 const Type = require('../api/models/models').Type;
 module.exports = (sequelize, DataTypes) => {
-  const Project = sequelize.define('Project', {
+  const Project = sequelize.define('project', {
     name: DataTypes.STRING,
     code: DataTypes.STRING,
     client: DataTypes.STRING,
@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     budget: DataTypes.DECIMAL,
     money_spent: DataTypes.DECIMAL,
     money_refunded: DataTypes.DECIMAL
-  }, {});
+  }, {
+    
+  });
   Project.associate = function(models) {
     // associations can be defined here
   };

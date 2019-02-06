@@ -3,7 +3,7 @@ const sequelize = require('../api/utils/database');
 const User = sequelize.import(`${__dirname}/user`);
 const Area = sequelize.import(`${__dirname}/area`);
 module.exports = (sequelize, DataTypes) => {
-  const Department = sequelize.define('Department', {
+  const Department = sequelize.define('department', {
     title: DataTypes.STRING
   }, {});
   Department.associate = function(models) {
