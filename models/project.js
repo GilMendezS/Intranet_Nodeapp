@@ -19,6 +19,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Project.belongsTo(User, {as: 'User'});
   Project.belongsTo(Status, {as : 'Status'});
-  Project.belongsTo(Type, {as: 'Type'});
+  
   return Project;
 };

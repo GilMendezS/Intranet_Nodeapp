@@ -9,3 +9,4 @@ exports.Position = sequelize.import(path.join(rootDir,'models','position'));
 exports.Status = sequelize.import(path.join(rootDir,'models','status'));
 exports.Project = sequelize.import(path.join(rootDir,'models','project'));
 exports.Type = sequelize.import(path.join(rootDir,'models','type'));
+
