@@ -15,7 +15,7 @@
         >
             <v-card flat>
             <v-card-text>
-                
+                <v-active-projects></v-active-projects>
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -53,9 +53,12 @@
 </template>
 
 <script>
+import ActiveProjectsDatatable from './ActiveProjectsDatatable.vue';
 
 export default {
-
+    components: {
+        'v-active-projects': ActiveProjectsDatatable
+    },
     data: () => {
         return {
             tabs: ['Activos','Presupuestos','Preventa','Terminados']
