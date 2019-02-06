@@ -8,43 +8,50 @@ const columns = [
     ],
     [
         {
+            db: 'projects_details.code',
+            dt: 1,
+            db_type: 'string'
+        }
+    ],
+    [
+        {
             db: 'projects_details.name',
-            dt: 0,
+            dt: 2,
             db_type: 'string'
         }
     ],
     [
         {
             db: 'user',
-            dt: 0,
+            dt: 3,
             db_type: 'int'
         }
     ],
     [
         {
             db: 'projects_details.client',
-            dt: 0,
+            dt: 4,
             db_type: 'string'
         }
     ],
     [
         {
             db: 'projects_details.budget',
-            dt: 0,
+            dt: 5,
             db_type: 'int'
         }
     ],
     [
         {
             db: 'projects_details.money_spent',
-            dt: 0,
+            dt: 6,
             db_type: 'int'
         }
     ],
     [
         {
             db: 'projects_details.id',
-            dt: 0,
+            dt: 7,
             db_type: 'int'
         }
     ]
