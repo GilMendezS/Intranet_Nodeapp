@@ -1,49 +1,49 @@
 const columns = [
     [
         {
-            db: 'Projects.id',
+            db: 'projects.id',
             dt: 0,
             db_type: 'int'
         }
     ],
     [
         {
-            db: 'Projects.name',
+            db: 'projects.name',
             dt: 0,
             db_type: 'string'
         }
     ],
     [
         {
-            db: 'Projects.UserId',
+            db: 'projects.user_id',
             dt: 0,
             db_type: 'int'
         }
     ],
     [
         {
-            db: 'Projects.client',
+            db: 'projects.client',
             dt: 0,
             db_type: 'string'
         }
     ],
     [
         {
-            db: 'Projects.budget',
+            db: 'projects.budget',
             dt: 0,
             db_type: 'int'
         }
     ],
     [
         {
-            db: 'Projects.money_spent',
+            db: 'projects.money_spent',
             dt: 0,
             db_type: 'int'
         }
     ],
     [
         {
-            db: 'Projects.id',
+            db: 'projects.id',
             dt: 0,
             db_type: 'int'
         }
