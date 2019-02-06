@@ -1,6 +1,4 @@
-create or REPLACE view projects_details as 
-
-SELECT p.*, u.name as user_name,u.lastname as user_lastname, s.title as status_title,s.name as status_name, t.title as type_title,t.name as type_name
+SELECT p.*, concat(u.name, u.lastname) as user, s.title as status_title,s.name as status_name, t.title as type_title,t.name as type_name
 
 from projects as p
 left join statuses as s
