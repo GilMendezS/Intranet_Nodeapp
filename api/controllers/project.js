@@ -1,6 +1,32 @@
 const DataTable = require('../helpers/SSP');
 const Type = require('../models/models').Type;
+const Project = require('../models/models').Project;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
+
+exports.addProject = async(req, res, next) => {
+    try {
+        const newProject = await Project.create({
+            name: req.body.name,
+            code: req.body.code,
+            client: req.body.client,
+            user_id: req.body.user_id,
+            status_id: 2,//default - active
+            type_id: req.body.type_id,
+            budget: req.body.budget
+        })
+        return res.status(200).json({
+            message: 'Project created',
+            success: true,
+            data:newProject
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error creating the project',
+            success: false,
+            error
+        })
+    }
+}
 
 exports.getActiveProjects = async (req, res, next) => {
     try {

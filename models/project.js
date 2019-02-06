@@ -12,11 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     type_id: DataTypes.INTEGER,
     budget: DataTypes.DECIMAL,
     money_spent: DataTypes.DECIMAL,
-    money_refunded: DataTypes.DECIMAL
+    money_refunded: DataTypes.DECIMAL,
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE
   }, {
-    timestamps: false,
+    
+    createdAt: 'created_at',
     updatedAt: 'updated_at',
-    createdAt: 'created_at'
   });
   Project.associate = function(models) {
     // associations can be defined here
