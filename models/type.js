@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   const Type = sequelize.define('type', {
     name: DataTypes.STRING,
     title: DataTypes.STRING
-  }, {});
+  }, {
+    timestamps: false,
+    updatedAt: 'updated_at',
+    createdAt: 'created_at'
+  });
   Type.associate = function(models) {
     // associations can be defined here
   };

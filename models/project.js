@@ -7,20 +7,22 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     code: DataTypes.STRING,
     client: DataTypes.STRING,
-    UserId: DataTypes.INTEGER,
-    StatusId: DataTypes.INTEGER,
-    TypeId: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
+    status_id: DataTypes.INTEGER,
+    type_id: DataTypes.INTEGER,
     budget: DataTypes.DECIMAL,
     money_spent: DataTypes.DECIMAL,
     money_refunded: DataTypes.DECIMAL
   }, {
-    
+    timestamps: false,
+    updatedAt: 'updated_at',
+    createdAt: 'created_at'
   });
   Project.associate = function(models) {
     // associations can be defined here
   };
-  Project.belongsTo(User, {as: 'User'});
-  Project.belongsTo(Status, {as : 'Status'});
+  Project.belongsTo(User, {foreignKey: 'user_id'});
+  Project.belongsTo(Status, {foreignKey: 'status_id'});
   
   return Project;
 };

@@ -6,20 +6,20 @@ module.exports = {
       {
         name: 'budget',
         title: 'Centro de costos',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'sale',
         title: 'Preventa',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'project',
         title: 'Proyecto',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       }
     
     ], {});

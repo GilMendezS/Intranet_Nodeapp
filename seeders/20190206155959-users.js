@@ -13,8 +13,8 @@ module.exports = {
         lastname: "Viatics",
         email: "admin@mail.com",
         password: 'adminviatics',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
     }], {});
   
   },

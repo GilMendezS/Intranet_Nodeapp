@@ -17,13 +17,13 @@ module.exports = {
       client: {
         type: Sequelize.STRING
       },
-      UserId: {
+      user_id: {
         type: Sequelize.INTEGER
       },
-      StatusId: {
+      status_id: {
         type: Sequelize.INTEGER
       },
-      TypeId: {
+      type_id: {
         type: Sequelize.INTEGER
       },
       budget: {
@@ -35,11 +35,11 @@ module.exports = {
       money_refunded: {
         type: Sequelize.DECIMAL
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

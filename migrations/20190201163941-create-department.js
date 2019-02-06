@@ -10,20 +10,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      UserId: {
+      user_id: {
         type: Sequelize.INTEGER
       },
-      AreaId: {
+      area_id: {
         type: Sequelize.INTEGER
       },
       title: {
         type: Sequelize.STRING
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

@@ -5,13 +5,18 @@ const Area = sequelize.import(`${__dirname}/area`);
 module.exports = (sequelize, DataTypes) => {
   const Position = sequelize.define('position', {
     title: DataTypes.STRING,
-    AreaId: DataTypes.INTEGER,
-    DepartmentId: DataTypes.INTEGER
-  }, {});
+    department_id: DataTypes.INTEGER,
+    area_id: DataTypes.INTEGER,
+
+  }, {
+    timestamps: false,
+    updatedAt: 'updated_at',
+    createdAt: 'created_at'
+  });
   Position.associate = function(models) {
     // associations can be defined here
   };
-  Position.belongsTo(Area, { as :'Area'});
-  Position.belongsTo(Department, {as: 'Department'});
+  Position.belongsTo(Area, {foreignKey: 'area_id'});
+  Position.belongsTo(Department, {foreignKey: 'department_id'});
   return Position;
 };
