@@ -7,4 +7,5 @@ exports.Area = sequelize.import(path.join(rootDir,'models','area'));
 exports.Department = sequelize.import(path.join(rootDir,'models','department'));
 exports.Position = sequelize.import(path.join(rootDir,'models','position'));
 exports.Status = sequelize.import(path.join(rootDir,'models','status'));
-exports.Projects = sequelize.import(path.join(rootDir,'models','project'));
+exports.Project = sequelize.import(path.join(rootDir,'models','project'));
+exports.Type = sequelize.import(path.join(rootDir,'models','type'));

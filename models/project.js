@@ -1,7 +1,7 @@
 'use strict';
-// const User = require('../api/models/models').User;
-// const Status = require('../api/models/models').Status;
-
+const User = require('../api/models/models').User;
+const Status = require('../api/models/models').Status;
+const Type = require('../api/models/models').Type;
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('Project', {
     name: DataTypes.STRING,
@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   Project.associate = function(models) {
     // associations can be defined here
   };
-  // Project.belongsTo(User, {as: 'User'});
-  // Project.belongsTo(Status, {as : 'Status'});
-  // Project.belongsTo(Type, {as: 'Type'});
+  Project.belongsTo(User, {as: 'User'});
+  Project.belongsTo(Status, {as : 'Status'});
+  Project.belongsTo(Type, {as: 'Type'});
   return Project;
 };
