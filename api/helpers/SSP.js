@@ -100,19 +100,31 @@ class SSP{
         }
         return limit;
     }
-    async simple(request, conn, table, primaryKey, columns){
+    async simple(request, conn, table, primaryKey, columns, wheres = []){
         let bindings = [];
         //let db = this.db(conn);
         // Build the SQL query string from the request
         let limit = this.limit( request, columns );
 		let order = this.order( request, columns );
         let where = this.filter( request, columns, bindings );
+
+        if (wheres.length > 0){
+            const extra_wheres = wheres.join(' AND ');
+            if (where){
+                where = `${where} AND ${extra_wheres}`;
+            }
+            else {
+                where = `WHERE ${extra_wheres}`
+            }
+            
+        }
+        
         
         // Main query to actually get the data
         const select_columns = this.pluck(columns, "db").join(',');
         let data = await this.sql_exec(bindings, `
             SELECT ${select_columns}
-            FROM '${table}'
+            FROM ${table}
             ${where}
             ${order}
             ${limit}
