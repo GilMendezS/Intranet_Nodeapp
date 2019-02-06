@@ -17,8 +17,8 @@ exports.addDepartment = async (req, res, next) => {
     try {
         const newDepartment = await Department.create({
             title: req.body.title,
-            UserId: req.body.UserId,
-            AreaId: req.body.AreaId
+            user_id: req.body.UserId,
+            area_id: req.body.AreaId
         })
         return res.status(200).json({
             message: 'Department created',

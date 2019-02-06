@@ -17,8 +17,8 @@ exports.addPosition = async (req, res, next) => {
     try {
         const newPosition = await Position.create({
             title: req.body.title,
-            DepartmentId: req.body.DepartmentId,
-            AreaId: req.body.AreaId
+            department_id: req.body.DepartmentId,
+            area_id: req.body.AreaId
         })
         return res.status(200).json({
             message: 'Position cretaed',

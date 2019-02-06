@@ -30,14 +30,14 @@ exports.addArea = async(req, res ,next) => {
     try {
         const area = await Area.build({
             title: req.body.title,
-            UserId: req.body.UserId
+            user_id: req.body.UserId
         }).save()
         return res.status(200).json({
             messsage: 'Area created',
             data: area
         })
     } catch (error) {
-        return res.status.json({
+        return res.status(500).json({
             message: 'Error saving the area',
             error
         })
