@@ -7,13 +7,11 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-
-
 app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/frontend/dist`))
 //get api url
 const API_VERSION = process.env.API_VERSION;
 //routes - api
@@ -29,6 +27,8 @@ app.use(`${API_VERSION}/areas`, areasRoutes);
 app.use(`${API_VERSION}/departments`, departmentsRoutes);
 app.use(`${API_VERSION}/positions`, positionsRoutes);
 app.use(`${API_VERSION}/status`, statusRoutes);
+
+
 
 app.listen(PORT, () => {
     console.log(`Http server on :${PORT}`);
