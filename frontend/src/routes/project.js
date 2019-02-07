@@ -16,7 +16,7 @@ export default [
         beforeEnter: Authenticated
     },
     {
-        path: 'projects/edit/:id',
+        path: '/projects/edit/:id',
         name: 'edit-project',
         component: EditProject,
         beforeEnter: Authenticated,
