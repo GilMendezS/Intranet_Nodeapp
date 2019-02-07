@@ -97,7 +97,19 @@ exports.getActiveBudgets = async (req, res, next) => {
         })
     }
 }
-
+exports.getFinishedProjects = async (req, res, next) => {
+    try {
+        const datatable = new DataTable();
+        const wheres = [`projects_details.status_id = 3`]
+        const data = await datatable.simple(req, null, 'projects_details', 'projects_details.id', COLUMNS_PROJECTS, wheres);
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).json({
+            message:'Error fetching the projects',
+            error
+        })
+    }
+}
 exports.getTypes = async(req, res, next) => {
     try {
         const types = await Type.findAll();

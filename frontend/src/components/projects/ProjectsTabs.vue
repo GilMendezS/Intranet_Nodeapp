@@ -42,7 +42,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Terminados
+                <v-finished-projects></v-finished-projects>
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -56,11 +56,13 @@
 import SalesProjectsDatatable from './SalesProjectsDatatable.vue';
 import BudgetProjectsDatatable from './BudgetProjectsDatatable.vue';
 import ActiveProjectsDatatable from './ActiveProjectsDatatable.vue';
+import FinishedProjectsDatatable from './FinishedProjectsDatatable.vue';
 export default {
     components: {
         'v-active-projects': ActiveProjectsDatatable,
         'v-budget-projects': BudgetProjectsDatatable,
-        'v-sales-projects': SalesProjectsDatatable
+        'v-sales-projects': SalesProjectsDatatable,
+        'v-finished-projects': FinishedProjectsDatatable
     },
     data: () => {
         return {
