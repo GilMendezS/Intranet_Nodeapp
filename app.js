@@ -30,7 +30,9 @@ app.use(`${API_VERSION}/positions`, positionsRoutes);
 app.use(`${API_VERSION}/status`, statusRoutes);
 app.use(`${API_VERSION}/projects`, projectsRoutes);
 
-
+app.get('*', (req, res, next) => {
+    res.sendFile(`${__dirname}/frontend/dist/index.html`)
+})
 app.listen(PORT, () => {
     console.log(`Http server on :${PORT}`);
 })
