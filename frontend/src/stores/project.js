@@ -96,11 +96,26 @@ export default {
             })
         },
         changePermissions: ({dispatch, commit, rootGetters}, payload) => {
-            console.log({
-                permission: payload.permission,
-                user_id: payload.id,
-                is_viatic: payload.is_viatic
-            })
+            const userData = {
+                id: payload.id,
+                name: payload.name,
+                lastname: payload.lastname,
+                email: payload.email
+            }
+            const user_modified = {
+                ...userData,
+                project_user: {
+                    can_add_viatics: payload.can_add_viatics,
+                    can_add_hours: payload.can_add_hours
+                }
+            }
+            const restore_user = {
+                ...userData,
+                project_user: {
+                    can_add_viatics: payload.is_viatic ? !payload.can_add_viatics: payload.can_add_viatics,
+                    can_add_hours: payload.is_viatic ? payload.can_add_hours : !payload.can_add_hours
+                }
+            }
             fetch(`${rootGetters.api}/projects/${payload.project_id}/permissions`, {
                 method: 'PUT',
                 headers: {
@@ -115,34 +130,17 @@ export default {
             })
             .then(res => res.json())
             .then(response => {
-                const userData = {
-                    id: payload.id,
-                    name: payload.name,
-                    lastname: payload.lastname,
-                    email: payload.email
-                }
                 if(response.success){
-                    commit('modifyUserInProject', {
-                        ...userData,
-                        project_user: {
-                            can_add_viatics: payload.can_add_viatics,
-                            can_add_hours: payload.can_add_hours
-                        }
-                    })
+                    commit('modifyUserInProject', user_modified)
                 }
                 else {
-                    commit('modifyUserInProject', {
-                        ...userData,
-                        project_user: {
-                            can_add_viatics: payload.is_viatic ? !payload.can_add_viatics: payload.can_add_viatics,
-                            can_add_hours: payload.is_viatic ? payload.can_add_hours : !payload.can_add_hours
-                        }
-                    })
+                    commit('modifyUserInProject', restore_user)
                 }
                 dispatch('syncMessage', response.message, {root:true})
             })
             .catch(err => {
-                console.log(err)
+                commit('modifyUserInProject', restore_user)
+                dispatch('syncMessage', "Ha surgido un error al actualizar los permisos", {root:true})
             })
         }
     },
