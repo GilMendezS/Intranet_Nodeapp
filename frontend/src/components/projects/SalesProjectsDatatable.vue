@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4">
-        <table id="budget-projects">
+        <table id="sales-projects">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -26,7 +26,7 @@ export default {
     mounted(){
         const self = this;
         $(function(){
-            const active_projects_table = $('#budget-projects').DataTable( {
+            const active_projects_table = $('#sales-projects').DataTable( {
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,
@@ -37,7 +37,7 @@ export default {
                     [10,25, 50, 100, 200, "All"]
                 ],
                 ajax: {
-                    url: 'http://localhost:8081/api/v1/projects/budgets/datatable',
+                    url: 'http://localhost:8081/api/v1/projects/sales/datatable',
                 },
                 columnDefs: [
                     {
@@ -94,7 +94,7 @@ export default {
                 // ]
             } );
         })
-        $('#budget-projects tbody').on('click','.open_project', function(e) {
+        $('#sales-projects tbody').on('click','.open_project', function(e) {
             
             const projectId = $(this).data('id');
             if(projectId){

@@ -105,7 +105,6 @@ export default {
     },
     methods: {
         onShowProject(id){
-            console.log('vue method')
             this.$router.push({name: 'edit-project', params: {id : id}});
         }
     }

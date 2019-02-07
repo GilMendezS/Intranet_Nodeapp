@@ -33,7 +33,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Preventa
+                <v-sales-projects></v-sales-projects>
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -53,13 +53,14 @@
 </template>
 
 <script>
+import SalesProjectsDatatable from './SalesProjectsDatatable.vue';
 import BudgetProjectsDatatable from './BudgetProjectsDatatable.vue';
 import ActiveProjectsDatatable from './ActiveProjectsDatatable.vue';
-
 export default {
     components: {
         'v-active-projects': ActiveProjectsDatatable,
-        'v-budget-projects': BudgetProjectsDatatable
+        'v-budget-projects': BudgetProjectsDatatable,
+        'v-sales-projects': SalesProjectsDatatable
     },
     data: () => {
         return {
