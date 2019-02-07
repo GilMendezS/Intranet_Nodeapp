@@ -53,7 +53,25 @@ exports.addUserToProject = async (req, res, next) => {
     } catch (error) {
         return res.status(500).json({
             message:'Error adding the user',
-            error
+            error,
+            success:false
+        })
+    }
+}
+exports.removeUserFromProject = async (req, res, next) => {
+    try {
+        const project = await Project.findById(req.params.id);
+        const user = await User.findByPk(req.body.user_id);
+        await project.removeUsers(user);
+        return res.status(200).json({
+            message: `${user.name} was removed from project ${project.code}`,
+            success:true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error removing the user',
+            error,
+            success:false
         })
     }
 }

@@ -12,6 +12,8 @@ router.post('/adduser/:id', ProjectController.addUserToProject);
 
 router.get('/sales/datatable', ProjectController.getActiveSales);
 
+router.post('/removeuser/:id', ProjectController.removeUserFromProject);
+
 router.get('/actives/datatable', ProjectController.getActiveProjects);
 
 router.get('/budgets/datatable', ProjectController.getActiveBudgets);
