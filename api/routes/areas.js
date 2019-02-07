@@ -5,10 +5,10 @@ router.get('/', AreaController.getAreas);
 
 router.post('/', AreaController.addArea);
 
-router.get('/:id', AreaController.getArea);
+router.get('/:id(\\d+)/', AreaController.getArea);
 
-router.put('/:id', AreaController.updateArea);
+router.put('/:id(\\d+)/', AreaController.updateArea);
 
-router.delete('/:id', AreaController.removeArea);
+router.delete('/:id(\\d+)/', AreaController.removeArea);
 
 module.exports = router;

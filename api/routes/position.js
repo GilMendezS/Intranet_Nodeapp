@@ -6,10 +6,10 @@ router.get('/', PositionController.getPositions);
 
 router.post('/', PositionController.addPosition);
 
-router.get('/:id', PositionController.getPosition);
+router.get('/:id(\\d+)/', PositionController.getPosition);
 
-router.put('/:id', PositionController.updatePosition);
+router.put('/:id(\\d+)/', PositionController.updatePosition);
 
-router.delete('/:id', PositionController.removePosition);
+router.delete('/:id(\\d+)/', PositionController.removePosition);
 
 module.exports = router;

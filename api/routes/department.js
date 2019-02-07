@@ -6,10 +6,10 @@ router.get('/', DepartmentController.getDepartments);
 
 router.post('/', DepartmentController.addDepartment);
 
-router.get('/:id', DepartmentController.getDepartment);
+router.get('/:id(\\d+)/', DepartmentController.getDepartment);
 
-router.put('/:id', DepartmentController.updateDepartment);
+router.put('/:id(\\d+)/', DepartmentController.updateDepartment);
 
-router.delete('/:id', DepartmentController.removeDepartment);
+router.delete('/:id(\\d+)/', DepartmentController.removeDepartment);
 
 module.exports = router;

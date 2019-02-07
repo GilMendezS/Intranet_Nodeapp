@@ -90,7 +90,6 @@ exports.removeUserFromProject = async (req, res, next) => {
 }
 exports.modifyPermissions = async (req, res, next) => {
     try {
-        console.log("request", req.body)
         const userId = req.body.user_id;
         const projectId = req.params.id;
         const permission_type_viatics = req.body.is_viatic;
