@@ -3,11 +3,11 @@
         <v-tabs  fixed-tabs
         >
         <v-tab
-            v-for="n in tabs"
-            :key="n"
+            v-for="tab in tabs"
+            :key="tab"
             ripple
         >
-            {{ n }}
+            {{ tab}}
 
         </v-tab>
         <v-tab-item
