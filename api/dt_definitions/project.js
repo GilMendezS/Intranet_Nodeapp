@@ -24,7 +24,7 @@ const columns = [
         {
             db: 'user',
             dt: 3,
-            db_type: 'int'
+            db_type: 'string'
         }
     ],
     [
