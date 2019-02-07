@@ -1,6 +1,6 @@
 <template>
     <v-toolbar app class="blue white--text">
-        <!--v-toolbar-side-icon></v-toolbar-side-icon-->
+        <v-toolbar-side-icon @click="changeDrawerState"></v-toolbar-side-icon>
         <v-toolbar-title>GMS</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
@@ -14,12 +14,15 @@ export default {
     methods: {
         onLogout(){
             this.$store.dispatch('auth/logoutUser')
+        },
+        changeDrawerState(){
+            this.$emit('changeDrawerState')
         }
     },
     computed: {
         ...mapGetters({
             'userIsAuthenticated': 'auth/isAuthenticated'
         })
-    }
+    },
 }
 </script>
