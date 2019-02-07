@@ -104,7 +104,7 @@ exports.modifyPermissions = async (req, res, next) => {
 exports.getProject = async (req, res, next) => {
     try {
         const projectId = req.params.id;
-        const project = await Project.findById(projectId, {include: ['comments']})
+        const project = await Project.findById(projectId, {include: ['comments','users']})
         return res.status(200).json({
             data: project
         })
