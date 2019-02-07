@@ -26,7 +26,7 @@ export default {
     mounted(){
         const self = this;
         $(function(){
-            const active_projects_table = $('#budget-projects').DataTable( {
+            window.active_projects_table = $('#budget-projects').DataTable( {
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,
