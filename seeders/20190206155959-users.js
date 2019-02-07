@@ -8,14 +8,16 @@ module.exports = {
 
       Example:
     */
-    return queryInterface.bulkInsert('users', [{
+    return queryInterface.bulkInsert('users', [
+      {
         name: 'Admin ',
         lastname: "Viatics",
         email: "admin@mail.com",
-        password: 'adminviatics',
+        password: '$2b$12$NwBZM94YE0SKtNtOPdyvyert17QAF38QZYilmCt5rqxn4RHQ5uHy2',
         created_at: new Date(),
         updated_at: new Date()
-    }], {});
+    }
+  ], {});
   
   },
 
