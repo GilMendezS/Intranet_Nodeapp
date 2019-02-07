@@ -23,7 +23,7 @@
                 <v-flex xs12 >
                     
                     <v-select
-                    v-model="editedItem.AreaId"
+                    v-model="editedItem.area_id"
                     :items="filteredAreas"
                     item-value="id"
                     item-text="text"
@@ -33,8 +33,8 @@
                 </v-flex>
                 <v-flex xs12 >
                     <v-select
-                    :disabled="!editedItem.AreaId"
-                    v-model="editedItem.DepartmentId"
+                    :disabled="!editedItem.area_id"
+                    v-model="editedItem.department_id"
                     :items="filteredDepartments"
                     item-value="id"
                     item-text="text"
@@ -148,8 +148,8 @@ export default {
             'departments': 'departments/getDepartments'
         }),
         filteredDepartments() {
-            const areaId = this.editedItem.AreaId;
-            const items =  this.departments.filter(d => d.AreaId == areaId).map( d => {
+            const areaId = this.editedItem.area_id;
+            const items =  this.departments.filter(d => d.area_id == areaId).map( d => {
                 return {
                     id: d.id,
                     text: d.title

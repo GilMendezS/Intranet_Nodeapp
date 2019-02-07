@@ -22,7 +22,7 @@
                 </v-flex>
                 <v-flex xs12 >
                     <v-select
-                    v-model="editedItem.UserId"
+                    v-model="editedItem.user_id"
                     :items="filteredUsers"
                     item-value="id"
                     item-text="text"
@@ -32,7 +32,7 @@
                 </v-flex>
                 <v-flex xs12 >
                     <v-select
-                    v-model="editedItem.AreaId"
+                    v-model="editedItem.area_id"
                     :items="filteredAreas"
                     item-value="id"
                     item-text="text"

@@ -2,16 +2,16 @@ export default class Department {
     constructor(
         id = '',
         title= '',
-        UserId= '',
-        AreaId = '',
-        createdAt = '',
-        updatedAt= ''
+        user_id= '',
+        area_id = '',
+        created_at = '',
+        updated_at= ''
     ){
         this.id = id;
         this.title = title;
-        this.UserId = UserId;
-        this.AreaId = AreaId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.user_id = user_id;
+        this.area_id = area_id;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 }

@@ -18,7 +18,7 @@ export default new Vuex.Store({
     projects
   },
   state: {
-    api: '/api/v1',
+    api: 'http://localhost:8081/api/v1',
     message: ''
   },
   mutations: {
