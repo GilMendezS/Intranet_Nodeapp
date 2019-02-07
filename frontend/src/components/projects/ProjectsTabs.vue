@@ -24,7 +24,7 @@
         >
             <v-card flat>
             <v-card-text>
-                Presupuestos
+                <v-budget-projects></v-budget-projects>
             </v-card-text>
             </v-card>
         </v-tab-item>
@@ -53,11 +53,13 @@
 </template>
 
 <script>
+import BudgetProjectsDatatable from './BudgetProjectsDatatable.vue';
 import ActiveProjectsDatatable from './ActiveProjectsDatatable.vue';
 
 export default {
     components: {
-        'v-active-projects': ActiveProjectsDatatable
+        'v-active-projects': ActiveProjectsDatatable,
+        'v-budget-projects': BudgetProjectsDatatable
     },
     data: () => {
         return {

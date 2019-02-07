@@ -6,11 +6,11 @@ router.get('/:id', ProjectController.getProject);
 
 router.post('/', ProjectController.addProject);
 
-router.get('/actives', ProjectController.getActiveProjects);
+router.get('/actives/datatable', ProjectController.getActiveProjects);
 
-router.get('/sales', ProjectController.getActiveSales);
+router.get('/sales/datatable', ProjectController.getActiveSales);
 
-router.get('/budgets', ProjectController.getActiveBudgets);
+router.get('/budgets/datatable', ProjectController.getActiveBudgets);
 
 router.get('/types', ProjectController.getTypes);
 
