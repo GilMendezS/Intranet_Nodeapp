@@ -25,7 +25,7 @@
                     <td class="text-xs-left">{{ props.item.lastname }}</td>
                     <td class="text-xs-left">{{ props.item.email }}</td>
                     <td>
-                        <v-btn color="blue">
+                        <v-btn color="blue white--text" @click="onAddUser(props.item)">
                             <i class="fa fa-plus"></i>
                         </v-btn>
                     </td>
@@ -50,6 +50,11 @@ export default {
         ],
         pagination: {},
     }),
+    methods: {
+        onAddUser(user){
+            this.$store.dispatch('projects/addUser', {...user, project_id: this.project.id});
+        }
+    },
     computed: {
         ...mapGetters({
             'project': 'projects/getCurrentProject',

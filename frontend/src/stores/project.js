@@ -12,7 +12,7 @@ export default {
         setProject: (state, payload) => {
             state.editingProject = payload;
         },
-        addUser: (state, payload) => {
+        setANewUser: (state, payload) => {
             state.editingProject.users = [payload, ...state.editingProject.users];
         },
         removeUser: (state, payload) => {
@@ -55,6 +55,25 @@ export default {
             .then(res => res.json())
             .then(response => {
                 commit('setProject', response.data);
+            })
+        },
+        addUser: ({dispatch, commit, rootGetters}, payload) => {
+            fetch(`${rootGetters.api}/projects/adduser/${payload.project_id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: payload.id })
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.success){
+                    commit('setANewUser', response.data);
+                }
+                dispatch('syncMessage', response.message, {root: true})
+            })
+            .catch(err => {
+                console.log(err)
             })
         }
     },

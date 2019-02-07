@@ -44,11 +44,23 @@ exports.addUserToProject = async (req, res, next) => {
     try {
         const project = await Project.findById(req.params.id);
         const user = await User.findById(req.body.user_id);
-        
         await project.addUsers(user, { through: { can_add_viatics: false, can_add_hours: false }})
         return res.status(200).json({
             message: `${user.name} was added to the project ${project.code}`,
-            success: true
+            success: true,
+            data: {
+                id: user.id,
+                name: user.name,
+                lastname: user.lastname,
+                email: user.email,
+                project_user:{
+                    project_id: project.id,
+                    user_id: user.id,
+                    can_add_hours: false,
+                    can_add_viatics: false
+                }
+            }
+            
         })
         
     } catch (error) {
