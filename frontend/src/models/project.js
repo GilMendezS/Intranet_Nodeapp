@@ -11,6 +11,7 @@ export default class Project {
         money_spent= '',
         money_refunded= '',
         comments = '',
+        users= [],
         created_at = '',
         updated_at = ''
 
@@ -26,6 +27,7 @@ export default class Project {
         this.money_spent= money_spent;
         this.money_refunded = money_refunded;
         this.comments = comments;
+        this.users = users;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
