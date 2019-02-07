@@ -1,5 +1,6 @@
 const DataTable = require('../helpers/SSP');
 const Type = require('../models/models').Type;
+const User = require('../models/models').User;
 const Project = require('../models/models').Project;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
 
@@ -30,7 +31,6 @@ exports.addProject = (req, res, next) => {
                 data: project
             })
         })
-
         .catch(error => {
             return res.status(500).json({
                 message: 'Error creating the project',
@@ -38,10 +38,24 @@ exports.addProject = (req, res, next) => {
                 error
             })
         })
+}
+exports.addUserToProject = async (req, res, next) => {
+    try {
+        const project = await Project.findById(req.params.id);
+        const user = await User.findById(req.body.user_id);
         
+        await project.addUsers(user, { through: { can_add_viatics: false, can_add_hours: false }})
+        return res.status(200).json({
+            message: `${user.name} was added to the project ${project.code}`,
+            success: true
+        })
         
-        
-    
+    } catch (error) {
+        return res.status(500).json({
+            message:'Error adding the user',
+            error
+        })
+    }
 }
 exports.getProject = async (req, res, next) => {
     try {

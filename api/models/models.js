@@ -10,3 +10,4 @@ exports.Status = sequelize.import(path.join(rootDir,'models','status'));
 exports.Project = sequelize.import(path.join(rootDir,'models','project'));
 exports.Type = sequelize.import(path.join(rootDir,'models','type'));
 exports.Comment = sequelize.import(path.join(rootDir,'models','comment'));
+exports.Permissions = sequelize.import(path.join(rootDir,'models','project_user'));

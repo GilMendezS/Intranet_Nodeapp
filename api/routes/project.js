@@ -8,6 +8,8 @@ router.get('/:id', ProjectController.getProject);
 
 router.get('/types', ProjectController.getTypes);
 
+router.post('/adduser/:id', ProjectController.addUserToProject);
+
 router.get('/sales/datatable', ProjectController.getActiveSales);
 
 router.get('/actives/datatable', ProjectController.getActiveProjects);

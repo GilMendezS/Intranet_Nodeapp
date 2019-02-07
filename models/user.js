@@ -1,6 +1,11 @@
 'use strict';
+const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const rootDir = require('../api/utils/path');
+const sequelize = require('../api/utils/database');
+
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
     name: DataTypes.STRING,
@@ -38,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   });
   
+
   
   return User;
 };
