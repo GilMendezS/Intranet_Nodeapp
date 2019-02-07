@@ -21,11 +21,22 @@
                 >
                 <template slot="items" slot-scope="props">
                     <td>{{ props.item.name }}</td>
-                    <td class="text-xs-lef">{{ props.item.name }}</td>
-                    <td class="text-xs-left">{{ props.item.lastname }}</td>
+                    <td class="text-xs-lef">{{ props.item.lastname }}</td>
                     <td class="text-xs-left">{{ props.item.email }}</td>
-                    <td class="text-xs-left">{{ props.item.can_add_viatics }}</td>
-                    <td class="text-xs-left">{{ props.item.can_add_hours }}</td>
+                    <td class="text-xs-left">
+                        
+                          <v-checkbox
+                            @change="modifyPermissions($event, props.item, true)"
+                            v-model="props.item.can_add_viatics"
+                            
+                            ></v-checkbox>
+                    </td>
+                    <td class="text-xs-left">
+                         <v-checkbox
+                            @change="modifyPermissions($event, props.item, false)"
+                            v-model="props.item.can_add_hours"
+                        ></v-checkbox>    
+                    </td>
                     <td>
                         <v-btn color="red white--text" @click="onRemoveUser(props.item)">
                             <i class="fa fa-trash"></i>
@@ -34,7 +45,7 @@
                 </template>
                 </v-data-table>
                 <div class="text-xs-center pt-2">
-                <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+                    <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
                 </div>
         </v-card-text>
     </v-card>
@@ -57,6 +68,15 @@ export default {
     methods: {
         onRemoveUser(user){
             this.$store.dispatch('projects/removeUser', {...user, project_id: this.project.id});
+        },
+        modifyPermissions(event,user, isViatic){
+            this.$store.dispatch('projects/changePermissions', 
+            {
+                ...user, 
+                is_viatic: isViatic, 
+                permission: event,
+                project_id: this.project.id
+            });
         }
     },
     computed: {

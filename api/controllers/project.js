@@ -90,12 +90,13 @@ exports.removeUserFromProject = async (req, res, next) => {
 }
 exports.modifyPermissions = async (req, res, next) => {
     try {
+        console.log("request", req.body)
         const userId = req.body.user_id;
         const projectId = req.params.id;
         const permission_type_viatics = req.body.is_viatic;
         const permission_modified = req.body.permission;
         const user_permissions = await Permissions.findOne({where:{project_id: projectId, user_id: userId}});
-        if (permission_type_viatics === 'true'){
+        if (permission_type_viatics === 'true' || permission_type_viatics == true){
             user_permissions.can_add_viatics = permission_modified;
         }
         else {

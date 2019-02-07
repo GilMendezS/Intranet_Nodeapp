@@ -94,6 +94,56 @@ export default {
             .catch(err => {
                 console.log(err)
             })
+        },
+        changePermissions: ({dispatch, commit, rootGetters}, payload) => {
+            console.log({
+                permission: payload.permission,
+                user_id: payload.id,
+                is_viatic: payload.is_viatic
+            })
+            fetch(`${rootGetters.api}/projects/${payload.project_id}/permissions`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    permission: payload.permission,
+                    user_id: payload.id,
+                    is_viatic: payload.is_viatic
+                })
+                
+            })
+            .then(res => res.json())
+            .then(response => {
+                const userData = {
+                    id: payload.id,
+                    name: payload.name,
+                    lastname: payload.lastname,
+                    email: payload.email
+                }
+                if(response.success){
+                    commit('modifyUserInProject', {
+                        ...userData,
+                        project_user: {
+                            can_add_viatics: payload.can_add_viatics,
+                            can_add_hours: payload.can_add_hours
+                        }
+                    })
+                }
+                else {
+                    commit('modifyUserInProject', {
+                        ...userData,
+                        project_user: {
+                            can_add_viatics: payload.is_viatic ? !payload.can_add_viatics: payload.can_add_viatics,
+                            can_add_hours: payload.is_viatic ? payload.can_add_hours : !payload.can_add_hours
+                        }
+                    })
+                }
+                dispatch('syncMessage', response.message, {root:true})
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     },
     getters: {
