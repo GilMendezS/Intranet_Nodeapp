@@ -2,6 +2,7 @@ const DataTable = require('../helpers/SSP');
 const Type = require('../models/models').Type;
 const User = require('../models/models').User;
 const Project = require('../models/models').Project;
+const Comment = require('../models/models').Comment;
 const Permissions = require('../models/models').Permissions;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
 
@@ -125,6 +126,25 @@ exports.getProject = async (req, res, next) => {
             message: 'Error fetching the project',
             success: false,
             error
+        })
+    }
+}
+exports.updateProject = async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const updatedProject = await Project.update(req.body, {where: {id: projectId}});
+        if (req.body.extra_comments != ''){
+            await Comment.create({project_id: projectId, comment: req.body.extra_comments, user_id: req.body.user_id});//TODO - pending to get user form request
+        }
+        return res.status(200).json({
+            message: 'Project updated',
+            success: true,
+            data: updatedProject
+        })        
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error updating the project',
+            success: false
         })
     }
 }

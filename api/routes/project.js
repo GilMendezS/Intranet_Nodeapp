@@ -4,9 +4,11 @@ const ProjectController = require('../controllers/project');
 
 router.post('/', ProjectController.addProject);
 
+router.get('/types', ProjectController.getTypes);
+
 router.get('/:id(\\d+)/', ProjectController.getProject);
 
-router.get('/types', ProjectController.getTypes);
+router.put('/:id(\\d+)/', ProjectController.updateProject);
 
 router.post('/adduser/:id(\\d+)/', ProjectController.addUserToProject);
 

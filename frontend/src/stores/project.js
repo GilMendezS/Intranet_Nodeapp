@@ -3,11 +3,15 @@ export default {
     namespaced: true,
     state: {
         types: [],
+        statuses: [],
         editingProject: new Project()
     },
     mutations: {
         setTypes: (state, payload) => {
             state.types = payload;
+        },
+        setStatuses: (state, payload) => {
+            state.statuses = payload;
         },
         setProject: (state, payload) => {
             state.editingProject = payload;
@@ -33,6 +37,18 @@ export default {
                 commit('setTypes', response.data);
             })
         },
+        loadStatuses: ({commit,rootGetters}) => {
+            fetch(`${rootGetters.api}/status/projects`)
+            .then(res => res.json())
+            .then(response => {
+                
+                commit('setStatuses', response.data)
+                
+            })
+            .catch(err => { 
+                console.log(err)
+            })
+        },  
         addProject: ({dispatch, commit, rootGetters}, payload) => {
             fetch(`${rootGetters.api}/projects`, {
                 method: 'POST',
@@ -55,6 +71,22 @@ export default {
             .then(res => res.json())
             .then(response => {
                 commit('setProject', response.data);
+            })
+        },
+        updateProject: ({dispatch, commit, rootGetters}, payload) => {
+            fetch(`${rootGetters.api}/projects/${payload.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(response => {
+                dispatch('syncMessage',response.message, {root:true});
+            })
+            .catch(err => {
+                dispatch('syncMessage', "Surgió un error al actualizar el proyecto", {root:true});
             })
         },
         addUser: ({dispatch, commit, rootGetters}, payload) => {
@@ -147,6 +179,9 @@ export default {
     getters: {
         getTypes: state => {
             return state.types;
+        },
+        getStatuses: state => {
+            return state.statuses;
         },
         getCurrentProject: state => {
             return state.editingProject;

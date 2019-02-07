@@ -92,7 +92,7 @@ import {mapGetters} from 'vuex';
 import Project from '../../models/project.js';
 export default {
     data: () => ({
-        project : new Project('','name','code','client','1','2','10002','','','comments','',''),
+        project : new Project(),
     }),
     mounted(){
         this.$store.dispatch('users/loadUsers');

@@ -15,6 +15,8 @@ export default {
     mounted(){
         this.getProject();
         this.$store.dispatch('users/loadUsers');
+        this.$store.dispatch('projects/loadTypes');
+        this.$store.dispatch('projects/loadStatuses');
     },  
     methods: {
         getProject(){

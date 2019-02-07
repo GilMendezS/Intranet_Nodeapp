@@ -1,5 +1,5 @@
 'use strict';
-const Project = require('../api/models/models').Project;
+
 module.exports = (sequelize, DataTypes) => {
   const comment = sequelize.define('comment', {
     comment: DataTypes.TEXT,
