@@ -75,6 +75,25 @@ export default {
             .catch(err => {
                 console.log(err)
             })
+        },
+        removeUser: ({commit, dispatch, rootGetters}, payload) => {
+            fetch(`${rootGetters.api}/projects/removeuser/${payload.project_id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: payload.id })
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.success){
+                    commit('removeUser', payload);
+                }
+                dispatch('syncMessage', response.message, {root: true})
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     },
     getters: {

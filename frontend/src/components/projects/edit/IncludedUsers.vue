@@ -26,6 +26,11 @@
                     <td class="text-xs-left">{{ props.item.email }}</td>
                     <td class="text-xs-left">{{ props.item.can_add_viatics }}</td>
                     <td class="text-xs-left">{{ props.item.can_add_hours }}</td>
+                    <td>
+                        <v-btn color="red white--text" @click="onRemoveUser(props.item)">
+                            <i class="fa fa-trash"></i>
+                        </v-btn>
+                    </td>
                 </template>
                 </v-data-table>
                 <div class="text-xs-center pt-2">
@@ -44,10 +49,16 @@ export default {
             { text: 'Apellidos', align: 'left', value: 'lastname' },
             { text: 'Email', align: 'left', value: 'email'},
             { text: 'Regitrar viáticos', value: 'can_add_viatics', sortable: false },
-            { text: 'Regitrar horas', value: 'can_add_hours', sortable: false }
+            { text: 'Regitrar horas', value: 'can_add_hours', sortable: false },
+            { text: 'Eliminar del proyecto', value: 'name', sortable: false },
         ],
         pagination: {},
     }),
+    methods: {
+        onRemoveUser(user){
+            this.$store.dispatch('projects/removeUser', {...user, project_id: this.project.id});
+        }
+    },
     computed: {
         ...mapGetters({
             'project': 'projects/getCurrentProject'
