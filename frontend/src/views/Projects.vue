@@ -7,6 +7,9 @@
 <script>
 import ProjectsTabs from '../components/projects/ProjectsTabs.vue';
 export default {
+    mounted(){
+        
+    },
     components: {
         'v-projects-tabs':ProjectsTabs
     }

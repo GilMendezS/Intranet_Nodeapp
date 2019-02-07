@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const ProjectController = require('../controllers/project');
 
+router.get('/:id', ProjectController.getProject);
+
 router.post('/', ProjectController.addProject);
 
 router.get('/actives', ProjectController.getActiveProjects);

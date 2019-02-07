@@ -3,31 +3,61 @@ const Type = require('../models/models').Type;
 const Project = require('../models/models').Project;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
 
-exports.addProject = async(req, res, next) => {
-    try {
-        const newProject = await Project.create({
+exports.addProject = (req, res, next) => { 
+        Project.create({
             name: req.body.name,
             code: req.body.code,
             client: req.body.client,
             user_id: req.body.user_id,
             status_id: 2,//default - active
             type_id: req.body.type_id,
-            budget: req.body.budget
+            budget: req.body.budget,
+            comments: {
+                user_id: req.body.user_id,
+                comment: req.body.comments
+            }
+        },
+        {
+            include: [{
+                association: Project.Comments,
+            }]
+        }
+        )
+        .then(project => {
+            return res.status(200).json({
+                message: 'Project created',
+                success: true,
+                data: project
+            })
         })
+
+        .catch(error => {
+            return res.status(500).json({
+                message: 'Error creating the project',
+                success: false,
+                error
+            })
+        })
+        
+        
+        
+    
+}
+exports.getProject = async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const project = await Project.findById(projectId, {include: ['comments']})
         return res.status(200).json({
-            message: 'Project created',
-            success: true,
-            data:newProject
+            data: project
         })
     } catch (error) {
-        return res.status(500).json({
-            message: 'Error creating the project',
+        return res.status(200).json({
+            message: 'Error fetching the project',
             success: false,
             error
         })
     }
 }
-
 exports.getActiveProjects = async (req, res, next) => {
     try {
         const datatable = new DataTable();

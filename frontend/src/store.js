@@ -5,6 +5,7 @@ import areas from './stores/area';
 import users from './stores/user';
 import departments from './stores/department';
 import positions from './stores/position';
+import projects from './stores/project';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     areas,
     users,
     departments,
-    positions
+    positions,
+    projects
   },
   state: {
     api: 'http://localhost:8081/api/v1',

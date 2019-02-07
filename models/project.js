@@ -1,7 +1,8 @@
 'use strict';
+const sequelize = require('../api/utils/database');
 const User = require('../api/models/models').User;
 const Status = require('../api/models/models').Status;
-const Type = require('../api/models/models').Type;
+const Comment  = sequelize.import('./comment');
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('project', {
     name: DataTypes.STRING,
@@ -23,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   Project.associate = function(models) {
     // associations can be defined here
   };
+  Project.Comments = Project.hasMany(Comment, {foreignKey:'project_id', as: 'comments'});
   Project.belongsTo(User, {foreignKey: 'user_id'});
   Project.belongsTo(Status, {foreignKey: 'status_id'});
-  
   return Project;
 };
