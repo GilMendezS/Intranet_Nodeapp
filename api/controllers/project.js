@@ -2,6 +2,7 @@ const DataTable = require('../helpers/SSP');
 const Type = require('../models/models').Type;
 const User = require('../models/models').User;
 const Project = require('../models/models').Project;
+const Permissions = require('../models/models').Permissions;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
 
 exports.addProject = (req, res, next) => { 
@@ -72,6 +73,31 @@ exports.removeUserFromProject = async (req, res, next) => {
             message: 'Error removing the user',
             error,
             success:false
+        })
+    }
+}
+exports.modifyPermissions = async (req, res, next) => {
+    try {
+        const userId = req.body.user_id;
+        const projectId = req.params.id;
+        const permission_type_viatics = req.body.is_viatic;
+        const permission_modified = req.body.permission;
+        const user_permissions = await Permissions.findOne({where:{project_id: projectId, user_id: userId}});
+        if (permission_type_viatics === 'true'){
+            user_permissions.can_add_viatics = permission_modified;
+        }
+        else {
+            user_permissions.can_add_hours = permission_modified;
+        }
+        await user_permissions.save();
+        return res.status(200).json({
+            message: 'Permissions updated',
+            success: true,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: `Error modifying permission's user`,
+            success: error
         })
     }
 }
