@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
   const Department = sequelize.define('department', {
     title: DataTypes.STRING
   }, {
-    timestamps: false,
     updatedAt: 'updated_at',
     createdAt: 'created_at'
   });

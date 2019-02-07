@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   }, {
-    timestamps: false,
     updatedAt: 'updated_at',
     createdAt: 'created_at'
   });

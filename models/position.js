@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     area_id: DataTypes.INTEGER,
 
   }, {
-    timestamps: false,
     updatedAt: 'updated_at',
     createdAt: 'created_at'
   });
