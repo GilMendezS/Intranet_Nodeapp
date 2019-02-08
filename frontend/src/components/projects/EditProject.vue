@@ -1,6 +1,16 @@
 <template>
     <v-flex xs12>
         <v-edit-project-tabs></v-edit-project-tabs>
+        <v-btn absolute
+              dark
+              fab
+              top
+              right
+              router
+              to='/projects'
+              color="red">
+            <v-icon dark>arrow_back</v-icon>
+        </v-btn>
     </v-flex>
 </template>
 
