@@ -1,5 +1,4 @@
 const Status = require('../models/models').Status;
-
 exports.getStatusProjects = async (req, res, next) => {
     try {
         const statuses = await Status.scope('projects').findAll();

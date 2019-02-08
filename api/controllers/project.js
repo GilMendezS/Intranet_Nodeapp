@@ -1,11 +1,7 @@
-const DataTable = require('../helpers/SSP');
 const Type = require('../models/models').Type;
-const User = require('../models/models').User;
 const Project = require('../models/models').Project;
-const Comment = require('../models/models').Comment;
-const Permissions = require('../models/models').Permissions;
+const DataTable = require('../helpers/SSP');
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
-
 exports.addProject = (req, res, next) => { 
         Project.create({
             name: req.body.name,

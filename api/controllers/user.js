@@ -1,9 +1,4 @@
-const path = require('path');
-const rootDir = require('../utils/path');
-const sequelize = require('../utils/database');
-
-const User = sequelize.import(path.join(rootDir,'models','user.js'))
-
+const User = require('../models/models').User;
 exports.getUsers = (req, res ,next) =>  {
     User.findAll()
     .then(users => {
@@ -18,7 +13,21 @@ exports.getUsers = (req, res ,next) =>  {
         })
     })
 }
-
+exports.getUser = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.id, {include: {all:true}});
+        return res.status(200).json({
+            data: user,
+            success:true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error fetching the user',
+            success: false,
+            error
+        })
+    }
+}
 exports.addUser = (req, res ,next) => {
     User.create({
         name: req.body.name,

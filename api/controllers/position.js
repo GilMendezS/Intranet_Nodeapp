@@ -1,8 +1,7 @@
 const Position = require('../models/models').Position;
-
 exports.getPositions = async (req, res, next) => {
     try {
-        const positions = await Position.findAll();
+        const positions = await Position.findAll({include: {all:true}});
         return res.status(200).json({
             data: positions
         })
@@ -35,7 +34,7 @@ exports.addPosition = async (req, res, next) => {
 exports.getPosition = async (req, res, next) => {
     try {
         const positionId = req.params.id;
-        const position = await Position.findById(positionId, {include:['Department','Area']})
+        const position = await Position.findById(positionId, {include:{all:true}})
         return res.status(200).json({
             data: position
         })

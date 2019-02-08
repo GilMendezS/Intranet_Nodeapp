@@ -1,8 +1,7 @@
 const Department = require('../models/models').Department;
-
 exports.getDepartments = async (req, res , next) => {
     try {
-        const departments = await Department.findAll();
+        const departments = await Department.findAll({include:{all:true}});
         return res.status(200).json({
             data: departments
         })
@@ -35,7 +34,7 @@ exports.addDepartment = async (req, res, next) => {
 exports.getDepartment = async (req, res, next) => {
     try {
         const departmentId = req.params.id;
-        const department = await Department.findById(departmentId, {include: ['User','Area']})
+        const department = await Department.findById(departmentId, {include: {all: true}})
         return res.status(200).json({
             data: department
         })

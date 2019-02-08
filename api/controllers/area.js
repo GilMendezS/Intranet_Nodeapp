@@ -1,7 +1,7 @@
-const Area = require('../models/models').Area;
+const Area  = require('../models/models').Area;
 exports.getAreas = async(req, res, next) => {
     try {
-        areas = await Area.findAll()
+        areas = await Area.findAll({include: {all:true}})
         return res.status(200).json({
             data: areas
         })
@@ -15,7 +15,7 @@ exports.getAreas = async(req, res, next) => {
 exports.getArea = async (req, res, next) => {
     try {
         const areaId = req.params.id;
-        const area = await Area.findById(areaId, {include:['User']});
+        const area = await Area.findById(areaId, {include:{all:true}});
         return res.status(200).json({
             data: area
         })
