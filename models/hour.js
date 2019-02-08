@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const hour = sequelize.define('hour', {
+  return sequelize.define('hour', {
     hours: DataTypes.INTEGER,
     in_time: DataTypes.BOOLEAN,
     date: DataTypes.DATE,
@@ -13,8 +13,4 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   });
-  hour.associate = function(models) {
-    // associations can be defined here
-  };
-  return hour;
 };

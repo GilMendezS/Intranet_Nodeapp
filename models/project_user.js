@@ -9,8 +9,5 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   });
-  project_user.associate = function(models) {
-    // associations can be defined here
-  };
   return project_user;
 };

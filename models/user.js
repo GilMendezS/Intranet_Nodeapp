@@ -1,11 +1,6 @@
 'use strict';
-const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const rootDir = require('../api/utils/path');
-const sequelize = require('../api/utils/database');
-
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
     name: DataTypes.STRING,
@@ -16,16 +11,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     updatedAt: 'updated_at',
-    createdAt: 'created_at'
+    createdAt: 'created_at',
+    
   });
-  User.associate = function(models) {
-    // associations can be defined here
-  };
   User.prototype.checkPassword = function(candidatePassword) {
-    console.log(this.password)
     return bcrypt.compare(candidatePassword, this.password);
   }
-  User.prototype.getToken= function(){
+  User.prototype.getToken = function(){
     return jwt.sign({
       id: this.id,
       name: this.name,
@@ -42,8 +34,6 @@ module.exports = (sequelize, DataTypes) => {
       return new Error(err)
     });
   });
-  
-
   
   return User;
 };
