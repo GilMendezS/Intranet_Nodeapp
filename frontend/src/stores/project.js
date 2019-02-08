@@ -4,11 +4,15 @@ export default {
     state: {
         types: [],
         statuses: [],
-        editingProject: new Project()
+        editingProject: new Project(),
+        projectsUser: []
     },
     mutations: {
         setTypes: (state, payload) => {
             state.types = payload;
+        },
+        setProjectsUser: (state, payload) => {
+            state.projectsUser = payload;
         },
         setStatuses: (state, payload) => {
             state.statuses = payload;
@@ -64,6 +68,18 @@ export default {
                     
                 }
                 dispatch('syncMessage', response.message, {root: true})
+            })
+        },
+        loadProjectsUser: ({commit, rootGetters}) => {
+            fetch(`${rootGetters.api}/projects/byuser`, {
+                headers: {
+                    'Authorization': rootGetters['auth/getToken'],
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                console.log(response)
+                commit('setProjectsUser', response.data)
             })
         },
         getProject: ({dispatch, commit, rootGetters}, id) => {
@@ -185,6 +201,9 @@ export default {
         },
         getCurrentProject: state => {
             return state.editingProject;
+        },
+        getProjectsAuthenticatedUser: state => {
+            return state.projectsUser;
         }
     }
 }

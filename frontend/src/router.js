@@ -4,6 +4,7 @@ import Login from './views/Login.vue'
 
 import ProjectsRoutes from './routes/project';
 import CompanyRoutes from './routes/company';
+import HoursRoutes from './routes/hour';
 
 Vue.use(Router)
 
@@ -17,6 +18,7 @@ export default new Router({
       component: Login
     },
     ...ProjectsRoutes,
-    ...CompanyRoutes
+    ...CompanyRoutes,
+    ...HoursRoutes
   ]
 })

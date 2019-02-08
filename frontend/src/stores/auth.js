@@ -59,6 +59,6 @@ export default {
         },
         isAuthenticated: state => {
             return state.token && state.user;
-        }
+        },
     }
 }
