@@ -1,5 +1,6 @@
 const Type = require('../models/models').Type;
 const Project = require('../models/models').Project;
+const User = require('../models/models').User;
 const DataTable = require('../helpers/SSP');
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
 exports.addProject = (req, res, next) => { 
@@ -211,6 +212,23 @@ exports.getTypes = async(req, res, next) => {
         return res.status(500).json({
             message: 'Error fetching the projects types',
             success: false
+        })
+    }
+}
+exports.getProjectByUser = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.user.id);
+        const projects = await user.getProjects();
+       
+       return res.status(200).json({
+           data : projects,
+           success: true
+       })
+    } catch (error) {
+        return res.status(200).json({
+            message: 'Error fetching the projects',
+            success: false,
+            error
         })
     }
 }
