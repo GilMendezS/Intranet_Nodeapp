@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const Authenticated = require('../middlewares/auth');
 const ProjectController = require('../controllers/project');
 
 router.post('/', ProjectController.addProject);
@@ -7,6 +7,8 @@ router.post('/', ProjectController.addProject);
 router.get('/types', ProjectController.getTypes);
 
 router.get('/:id(\\d+)/', ProjectController.getProject);
+
+router.get('/byuser',[Authenticated], ProjectController.getProjectByUser);
 
 router.put('/:id(\\d+)/', ProjectController.updateProject);
 

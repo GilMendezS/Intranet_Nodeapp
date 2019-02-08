@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const AreaController = require('../controllers/area');
-
-router.get('/', AreaController.getAreas);
+const Authenticated = require('../middlewares/auth');
+router.get('/', [Authenticated],AreaController.getAreas);
 
 router.post('/', AreaController.addArea);
 
