@@ -1,4 +1,5 @@
 const Hour = require('../models/models').Hour;
+const moment = require('moment');
 exports.getHours = async(req, res, next) => {
     try {
         const hours = await Hour.findAll({include: {all:true}})
@@ -9,6 +10,30 @@ exports.getHours = async(req, res, next) => {
         res.status(200).json({
             message:'Error fetching the Hours',
             error
+        })
+    }
+}
+exports.getHoursOftheDay = async (req, res, next) => {
+    try {
+        const hours = await Hour.findAll({
+            where:{
+                user_id: req.user.id, 
+                created_at: { 
+                    "$between": [
+                        moment().format('YYYY-MM-DD 00:00:00'),
+                        moment().format('YYYY-MM-DD 23:59:59')]
+                }
+            },
+            include: {all:true}
+        })
+        return res.status(200).json({
+            data: hours
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error fetching your hours',
+            error,
+            success: false
         })
     }
 }
