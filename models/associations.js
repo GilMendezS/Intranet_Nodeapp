@@ -30,5 +30,8 @@ module.exports = class RelationShips {
             foreignKey: 'user_id', otherKey: 'project_id'
           }
         )
+        Hour.belongsTo(User, {as: 'user', foreignKey:'user_id'});
+        Hour.belongsTo(Project, {as: 'project', foreignKey:'project_id'});
+        Hour.belongsTo(User, {as: 'project_manager', foreignKey: 'reg_user_id'});
     }
 }
