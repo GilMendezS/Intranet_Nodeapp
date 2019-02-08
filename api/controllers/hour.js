@@ -55,15 +55,29 @@ exports.getHour = async (req, res, next) => {
 }
 exports.addHour = async(req, res ,next) => {
     try {
-        const hour = await Hour.create(req.body);
+        const date_sent = moment(req.body.date);
+        const firstDayWeek = moment().startOf('isoWeek');
+        const lastDayWeek = moment().endOf('isoWeek');
+        const data = req.body;
+        if( date_sent.isSameOrAfter(firstDayWeek) && date_sent.isSameOrBefore(lastDayWeek) ){
+            data.in_time = true;
+        }
+        else {
+            data.in_time = false;
+        }
+
+        const hour = await Hour.create(data);
+        const hour_with_associations = await Hour.findByPk(hour.id, {include:{all:true}})
         return res.status(200).json({
-            messsage: 'Hour created',
-            data: hour
+            message: 'Hour created',
+            data: hour_with_associations,
+            success: true
         })
     } catch (error) {
         return res.status(500).json({
             message: 'Error saving the Hour',
-            error
+            error,
+            success:false
         })
     }
 }

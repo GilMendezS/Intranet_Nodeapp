@@ -6,6 +6,7 @@
     >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.project }}</td>
+        <td>{{ props.item.activity }}</td>
         <td>{{ props.item.hours }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.in_time }}</td>
@@ -37,9 +38,8 @@ import { mapGetters } from 'vuex';
 export default {
     data: () => ({
         headers: [
-            {
-                text: 'Proyecto', align: 'left', sortable: true, value: 'project',
-            },
+            {text: 'Proyecto', align: 'left', sortable: true, value: 'project'},
+            {text: 'Actividad', align: 'left', sortable: true, value: 'activity'},
             {text: 'Horas', align: 'left', sortable: true, value: 'hours'},
             {text: 'Registrado por', align: 'left', sortable: true, value: 'created_by'},
             {text: 'En Tiempo', align: 'left', sortable: true, value: 'in_time'},
@@ -63,6 +63,7 @@ export default {
         hoursUser(){
             return this.hours.map( h => ({
                 project: h.project.code,
+                activity: h.activity,
                 hours: h.hours,
                 in_time: h.in_time ? 'SI' : 'No',
                 created_by: h.project_manager ? 

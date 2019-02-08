@@ -84,17 +84,15 @@ export default {
     },
     data: () => ({
         hour: new Hour(),
-        end: moment().format('YYYY-MM-DD'),
-        type: 'month',
     }),
     methods: {
         onSubmit(){
-            
+            this.$store.dispatch('hours/addHour', this.hour);
         }
     },
     computed: {
         invalidForm(){
-
+            return this.hour.project_id == '' || this.hour.hours == '' || this.hour.date == '';
         },
         filteredProjects(){
             return this.projectsUser.map( p => ({
