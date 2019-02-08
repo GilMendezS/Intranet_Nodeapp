@@ -17,7 +17,7 @@ exports.addProject = (req, res, next) => {
             budget: req.body.budget,
             comments: {
                 user_id: req.body.user_id,
-                comment: req.body.comments
+                comment: req.body.extra_comments// pending
             }
         },
         {
@@ -117,7 +117,11 @@ exports.modifyPermissions = async (req, res, next) => {
 exports.getProject = async (req, res, next) => {
     try {
         const projectId = req.params.id;
-        const project = await Project.findById(projectId, {include: ['comments','users','status','type']})
+        const project = await Project.findById(projectId, {include: [{
+            model: Comment,
+            as: 'comments',
+            include: ['user']
+        },'users','status','type']})
         return res.status(200).json({
             data: project
         })

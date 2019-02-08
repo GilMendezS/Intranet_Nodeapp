@@ -61,7 +61,7 @@
                                         <v-textarea
                                             name="comments"
                                             label="Comentarios"
-                                            v-model="project.comments"
+                                            v-model="project.extra_comments"
                                             hint="comentarios del proyecto"
                                             >
                                         </v-textarea>

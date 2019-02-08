@@ -10,7 +10,7 @@ export default class Project {
         budget= '',
         money_spent= '',
         money_refunded= '',
-        comments = '',
+        comments = [],
         extra_comments= '',
         users= [],
         created_at = '',

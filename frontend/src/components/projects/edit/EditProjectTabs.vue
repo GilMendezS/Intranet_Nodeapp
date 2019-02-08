@@ -37,7 +37,15 @@
             </v-card-text>
             </v-card>
         </v-tab-item>
-        
+        <v-tab-item
+            
+        >
+            <v-card flat>
+            <v-card-text>
+                <v-comments></v-comments>
+            </v-card-text>
+            </v-card>
+        </v-tab-item>
         </v-tabs>
     </v-flex>
     
@@ -46,17 +54,19 @@
 
 <script>
 import EditForm from './EditForm.vue';
+import Comments from '../Comments.vue';
 import IncludedUsers from './IncludedUsers.vue';
 import AvailableUsers from './AvailableUsers.vue';
 export default {
     components: {
         'v-edit-form': EditForm,
         'v-included-users': IncludedUsers,
-        'v-possible-users': AvailableUsers
+        'v-possible-users': AvailableUsers,
+        'v-comments': Comments
     },
     data: () => {
         return {
-            tabs: ['Editar','Agregar usuarios','Permisos']
+            tabs: ['Editar','Agregar usuarios','Permisos','Comentarios']
         }
     }
 }
