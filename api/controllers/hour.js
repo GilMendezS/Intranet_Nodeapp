@@ -37,6 +37,25 @@ exports.getHoursOftheDay = async (req, res, next) => {
         })
     }
 }
+exports.getHistoryHours = async(req, res, next) => {
+    try {
+        const hours = await Hour.findAll({
+            where:{
+                user_id: req.user.id
+            },
+            include: {all:true}
+        })
+        return res.status(200).json({
+            data: hours
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error fetching your hours',
+            error,
+            success: false
+        })
+    }
+}
 exports.getHour = async (req, res, next) => {
     try {
         const hourId = req.params.id;

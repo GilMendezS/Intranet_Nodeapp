@@ -1,7 +1,8 @@
 export default {
     namespaced: true,
     state: {
-        currentHours: []
+        currentHours: [],
+        allHours: []
     },
     mutations: {
         setCurrentHours: (state, payload) => {
@@ -9,6 +10,10 @@ export default {
         },
         addNewHour: (state, payload) => {
             state.currentHours = [payload, ...state.currentHours]
+            state.allHours = [payload, ...state.allHours]
+        },
+        setAllHours: (state, payload) => {
+            state.allHours = payload;
         }
     },
     actions: {
@@ -21,6 +26,20 @@ export default {
             .then(res => res.json())
             .then(response => {
                 commit('setCurrentHours', response.data)
+            })
+            .catch(err => {
+
+            })
+        },
+        loadHistoryHours: ({commit, rootGetters}) => {
+            fetch(`${rootGetters.api}/hours/history`, {
+                headers: {
+                    'Authorization': rootGetters['auth/getToken']
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                commit('setAllHours', response.data)
             })
             .catch(err => {
 
@@ -54,6 +73,9 @@ export default {
     getters: {
         getHoursOftheDay: state => {
             return state.currentHours;
+        },
+        getHistoryHours: state => {
+            return state.allHours;
         }
     }
 }

@@ -13,6 +13,7 @@ export default {
     mounted(){
         this.$store.dispatch('projects/loadProjectsUser');
         this.$store.dispatch('hours/loadCurrentHours');
+        this.$store.dispatch('hours/loadHistoryHours');
     }
 }
 </script>

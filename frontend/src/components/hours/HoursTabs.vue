@@ -36,7 +36,7 @@
 <script>
 import AddHours from './AddHour.vue';
 import HoursDatatable from './user/HoursDatatable.vue';
-import HistoryHours from './HistoryHours.vue';
+import HistoryHours from './user/HistoryHours.vue';
 export default {
     components : {
         'v-add-hours': AddHours,

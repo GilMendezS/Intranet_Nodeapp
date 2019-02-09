@@ -6,6 +6,8 @@ router.get('/', HourController.getHours);
 
 router.get('/today',[Authenticated], HourController.getHoursOftheDay);
 
+router.get('/history',[Authenticated], HourController.getHistoryHours);
+
 router.post('/', HourController.addHour);
 
 router.get('/:id(\\d+)/', HourController.getHour);
