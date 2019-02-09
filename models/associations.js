@@ -11,11 +11,14 @@ const Project = sequelize.import(path.join(rootDir,'models','project'));
 const Status = sequelize.import(path.join(rootDir,'models','status'));
 const TypeProject = sequelize.import(path.join(rootDir,'models','type'));
 const Permissions = sequelize.import(path.join(rootDir,'models','project_user'));
+const Role = sequelize.import(path.join(rootDir,'models','role'));
+const RoleUser = sequelize.import(path.join(rootDir,'models','role_user'));
 module.exports = class RelationShips {
     static createAssociations(){
         User.hasMany(Hour, {as: 'hours', foreignKey:'user_id'})
         User.hasMany(Project, {as: 'assigned_projects', foreignKey:'user_id'});
         User.belongsToMany(Project, {as: 'projects',through: Permissions, foreignKey: 'user_id', otherKey: 'project_id'})
+        User.belongsToMany(Role, {as: 'roles',through: RoleUser, foreignKey: 'user_id', otherKey: 'role_id'});
         Area.belongsTo(User, {as: 'user',foreignKey:'user_id'});
         Comment.belongsTo(User, {as: 'user', foreignKey:'user_id'});
         Department.belongsTo(User, {foreignKey: 'user_id'});
