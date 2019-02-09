@@ -3,7 +3,7 @@ const express = require('express');
 const config = require('dotenv').config();
 const bodyParser = require('body-parser');
 const Associations = require('./models/associations');
-
+const seeder = require('./seeders/20190209001558-roles');
 const app = express();
 
 app.use(bodyParser.json());
