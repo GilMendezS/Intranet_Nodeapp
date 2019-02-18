@@ -69,6 +69,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true
     },
-  }, {});
+  }, {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  });
+  viatic.prototype.enoughBudget = function(money= 0.0){
+    if (money > 0){
+      const sum = this.budget + money;
+      return sum <= this.budget ? true : false;
+    }
+    return true;
+  }
   return viatic;
 };
