@@ -13,6 +13,7 @@ const TypeProject = sequelize.import(path.join(rootDir,'models','type'));
 const Permissions = sequelize.import(path.join(rootDir,'models','project_user'));
 const Role = sequelize.import(path.join(rootDir,'models','role'));
 const RoleUser = sequelize.import(path.join(rootDir,'models','role_user'));
+const Viatic = sequelize.import(path.join(rootDir, 'models', 'viatic'));
 module.exports = class RelationShips {
     static createAssociations(){
         User.hasMany(Hour, {as: 'hours', foreignKey:'user_id'})
@@ -38,5 +39,10 @@ module.exports = class RelationShips {
         Hour.belongsTo(User, {as: 'user', foreignKey:'user_id'});
         Hour.belongsTo(Project, {as: 'project', foreignKey:'project_id'});
         Hour.belongsTo(User, {as: 'project_manager', foreignKey: 'reg_user_id'});
+        //viatics
+        Viatic.belongsTo(Project, {foreignKey:'project_id', as:'project'});
+        Viatic.belongsTo(User, {foreignKey: 'user_id', ax: 'user'});
+        Viatic.belongsTo(User, {foreignKey:'auth_user_id', as: 'authorizator'});
+        Viatic.belongsTo(Status, {foreignKey: 'status_id', as: 'status'});
     }
 }
