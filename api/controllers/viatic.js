@@ -189,7 +189,7 @@ exports.updateViatic = async (req, res, next) => {
         })
     }
 }
-exports.approve = async(req, res, next) => {
+exports.approveViatic = async(req, res, next) => {
     try {
         const viaticId = req.params.id;
         const viatic = await Viatic.findByPk(viaticId, {include: {all:true}});
@@ -230,7 +230,7 @@ exports.approve = async(req, res, next) => {
         })
     }
 }
-exports.deny = async (req, res ,next) => {
+exports.denyViatic = async (req, res ,next) => {
     try {
         const viaticId = req.params.id;
         const viatic = await Viatic.findByPk(viaticId, {include: {all:true}});
@@ -239,6 +239,14 @@ exports.deny = async (req, res ,next) => {
         }
         const result = await viatic.deny();
         if(result.success){
+            if(req.body.comments != ''){
+                await ViaticComment.create({
+                    user_id: req.user.id,
+                    comments: req.body.comments,
+                    viatic_id: viatic.id,
+                    
+                });
+            }
             return res.status(200).json({
                 message: result.message,
                 success: true
@@ -253,6 +261,57 @@ exports.deny = async (req, res ,next) => {
     } catch (error) {
         return res.status(500).json({
             message: 'Error changing the status',
+            success: false
+        })
+    }
+}
+exports.cancelViatic = async (req, res, next) => {
+    try {
+        const viaticId = req.params.id;
+        const viatic = await Viatic.findByPk(viaticId, { include: {all:true}});
+        const statuses_to_prevent = [6,7,8,11,12,13,15];
+        if(statuses_to_prevent.includes(viatic.status_id)){
+            return res.status(422).json({message:'The viatic was approveed by administration, the lifecycle must be finished',success: false});
+        }
+        if(viatic.isCanceled()){
+            return res.status(422).json({message:'The viatics is canceled.',success: false});
+        }
+        if(viatic.status == 11){
+            return res.status(422).json({message:'The viatic is finished',success: false});
+        }
+        if(!req.user.roles.map(r => r.name).includes('admin')){
+            if (viatic.user_id != req.user.id){
+                return res.status(422).json({
+                    message: 'You dont have permissions to change the status',
+                    success: false
+                })
+            }
+        }
+        viatic.status_id = 7;
+        viatic.auth_user_id = null;
+        try {
+            viatic.save();    
+            if(req.body.comments != ''){
+                await ViaticComment.create({
+                    user_id: req.user.id,
+                    comments: req.body.comments,
+                    viatic_id: viatic.id,
+                    
+                });
+            }
+            return res.status(200).json({
+                message: 'The viatic was canceled',
+                succes: true
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: 'Error canceling the viatic',
+                success: false
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error canceling the request',
             success: false
         })
     }

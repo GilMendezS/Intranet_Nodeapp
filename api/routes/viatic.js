@@ -12,8 +12,10 @@ router.get('/:id(\\d+)/',[AuthMiddleware],ViaticController.getViatic);
 
 router.put('/:id(\\d+)/', [AuthMiddleware], ViaticController.updateViatic);
 
-router.put('/:id(\\d+)/approve', [AuthMiddleware], ViaticController.approve);
+router.put('/:id(\\d+)/approve', [AuthMiddleware], ViaticController.approveViatic);
 
-router.put('/:id(\\d+)/deny', [AuthMiddleware], ViaticController.deny);
+router.put('/:id(\\d+)/deny', [AuthMiddleware], ViaticController.denyViatic);
+
+router.put('/:id(\\d+)/cancel', [AuthMiddleware], ViaticController.cancelViatic);
 
 module.exports = router;
