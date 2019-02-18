@@ -211,5 +211,45 @@ module.exports = (sequelize, DataTypes) => {
     }
     return data;
   }
+  viatic.prototype.deny = async function(){
+    const data = {
+      message: 'Rejected Request',
+      success: false
+    }
+    switch(this.status_id){
+      case 1:
+        this.status_id = 6;
+        this.auth_user_id = null;
+        break;
+      case 2: 
+        this.status_id = 6;
+        this.auth_user_id = null;
+        break;
+      case 4:
+        this.status_id = 3;
+        this.auth_user_id = null;
+        data.message = 'Rejected comprobation';
+        break;
+      case 5:
+        this.status_id = 3;
+        this.auth_user_id = null;
+        data.message = 'Rejected revision';
+        break;
+      case 12:
+        this.status_id = 8;
+        this.auth_user_id = null;
+        data.message = 'Rejected revision';
+        break;
+    }
+    try {
+      await this.save();
+      data.success = true;
+      return data;
+    } catch (error) {
+      data.message = "Error updating the status";
+      data.success = false;
+      return data;
+    }
+  }
   return viatic;
 };

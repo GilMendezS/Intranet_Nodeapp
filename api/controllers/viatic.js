@@ -200,8 +200,6 @@ exports.approve = async(req, res, next) => {
             return res.status(422).json({message: 'The viatic is canceled', success: false});
         }
         const result = await viatic.approve(req);
-        
-        
         if (result.success){
             if(req.body.comments != ''){
                 await ViaticComment.create({
@@ -228,6 +226,33 @@ exports.approve = async(req, res, next) => {
         return res.status(500).json({
             message: 'Error changing the status',
             error,
+            success: false
+        })
+    }
+}
+exports.deny = async (req, res ,next) => {
+    try {
+        const viaticId = req.params.id;
+        const viatic = await Viatic.findByPk(viaticId, {include: {all:true}});
+        if(viatic.isCanceled()){
+            return res.status(422).json({message: 'Viatic canceled', success: false});
+        }
+        const result = await viatic.deny();
+        if(result.success){
+            return res.status(200).json({
+                message: result.message,
+                success: true
+            })
+        }
+        else {
+            return res.status(500).json({
+                message: result.message,
+                success: false
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error changing the status',
             success: false
         })
     }
