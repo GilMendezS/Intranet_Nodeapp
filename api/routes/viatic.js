@@ -8,4 +8,8 @@ router.post('/', [AuthMiddleware], ViaticController.addViatic);
 
 router.get('/byuser', [AuthMiddleware], ViaticController.getViaticsByUser);
 
+router.get('/:id(\\d+)/',[AuthMiddleware],ViaticController.getViatic);
+
+router.put('/:id(\\d+)/', [AuthMiddleware], ViaticController.updateViatic);
+
 module.exports = router;
