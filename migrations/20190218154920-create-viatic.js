@@ -58,19 +58,19 @@ module.exports = {
       },
       money_requested: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        default: 0.0
       },
       money_deposited: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        default: 0.0
       },
       money_checked: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        default: 0.0
       },
       money_refunded: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        default: 0.0
       },
       comments: {
         type: Sequelize.TEXT,

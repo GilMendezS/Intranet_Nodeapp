@@ -24,6 +24,7 @@ const positionsRoutes = require('./api/routes/position');
 const statusRoutes = require('./api/routes/status');
 const projectsRoutes = require('./api/routes/project');
 const hoursRoutes = require('./api/routes/hour');
+const viaticsRoutes = require('./api/routes/viatic');
 app.use(`${API_VERSION}/users`, usersRoutes);
 app.use(`${API_VERSION}/auth`, authRoutes);
 app.use(`${API_VERSION}/areas`, areasRoutes);
@@ -32,6 +33,7 @@ app.use(`${API_VERSION}/positions`, positionsRoutes);
 app.use(`${API_VERSION}/status`, statusRoutes);
 app.use(`${API_VERSION}/projects`, projectsRoutes);
 app.use(`${API_VERSION}/hours`, hoursRoutes);
+app.use(`${API_VERSION}/viatics`, viaticsRoutes);
 
 app.get('*', (req, res, next) => {
     res.sendFile(`${__dirname}/frontend/dist/index.html`)

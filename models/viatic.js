@@ -51,19 +51,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     money_requested: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      default: 0.0
     },
     money_deposited: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      default: 0.0
     },
     money_checked: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      default: 0.0
     },
     money_refunded: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      default: 0.0
     },
     comments: {
       type: DataTypes.TEXT,
@@ -73,12 +73,6 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   });
-  viatic.prototype.enoughBudget = function(money= 0.0){
-    if (money > 0){
-      const sum = this.budget + money;
-      return sum <= this.budget ? true : false;
-    }
-    return true;
-  }
+  
   return viatic;
 };

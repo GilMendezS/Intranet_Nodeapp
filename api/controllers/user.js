@@ -15,9 +15,9 @@ exports.getUsers = (req, res ,next) =>  {
 }
 exports.getUser = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.params.id, {include: {all:true}});
+        const user = await User.findByPk(req.user.id, {include: {all:true}});
         return res.status(200).json({
-            data: user,
+            data: area,
             success:true
         })
     } catch (error) {

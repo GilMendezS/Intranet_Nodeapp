@@ -18,6 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: 'updated_at',
     }
   );
- 
+  Project.prototype.enoughBudget = function(money= 0.0){
+    if (money > 0){
+      const sum = parseFloat(this.money_spent) + parseFloat(money);
+      return sum <= this.budget ? true : false;
+    }
+    return true;
+  }
+  Project.prototype.reduceBudget = function(money_spent= 0.0){
+    this.money_spent =parseFloat(this.money_spent) +  parseFloat(money_spent);
+    this.save();
+  }
   return Project;
 };
