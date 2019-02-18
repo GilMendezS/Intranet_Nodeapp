@@ -73,6 +73,11 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   });
-  
+  viatic.prototype.isCanceled = function(){
+    return this.status_id == 10 ? true : false;
+  }
+  viatic.prototype.canBeEdited = function(){
+    return this.status_id == 9 ? true : false;
+  }
   return viatic;
 };
