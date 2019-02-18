@@ -1,4 +1,9 @@
 'use strict';
+const path = require('path');
+const rootDir = require('../api/utils/path');
+const sequelize = require('../api/utils/database');
+const User = sequelize.import(path.join(rootDir,'models','user'));
+const Role = sequelize.import(path.join(rootDir,'models','role'));
 module.exports = (sequelize, DataTypes) => {
   const viatic = sequelize.define('viatic', {
     user_id: {
@@ -19,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     auth_user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'users',
         key: 'id'
@@ -78,6 +83,133 @@ module.exports = (sequelize, DataTypes) => {
   }
   viatic.prototype.canBeEdited = function(){
     return this.status_id == 9 ? true : false;
+  }
+  viatic.prototype.approve = async function(req){
+    const project = await this.getProject();
+    
+    const admin = await User.findOne({
+        include: [{
+            model: Role,
+            as: 'roles',
+            where: {
+                name: 'admin'
+            }
+        }]
+    })
+    const revisor = await User.findOne({
+        include: [{
+            model: Role,
+            as: 'roles',
+            where: {
+                name: 'revisor'
+            }
+        }]
+    })
+    const data = {
+      message: 'Viatic authorized.',
+      success: false
+    }
+    switch(this.status_id){
+      case 1:
+        this.status_id = 2;
+        this.auth_user_id = admin.id;
+        await this.save();
+        data.success = true;
+        return data;
+        break;
+      case 2:
+        let money = 0.0;
+        if(req.body.money_requested){
+          money = req.body.money_requested;
+        }
+        this.status_id = 3;
+        this.auth_user_id = null;
+        this.money_deposited = money;
+        data.success = true;
+        await this.save();
+        return data;
+        break;
+      case 3:
+        let authorizator = 0;
+        if (!req.user.roles.map(r => r.name).includes('supervisor')){
+          let authorizator = project.user_id;
+          if(req.user.id == project.user_id){
+            if(req.user.area != null){
+              authorizator = req.user.area.user_id;
+            }
+            else {
+              authorizator = admin.id;
+            }
+          }
+          this.status_id = 4;    
+        }
+        else {
+          this.status_id = 5;
+          this.auth_user_id = revisor.id;
+        }
+        data.message = 'Comprobation finished';
+        data.success = true;
+        await this.save();
+        return data;
+        break;
+      case 4:
+        this.status_id = 5;
+        this.auth_user_id = revisor.id;
+        data.message = 'Accepted Comprobation';
+        data.success = true;
+        await this.save();
+        return data;
+        break;
+      case 5: 
+        if(this.money_checked > this.money_deposited){
+          this.status_id = 9;
+          this.auth_user_id = admin.id;
+        }
+        else if(this.money_checked < this.money_deposited){
+          this.status_id = 8;
+          this.auth_user_id = null;
+        }
+        else {
+          this.status_id = 11;
+          this.auth_user_id = null;
+        }
+        data.message = 'Revision finished';
+        data.success = true;
+        await this.save();
+        return data;
+        break;
+      case 9:
+        data.message = 'Request Finished';
+        money = parseFloat(this.money_checked) - parseFloat(this.money_deposited);
+        if(money != req.body.money_requested){
+          data.message = 'Incorrect ammount, Please put in the correct ammout. Thanks';
+          data.success = false;
+          return data;
+        }
+        this.auth_user_id  = 0;
+        this.status_id = 11;
+        this.money_refunded = req.body.money_requested;
+        data.success = true;
+        await this.save();
+        return data;
+        break;
+      case 10:
+        this.auth_user_id = 0;
+        this.status_id = 11;
+        data.message = 'Request finished';
+        project.money_spent = project.money_spent + this.money_checked;
+        await project.save();
+        data.success = true;
+        break;
+      case 12:
+        this.auth_user_id = 0;
+        this.status_id = 11;
+        project.money_spent = project.money_spent + this.money_checked;
+        data.message = 'Request finished';
+        await this.save();
+        break;
+    }
+    return data;
   }
   return viatic;
 };
