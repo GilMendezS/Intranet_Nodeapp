@@ -1,3 +1,5 @@
+const User = require('../models/models').User;
+const Role = require('../models/models').Role;
 const Viatic = require('../models/models').Viatic;
 const Project = require('../models/models').Project;
 const ViaticComment = require('../models/models').ViaticComment;
@@ -182,6 +184,49 @@ exports.updateViatic = async (req, res, next) => {
     } catch (error) {
         return res.status(500).json({
             message: 'Error updating the viatic',
+            error,
+            success: false
+        })
+    }
+}
+exports.approve = async(req, res, next) => {
+    try {
+        const viaticId = req.params.id;
+        const viatic = await Viatic.findByPk(viaticId, {include: {all:true}});
+        if(!viatic){
+            return res.status(404).json({message: 'Viatic not found', success:false});
+        }
+        if(viatic.isCanceled()){
+            return res.status(422).json({message: 'The viatic is canceled', success: false});
+        }
+        const result = await viatic.approve(req);
+        
+        
+        if (result.success){
+            if(req.body.comments != ''){
+                await ViaticComment.create({
+                    user_id: req.user.id,
+                    comments: req.body.comments,
+                    viatic_id: viatic.id,
+                    
+                });
+            }
+            return res.status(200).json({
+                message: result.message,
+                success: true
+            });
+        }
+        else {
+            return res.status(422).json({
+                message: result.message,
+                success: false,
+            });
+        }
+        
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error changing the status',
             error,
             success: false
         })

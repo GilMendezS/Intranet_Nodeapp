@@ -12,4 +12,6 @@ router.get('/:id(\\d+)/',[AuthMiddleware],ViaticController.getViatic);
 
 router.put('/:id(\\d+)/', [AuthMiddleware], ViaticController.updateViatic);
 
+router.put('/:id(\\d+)/approve', [AuthMiddleware], ViaticController.approve);
+
 module.exports = router;

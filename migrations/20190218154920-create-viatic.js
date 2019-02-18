@@ -26,7 +26,7 @@ module.exports = {
       },
       auth_user_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'users',
           key: 'id'

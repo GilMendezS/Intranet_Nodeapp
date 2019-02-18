@@ -14,3 +14,4 @@ exports.Permissions = sequelize.import(path.join(rootDir,'models','project_user'
 exports.Hour = sequelize.import(path.join(rootDir,'models','hour'));
 exports.Viatic = sequelize.import(path.join(rootDir ,'models', 'viatic'));
 exports.ViaticComment = sequelize.import(path.join(rootDir ,'models', 'viatic_comment'));
+exports.Role = sequelize.import(path.join(rootDir ,'models', 'role'));
