@@ -316,3 +316,34 @@ exports.cancelViatic = async (req, res, next) => {
         })
     }
 }
+exports.finalizeViatic = async (req, res, next) => {
+    if(!req.user.roles.map(r =>r.name).includes('admin')){
+        return res.status(422).json({
+            message: 'You dont have permissions to change the status'
+        });
+    }
+    try {
+        const viaticId = req.params.id;
+        const viatic = await Viatic.findByPk(viaticId);
+        viatic.status_id = 11;
+        await viatic.save();
+        if(req.body.comments != ''){
+            await ViaticComment.create({
+                user_id: req.user.id,
+                comments: req.body.comments,
+                viatic_id: viatic.id,
+                
+            });
+        }
+        return res.status(200).json({
+            message: 'Request updated to finished',
+            success: true
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error changing the status of the viatic',
+            success: false
+        })
+    }
+}

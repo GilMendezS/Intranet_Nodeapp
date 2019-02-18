@@ -18,4 +18,6 @@ router.put('/:id(\\d+)/deny', [AuthMiddleware], ViaticController.denyViatic);
 
 router.put('/:id(\\d+)/cancel', [AuthMiddleware], ViaticController.cancelViatic);
 
+router.put('/:id(\\d+)/finalize', [AuthMiddleware], ViaticController.finalizeViatic);
+
 module.exports = router;
