@@ -38,6 +38,14 @@ export default {
                 ],
                 ajax: {
                     url: 'http://localhost:8081/api/v1/projects/actives/datatable',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", localStorage.getItem('token'));
+                    },
+                    error: function (xhr, error, thrown) {
+                        if(xhr.status === 401){
+                            self.logoutUser(true);
+                        }
+                    }
                 },
                 "drawCallback": function () {
                     const buttons = document.querySelectorAll('.paginate_button');
@@ -75,6 +83,9 @@ export default {
     methods: {
         onShowProject(id){
             this.$router.push({name: 'edit-project', params: {id : id}});
+        },
+        logoutUser(auto){
+            this.$store.dispatch('auth/logoutUser', auto)
         }
     }
 }

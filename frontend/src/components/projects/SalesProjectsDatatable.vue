@@ -20,6 +20,7 @@
     
 </template>
 <script>
+
 window.$ = window.jQuery = require('jquery');
 const dt = require('datatables.net');
 export default {
@@ -38,6 +39,14 @@ export default {
                 ],
                 ajax: {
                     url: 'http://localhost:8081/api/v1/projects/sales/datatable',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", localStorage.getItem('token'));
+                    },
+                    error: function (xhr, error, thrown) {
+                        if(xhr.status === 401){
+                            self.logoutUser(true);
+                        }
+                    }
                 },
                 "drawCallback": function () {
                     const buttons = document.querySelectorAll('.paginate_button');
@@ -53,43 +62,7 @@ export default {
                         }
                     }
                 ],
-                // columnDefs: [
-                //     {
-                //         targets: 5,
-                //         render: function(value, type, row){
-                //             try{
-                //                 const devices = JSON.parse(value.devices)
-                //                 let status_class = '';
-                //                 const list = devices.map(i => {
-                //                     if (i.status == 'online'){
-                //                         status_class = 'success';
-                //                     }
-                //                     else if(i.status ='offline'){
-                //                         status_class = 'danger';
-                //                     }
-                //                     else {
-                //                         status_class = 'dark';
-                //                     }
-                //                     return `<span class="badge badge-${status_class}"
-                //                     Title="\nName=${i.name} 
-                //                     Serial=${i.serial} 
-                //                     LanIp=${i.lanIp} 
-                //                     Mac=${i.mac} 
-                //                     NetworkId=${i.networkId} 
-                //                     PublicIp=${i.publicIp}
-                //                     Status=${i.status}
-                //                     "
-                //                 >${i.serial}</span>`
-                //                 })
-                //                 return list.join(' ')
-                //             }
-                //             catch(err){
-                                
-                //                 return value;
-                //             }
-                //         }
-                //     }
-                // ],
+                
                 "order": [[ 0, "desc" ]],
                 // dom: 'Bfrtip',
                 // buttons: [
@@ -112,6 +85,9 @@ export default {
     methods: {
         onShowProject(id){
             this.$router.push({name: 'edit-project', params: {id : id}});
+        },
+        logoutUser(auto){
+            this.$store.dispatch('auth/logoutUser', auto)
         }
     }
 }

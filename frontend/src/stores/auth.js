@@ -37,12 +37,16 @@ export default {
                 
             })
             .catch(err => {
-                console.log(err)
+                
                 dispatch('syncMessage', 'Ha surgido un error, vuelve a intentarlo.', {root:true})
             })
         },
-        logoutUser: ({commit}) => {
+        logoutUser: ({dispatch, commit}, autoLogout = false) => {
+            if(autoLogout){
+                dispatch('syncMessage', 'Es necesario que inicies sesión.', {root:true})
+            }
             commit('logout');
+            
         }
     },
     getters: {
