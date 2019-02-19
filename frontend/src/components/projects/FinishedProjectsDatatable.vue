@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4">
-        <table id="finished-projects">
+        <table id="finished-projects" class="v-datatable v-table theme--light">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -38,6 +38,12 @@ export default {
                 ],
                 ajax: {
                     url: 'http://localhost:8081/api/v1/projects/finished/datatable',
+                },
+                "drawCallback": function () {
+                    const buttons = document.querySelectorAll('.paginate_button');
+                    for (var i = 0; i < buttons.length; i++) {
+                        buttons[i].classList += ' v-btn theme--light blue text--white';
+                    }
                 },
                 columnDefs: [
                     {

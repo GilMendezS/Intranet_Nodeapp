@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4">
-        <table id="active-projects">
+        <table id="active-projects" class="v-datatable v-table theme--light">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -39,6 +39,12 @@ export default {
                 ajax: {
                     url: 'http://localhost:8081/api/v1/projects/actives/datatable',
                 },
+                "drawCallback": function () {
+                    const buttons = document.querySelectorAll('.paginate_button');
+                    for (var i = 0; i < buttons.length; i++) {
+                        buttons[i].classList += ' v-btn theme--light blue text--white';
+                    }
+                },
                 columnDefs: [
                     {
                         targets: 7,
@@ -47,43 +53,6 @@ export default {
                         }
                     }
                 ],
-                // columnDefs: [
-                //     {
-                //         targets: 5,
-                //         render: function(value, type, row){
-                //             try{
-                //                 const devices = JSON.parse(value.devices)
-                //                 let status_class = '';
-                //                 const list = devices.map(i => {
-                //                     if (i.status == 'online'){
-                //                         status_class = 'success';
-                //                     }
-                //                     else if(i.status ='offline'){
-                //                         status_class = 'danger';
-                //                     }
-                //                     else {
-                //                         status_class = 'dark';
-                //                     }
-                //                     return `<span class="badge badge-${status_class}"
-                //                     Title="\nName=${i.name} 
-                //                     Serial=${i.serial} 
-                //                     LanIp=${i.lanIp} 
-                //                     Mac=${i.mac} 
-                //                     NetworkId=${i.networkId} 
-                //                     PublicIp=${i.publicIp}
-                //                     Status=${i.status}
-                //                     "
-                //                 >${i.serial}</span>`
-                //                 })
-                //                 return list.join(' ')
-                //             }
-                //             catch(err){
-                                
-                //                 return value;
-                //             }
-                //         }
-                //     }
-                // ],
                 "order": [[ 0, "desc" ]],
                 // dom: 'Bfrtip',
                 // buttons: [

@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4">
-        <table id="budget-projects">
+        <table id="budget-projects" class="v-datatable v-table theme--light">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -47,6 +47,12 @@ export default {
                         }
                     }
                 ],
+                "drawCallback": function () {
+                    const buttons = document.querySelectorAll('.paginate_button');
+                    for (var i = 0; i < buttons.length; i++) {
+                        buttons[i].classList += ' v-btn theme--light blue text--white';
+                    }
+                },
                 // columnDefs: [
                 //     {
                 //         targets: 5,
