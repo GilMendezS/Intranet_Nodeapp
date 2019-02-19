@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs12 >
+    <div>
         <v-tabs  fixed-tabs
         >
         <v-tab
@@ -47,9 +47,23 @@
             </v-card>
         </v-tab-item>
         </v-tabs>
-    </v-flex>
+        <v-btn
+            absolute
+            dark
+            fab
+            top
+            router
+            to='/projects/add'
+            right
+            color="cyan"
+        >
+            <v-icon>add</v-icon>
+        </v-btn>
+    </div>
     
-
+        
+ 
+    
 </template>
 
 <script>

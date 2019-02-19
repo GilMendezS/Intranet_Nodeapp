@@ -77,6 +77,14 @@
                             >
                             Registrar
                             </v-btn>
+                            <v-btn
+                                class="red white--text"
+                                router
+                                to='/projects'
+                                
+                            >
+                            Cancelar
+                            </v-btn>
                         </v-form>
                     </v-flex>
                 </v-card-text>

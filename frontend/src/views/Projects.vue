@@ -1,7 +1,9 @@
 <template>
-    <div>
-        <v-projects-tabs></v-projects-tabs>
-    </div>
+    <v-layout>
+        <v-flex>
+            <v-projects-tabs></v-projects-tabs>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
