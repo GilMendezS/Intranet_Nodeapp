@@ -116,6 +116,29 @@ exports.getViaticsToAuthorize = async (req, res, next) => {
         });
     }
 }
+exports.getViaticsInProcess = async(req, res, next) => {
+    const no_in_this_statuses = [10,14];
+    try {
+        const viatics = await Viatic.findAll({
+            where: {
+                status_id: {
+                    $notIn: no_in_this_statuses
+                }
+            },
+            include: [{ all:true }]
+        });
+        return res.status(200).json({
+            data: viatics,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error fetching  viatics',
+            success: false,
+            error
+        });
+    }
+}
 exports.getViatic = async (req, res, next) => {
     try {
         const viaticId = req.params.id;

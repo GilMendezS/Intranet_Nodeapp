@@ -10,6 +10,8 @@ router.get('/byuser', [AuthMiddleware], ViaticController.getViaticsByUser);
 
 router.get('/authorize', [AuthMiddleware], ViaticController.getViaticsToAuthorize);
 
+router.get('/inprocess', [AuthMiddleware], ViaticController.getViaticsInProcess);
+
 router.get('/:id(\\d+)/',[AuthMiddleware],ViaticController.getViatic);
 
 router.put('/:id(\\d+)/', [AuthMiddleware], ViaticController.updateViatic);
