@@ -1,3 +1,4 @@
+import axios from 'axios';
 export default {
     namespaced: true,
     state: {
@@ -22,62 +23,33 @@ export default {
     },
     actions: {
         loadAreas: ({commit, rootGetters}) => {
-            fetch(`${rootGetters.api}/areas`)
-            .then(res => res.json())
-            .then(info => {
-                commit('setAreas', info.data)
+            axios.get(`/areas`)
+            .then(response => {
+                commit('setAreas', response.data.data)
             })
             
         },
         createArea: ({dispatch, commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/areas`,{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
+            axios.post(`/areas`,payload)
             .then(response => {
-                commit('addArea', response.data)
+                commit('addArea', response.data.data)
                 dispatch('syncMessage', 'Área creada con éxito.', {root:true})
-            })
-            .catch(err => {
-                console.log(err)
             })
         },
         updateArea: ({dispatch,commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/areas/${payload.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
+            axios.put(`/areas/${payload.id}`, payload)
             .then(response => {
-                dispatch('syncMessage', response.message, {root:true})
-            })
-            .catch(err => {
-                console.log(err)
+                dispatch('syncMessage', response.data.message, {root:true})
             })
         },
         removeArea: ({dispatch, commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/area/${payload.id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
+            axios.delete(`/area/${payload.id}`)
             .then(response => {
-                if (response.success){
-                    commit('removeArea', area)
-
+                if (response.data.success){
+                    commit('removeArea', payload)
                 }
-                dispatch('syncMessage', response.message, {root:true})
+                dispatch('syncMessage', response.data.message, {root:true})
             })
-
         }
     },
     getters: {

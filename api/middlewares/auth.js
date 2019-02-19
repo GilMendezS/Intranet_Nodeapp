@@ -15,7 +15,7 @@ module.exports =  async (req, res, next) => {
         }
     }
     else {
-        return res.status(400).json({
+        return res.status(401).json({
             message: 'Token not provided',
             success: false
         })

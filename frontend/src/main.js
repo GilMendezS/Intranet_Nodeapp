@@ -5,13 +5,42 @@ import router from './router'
 import store from './store'
 import Toasted from 'vue-toasted';
 import VModal from 'vue-js-modal';
+import axios from 'axios';
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios);
 
+
+axios.defaults.baseURL = 'http://localhost:8081/api/v1';
 
 Vue.use(Toasted, {
   duration:3000
 })
 Vue.use(VModal, { dialog: true })
 Vue.config.productionTip = false
+
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if(token){
+    config.headers.Authorization = token;
+    return config;
+  }
+  else {
+    router.push('/');
+    return false;
+  }
+  return config;
+}, error => Promise.reject(error))
+
+axios.interceptors.response.use( response => response, error => {
+  if (error.response.status === 401){
+    router.push('/');
+  }
+  else if(error.response.status === 500){
+    this.$toasted.error('Something went wrong. Please try again.')
+  }
+  return Promise.reject(error);
+
+})
 
 new Vue({
   router,
