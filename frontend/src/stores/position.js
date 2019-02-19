@@ -1,3 +1,4 @@
+import axios from 'axios';
 export default {
     namespaced: true,
     state: {
@@ -22,50 +23,26 @@ export default {
     },
     actions: {
         loadPositions: ({commit, rootGetters}) => {
-            fetch(`${rootGetters.api}/positions`)
-            .then(res => res.json())
-            .then(info => {
-                
-                commit('setPositions', info.data)
+            axios.get(`/positions`)
+            .then(response => {
+                commit('setPositions', response.data.data)
             })
-            .catch(err => {
-                
-            })
+            
         },
         createPosition: ({dispatch, commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/positions`,{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
+            axios.post(`/positions`,payload)
             .then(response => {
-                if (response.success){
-                    commit('addPosition', response.data)
+                if (response.data.success){
+                    commit('addPosition', response.data.data)
                 }
-                dispatch('syncMessage', response.message, {root:true})
-                
-            })
-            .catch(err => {
+                dispatch('syncMessage', response.data.message, {root:true})
                 
             })
         },
         updatePosition: ({dispatch,commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/positions/${payload.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
+            axios.put(`/positions/${payload.id}`, payload)
             .then(response => {
-                dispatch('syncMessage', response.message, {root:true})
-            })
-            .catch(err => {
-                
+                dispatch('syncMessage', response.data.message, {root:true})
             })
         }
     },
