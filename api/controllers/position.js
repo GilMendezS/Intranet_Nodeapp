@@ -6,7 +6,7 @@ exports.getPositions = async (req, res, next) => {
             data: positions
         })
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             message: 'Error fetching the positions',
             error
         })
@@ -16,8 +16,8 @@ exports.addPosition = async (req, res, next) => {
     try {
         const newPosition = await Position.create({
             title: req.body.title,
-            department_id: req.body.DepartmentId,
-            area_id: req.body.AreaId
+            department_id: req.body.department_id,
+            area_id: req.body.area_id
         })
         return res.status(200).json({
             message: 'Position cretaed',
@@ -25,7 +25,7 @@ exports.addPosition = async (req, res, next) => {
             success: true
         })
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             message: 'Error creating the position',
             error
         })
@@ -39,7 +39,7 @@ exports.getPosition = async (req, res, next) => {
             data: position
         })
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             message: 'Error fetching the position',
             error
         })
@@ -55,7 +55,7 @@ exports.updatePosition = async (req, res, next) => {
             data: updatedPosition
         })
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             message: 'Error updating the position',
             error
         })
@@ -70,7 +70,7 @@ exports.removePosition = async (req, res, next) => {
             success: true
         })
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             message: 'Error removing the position',
             error
         })
