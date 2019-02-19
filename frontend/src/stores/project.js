@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Project from '../models/project';
 export default {
     namespaced: true,
@@ -35,112 +36,57 @@ export default {
     },
     actions: {
         loadTypes: ({commit, rootGetters}) => {
-            fetch(`${rootGetters.api}/projects/types`)
-            .then(res => res.json())
+            axios.get(`/projects/types`)
             .then(response => {
-                commit('setTypes', response.data);
+                commit('setTypes', response.data.data);
             })
         },
         loadStatuses: ({commit,rootGetters}) => {
-            fetch(`${rootGetters.api}/status/projects`)
-            .then(res => res.json())
+            axios.get(`${rootGetters.api}/status/projects`)
             .then(response => {
-                
-                commit('setStatuses', response.data)
-                
-            })
-            .catch(err => { 
-                console.log(err)
+                commit('setStatuses', response.data.data)
             })
         },  
         addProject: ({dispatch, commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/projects`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-
-            })
-            .then(res => res.json())
+            axios.post(`${rootGetters.api}/projects`, payload)
             .then(response => {
-                if (response.success){
-                    
-                }
-                dispatch('syncMessage', response.message, {root: true})
+                dispatch('syncMessage', response.data.message, {root: true})
             })
         },
         loadProjectsUser: ({commit, rootGetters}) => {
-            fetch(`${rootGetters.api}/projects/byuser`, {
-                headers: {
-                    'Authorization': rootGetters['auth/getToken'],
-                }
-            })
-            .then(res => res.json())
+            axios.get(`${rootGetters.api}/projects/byuser`)
             .then(response => {
-                console.log(response)
-                commit('setProjectsUser', response.data)
+                commit('setProjectsUser', response.data.data)
             })
         },
         getProject: ({dispatch, commit, rootGetters}, id) => {
-            fetch(`${rootGetters.api}/projects/${id}`)
-            .then(res => res.json())
+            axios.get(`/projects/${id}`)
             .then(response => {
-                commit('setProject', response.data);
+                commit('setProject', response.data.data);
             })
         },
         updateProject: ({dispatch, commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/projects/${payload.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
+            axios.put(`/projects/${payload.id}`, payload)
             .then(response => {
-                dispatch('syncMessage',response.message, {root:true});
-            })
-            .catch(err => {
-                dispatch('syncMessage', "Surgió un error al actualizar el proyecto", {root:true});
+                dispatch('syncMessage',response.data.message, {root:true});
             })
         },
         addUser: ({dispatch, commit, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/projects/adduser/${payload.project_id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_id: payload.id })
-            })
-            .then(res => res.json())
+            axios.post(`/projects/adduser/${payload.project_id}`, { user_id: payload.id })
             .then(response => {
-                if (response.success){
+                if (response.data.success){
                     commit('setANewUser', response.data);
                 }
                 dispatch('syncMessage', response.message, {root: true})
             })
-            .catch(err => {
-                console.log(err)
-            })
         },
         removeUser: ({commit, dispatch, rootGetters}, payload) => {
-            fetch(`${rootGetters.api}/projects/removeuser/${payload.project_id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_id: payload.id })
-            })
-            .then(res => res.json())
+            axios.post(`${rootGetters.api}/projects/removeuser/${payload.project_id}`, { user_id: payload.id })
             .then(response => {
-                if (response.success){
+                if (response.data.success){
                     commit('removeUser', payload);
                 }
-                dispatch('syncMessage', response.message, {root: true})
-            })
-            .catch(err => {
-                console.log(err)
+                dispatch('syncMessage', response.data.message, {root: true})
             })
         },
         changePermissions: ({dispatch, commit, rootGetters}, payload) => {
@@ -164,31 +110,21 @@ export default {
                     can_add_hours: payload.is_viatic ? payload.can_add_hours : !payload.can_add_hours
                 }
             }
-            fetch(`${rootGetters.api}/projects/${payload.project_id}/permissions`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            axios.put(`${rootGetters.api}/projects/${payload.project_id}/permissions`, 
+                {
                     permission: payload.permission,
                     user_id: payload.id,
                     is_viatic: payload.is_viatic
-                })
-                
-            })
-            .then(res => res.json())
+                }
+            )
             .then(response => {
-                if(response.success){
+                if(response.data.success){
                     commit('modifyUserInProject', user_modified)
                 }
                 else {
                     commit('modifyUserInProject', restore_user)
                 }
-                dispatch('syncMessage', response.message, {root:true})
-            })
-            .catch(err => {
-                commit('modifyUserInProject', restore_user)
-                dispatch('syncMessage', "Ha surgido un error al actualizar los permisos", {root:true})
+                dispatch('syncMessage', response.data.message, {root:true})
             })
         }
     },

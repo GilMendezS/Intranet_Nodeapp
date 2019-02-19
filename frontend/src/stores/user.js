@@ -1,3 +1,4 @@
+import axios from 'axios';
 export default {
     namespaced: true,
     state: {
@@ -10,10 +11,9 @@ export default {
     },
     actions : {
         loadUsers: ({commit, rootGetters}) => {
-            fetch(`${rootGetters.api}/users`)
-            .then(res => res.json())
+            axios.get(`/users`)
             .then(response => {
-                commit('setUsers', response.data)
+                commit('setUsers', response.data.data)
             })
         }
     },
