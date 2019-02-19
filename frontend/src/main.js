@@ -24,22 +24,21 @@ axios.interceptors.request.use(config => {
     config.headers.Authorization = token;
     return config;
   }
-  else {
-    router.push('/');
-    return false;
-  }
+  
   return config;
 }, error => Promise.reject(error))
 
-axios.interceptors.response.use( response => response, error => {
+axios.interceptors.response.use( response => {
+  return response
+}, error => {
+  
   if (error.response.status === 401){
     router.push('/');
   }
   else if(error.response.status === 500){
-    this.$toasted.error('Something went wrong. Please try again.')
+    Vue.toasted.error('Something went wrong. Please try again.')
   }
   return Promise.reject(error);
-
 })
 
 new Vue({

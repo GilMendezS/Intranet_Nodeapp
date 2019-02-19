@@ -1,12 +1,12 @@
 const Area  = require('../models/models').Area;
 exports.getAreas = async(req, res, next) => {
-    try {
+    try {a
         areas = await Area.findAll({include: {all:true}})
         return res.status(200).json({
             data: areas
         })
     } catch (error) {
-        res.status(200).json({
+        res.status(500).json({
             message:'Error fetching the areas',
             error
         })
