@@ -33,6 +33,7 @@ axios.interceptors.response.use( response => {
 }, error => {
   
   if (error.response.status === 401){
+    Vue.toasted.info('Your sesion has expired, login again :)')
     router.push('/');
   }
   else if(error.response.status === 500){

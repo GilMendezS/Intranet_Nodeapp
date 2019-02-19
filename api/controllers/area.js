@@ -1,6 +1,6 @@
 const Area  = require('../models/models').Area;
 exports.getAreas = async(req, res, next) => {
-    try {a
+    try {
         areas = await Area.findAll({include: {all:true}})
         return res.status(200).json({
             data: areas
