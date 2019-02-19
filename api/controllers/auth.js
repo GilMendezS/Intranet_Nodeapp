@@ -24,7 +24,7 @@ exports.postLogin = async (req, res ,next) => {
                     lastname: user.lastname,
                     employee_number: user.employee_number,
                     email: user.email,
-                    createdAt: user.createdAt
+                    created_At: user.created_at
                 }
             })
         }

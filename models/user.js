@@ -17,13 +17,17 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.checkPassword = function(candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
   }
-  User.prototype.getToken = function(){
+  User.prototype.getToken = async function(){
     return jwt.sign({
       id: this.id,
       name: this.name,
       email: this.email,
       lastname: this.lastname,
-      employee_number: this.employee_number
+      employee_number: this.employee_number,
+      area_id: this.area_id,
+      department_id: this.department_id,
+      position_id: this.position_id,
+      roles: await this.getRoles()
     },process.env.JWT_SECRET)
   }
   User.beforeCreate((user, options) => {

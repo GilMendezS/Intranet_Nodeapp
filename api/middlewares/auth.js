@@ -6,7 +6,6 @@ module.exports =  async (req, res, next) => {
         try {
             const user = await jwt.verify(token, process.env.JWT_SECRET)
             req.user = await User.findByPk(user.id, {include:{all:true}});
-            
             next();
         } catch (error) {
             return res.status(401).json({
