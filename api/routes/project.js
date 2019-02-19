@@ -2,29 +2,29 @@ const router = require('express').Router();
 const Authenticated = require('../middlewares/auth');
 const ProjectController = require('../controllers/project');
 
-router.post('/', ProjectController.addProject);
+router.post('/', [Authenticated],ProjectController.addProject);
 
-router.get('/types', ProjectController.getTypes);
+router.get('/types', [Authenticated], ProjectController.getTypes);
 
-router.get('/:id(\\d+)/', ProjectController.getProject);
+router.get('/:id(\\d+)/', [Authenticated], ProjectController.getProject);
 
 router.get('/byuser',[Authenticated], ProjectController.getProjectByUser);
 
-router.put('/:id(\\d+)/', ProjectController.updateProject);
+router.put('/:id(\\d+)/', [Authenticated], ProjectController.updateProject);
 
-router.post('/adduser/:id(\\d+)/', ProjectController.addUserToProject);
+router.post('/adduser/:id(\\d+)/', [Authenticated], ProjectController.addUserToProject);
 
-router.get('/sales/datatable', ProjectController.getActiveSales);
+router.get('/sales/datatable', [Authenticated], ProjectController.getActiveSales);
 
-router.put('/:id(\\d+)//permissions', ProjectController.modifyPermissions);
+router.put('/:id(\\d+)//permissions', [Authenticated], ProjectController.modifyPermissions);
 
-router.post('/removeuser/:id(\\d+)/', ProjectController.removeUserFromProject);
+router.post('/removeuser/:id(\\d+)/', [Authenticated], ProjectController.removeUserFromProject);
 
-router.get('/actives/datatable', ProjectController.getActiveProjects);
+router.get('/actives/datatable', [Authenticated], ProjectController.getActiveProjects);
 
-router.get('/budgets/datatable', ProjectController.getActiveBudgets);
+router.get('/budgets/datatable', [Authenticated], ProjectController.getActiveBudgets);
 
-router.get('/finished/datatable', ProjectController.getFinishedProjects);
+router.get('/finished/datatable', [Authenticated], ProjectController.getFinishedProjects);
 
 
 module.exports = router;
