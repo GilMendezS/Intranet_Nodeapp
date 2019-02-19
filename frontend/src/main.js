@@ -37,7 +37,13 @@ axios.interceptors.response.use( response => {
     router.push('/');
   }
   else if(error.response.status === 500){
-    Vue.toasted.error('Something went wrong. Please try again.')
+    if(error.response.data.message){
+      Vue.toasted.error(error.response.data.message)
+    }
+    else {
+      Vue.toasted.error('Something went wrong. Please try again.')
+    }
+    
   }
   return Promise.reject(error);
 })

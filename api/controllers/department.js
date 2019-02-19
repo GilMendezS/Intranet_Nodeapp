@@ -16,8 +16,8 @@ exports.addDepartment = async (req, res, next) => {
     try {
         const newDepartment = await Department.create({
             title: req.body.title,
-            user_id: req.body.UserId,
-            area_id: req.body.AreaId
+            user_id: req.body.user_id,
+            area_id: req.body.area_id
         })
         return res.status(200).json({
             message: 'Department created',
@@ -70,7 +70,7 @@ exports.removeDepartment = async (req, res, next) => {
             success: true
         })
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             message: 'Error removing the department',
             success: false
         })
