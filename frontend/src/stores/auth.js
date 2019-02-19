@@ -1,5 +1,6 @@
 import axios from 'axios';
 import router from '../router';
+import jwt_decode from 'jwt-decode';
 export default {
     namespaced: true,
     state: {
@@ -59,5 +60,13 @@ export default {
         isAuthenticated: state => {
             return state.token && state.user;
         },
+        getRolesCurrentUser: state => {
+            let roles = [];
+            try {
+                return jwt_decode(state.token).roles;    
+            } catch (error) {
+                return roles;
+            }
+        }
     }
 }
