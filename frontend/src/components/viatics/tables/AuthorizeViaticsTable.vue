@@ -8,13 +8,14 @@
         <template slot="items" slot-scope="props">
             <td>{{ props.item.id }}</td>
             <td>{{ props.item.project }}</td>
-            <td>{{ props.item.origin }}</td>
-            <td>{{ props.item.destiny }}</td>
+            <td :class="props.item.tdclass" class="white--text">{{ props.item.status }}</td>
+            <td>{{ props.item.money_requested }}</td>
+            <td>{{ props.item.money_deposited }}</td>
+            <td>{{ props.item.money_checked }}</td>
+            <td>{{ props.item.user }}</td>
             <td>{{ props.item.departure }}</td>
             <td>{{ props.item.arrive }}</td>
-            <td>{{ props.item.money_requested }}</td>
-            <td>{{ props.item.authorizator }}</td>
-            <td :class="props.item.tdclass" class="white--text">{{ props.item.status }}</td>
+            <td>{{ props.item.created_at }}</td>
             <td class="justify-center layout px-0">
             <v-icon
                 small
@@ -36,17 +37,15 @@
             <v-btn color="primary" @click="initialize">Reload</v-btn>
         </template>
         </v-data-table>
+        {{viatics}}
     </div>
 </template>
 <script>
-import mixins from  '../../../mixins/mixins.js';
+import mixins  from '../../../mixins/mixins.js';
 import moment from 'moment';
 import { mapGetters } from  'vuex';
 export default {
     mixins:[mixins],
-    mounted(){
-        
-    },
     data: () => ({
         headers: [
         {
@@ -62,16 +61,34 @@ export default {
           value: 'project'
         },
         {
-          text: 'Origen',
+          text: 'Estatus',
           align: 'left',
           sortable: true,
-          value: 'origin'
+          value: 'status'
         },
         {
-          text: 'Destino',
+          text: 'Solicitado',
           align: 'left',
           sortable: true,
-          value: 'destiny'
+          value: 'money_requested'
+        },
+        {
+          text: 'Depositado',
+          align: 'left',
+          sortable: true,
+          value: 'money_deposited'
+        },
+        {
+          text: 'Comprobado',
+          align: 'left',
+          sortable: true,
+          value: 'money_checked'
+        },
+        {
+          text: 'Solicitante',
+          align: 'left',
+          sortable: true,
+          value: 'user'
         },
         {
           text: 'Salida',
@@ -86,38 +103,27 @@ export default {
           value: 'arrive'
         },
         {
-          text: 'Solicitado',
+          text: 'Creado',
           align: 'left',
           sortable: true,
-          value: 'money_requested'
-        },
-        {
-          text: 'Autoriza',
-          align: 'left',
-          sortable: true,
-          value: 'auth_user_id'
-        },
-        {
-          text: 'Estatus',
-          align: 'left',
-          sortable: true,
-          value: 'status_id'
+          value: 'created_at'
         },
         { text: 'Actions', value: 'name', sortable: false }
       ],
     }),
     methods: {
         initialize(){
-            this.$store.dispatch('viatics/loadViaticsUser');
+            this.$store.dispatch('viatics/loadPendingViatics');
         },
+        
     },
     computed: {
         ...mapGetters({
-            'viaticsUser': 'viatics/getViaticsUser',
+            'viaticsToAuthorize': 'viatics/gePendingViatics',
         }),
         viatics(){
             const self = this;
-            return this.viaticsUser.map( v => ({
+            return this.viaticsToAuthorize.map( v => ({
                 id: v.id,
                 project: v.project.code,
                 origin: v.origin,
@@ -125,9 +131,12 @@ export default {
                 departure: moment(v.departure).format('YYYY-MM-DD'),
                 arrive: moment(v.arrive).format('YYYY-MM-DD'),
                 money_requested: parseFloat(v.money_requested).toFixed(2),
-                authorizator: v.auth_user_id ? v.authorizator.name : 'N/A',
-                tdclass: self.getTdColor(v.status.name),
+                money_checked: parseFloat(v.money_checked).toFixed(2),
+                money_deposited: parseFloat(v.money_deposited).toFixed(2),
+                user: v.user.name,
                 status: v.status.title,
+                tdclass: self.getTdColor(v.status.name),
+                created_at: moment(v.created_at).format('YYYY-MM-DD')
             }) );
         }
     }

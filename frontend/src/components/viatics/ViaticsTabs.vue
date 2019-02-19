@@ -30,7 +30,7 @@
             <v-tab-item v-if="showAuthorizateTab">
                 <v-card flat>
                 <v-card-text>
-                    Autorizar
+                    <v-viatics-authorize></v-viatics-authorize>
                 </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -74,12 +74,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import ViaticsUserTable from './tables/ViaticsUserTable.vue';
+import AuthorizeViaticsTable from './tables/AuthorizeViaticsTable.vue';
 export default {
     components: {
-        'v-viatics-user': ViaticsUserTable
+        'v-viatics-user': ViaticsUserTable,
+        'v-viatics-authorize': AuthorizeViaticsTable
     },
     mounted(){
         this.$store.dispatch('viatics/loadViaticsUser');
+        this.$store.dispatch('viatics/loadPendingViatics');
     },
     data: () => {
         return {
