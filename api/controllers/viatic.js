@@ -96,6 +96,26 @@ exports.getViaticsByUser = async (req, res, next) => {
     }
     
 }
+exports.getViaticsToAuthorize = async (req, res, next) => {
+    try {
+        const viatics = await Viatic.findAll({
+            where: {
+                auth_user_id: req.user.id
+            },
+            include: [{ all:true }]
+        });
+        return res.status(200).json({
+            data: viatics,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error fetching the viatics to authorize.',
+            success: false,
+            error
+        });
+    }
+}
 exports.getViatic = async (req, res, next) => {
     try {
         const viaticId = req.params.id;
