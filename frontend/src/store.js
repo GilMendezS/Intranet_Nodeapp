@@ -7,6 +7,7 @@ import departments from './stores/department';
 import positions from './stores/position';
 import projects from './stores/project';
 import hours from './stores/hours';
+import viatics from './stores/viatic';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     departments,
     positions,
     projects,
-    hours
+    hours,
+    viatics
   },
   state: {
     api: 'http://localhost:8081/api/v1',
