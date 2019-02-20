@@ -17,6 +17,9 @@ export default {
         },
         setViaticsInProcess: (state, payload) => {
             state.viaticsInProcess = payload;
+        },
+        addViaticCurrentUser: (state, payload) => {
+            state.viaticsUser = [payload, ...state.viaticsUser]
         }
 
     },
@@ -39,6 +42,13 @@ export default {
                 commit('setViaticsInProcess', response.data.data);
             })
         },
+        addViatic: ({dispatch, commit}, payload) => {
+            axios.post(`/viatics`, payload)
+            .then(response => {
+                commit('addViaticCurrentUser', response.data.data)
+                dispatch('syncMessage', response.data.message, {root: true})
+            })
+        }
 
     },
     getters: {

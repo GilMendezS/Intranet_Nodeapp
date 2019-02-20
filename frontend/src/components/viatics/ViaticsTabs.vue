@@ -51,7 +51,7 @@
             <v-tab-item v-if="showNewViaticTab">
                 <v-card flat>
                 <v-card-text>
-                    Nuevo
+                    <v-create-viatic></v-create-viatic>
                 </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -73,6 +73,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import CreateViatic from './CreateViatic.vue';
 import ViaticsUserTable from './tables/ViaticsUserTable.vue';
 import HistoryViaticsTable from './tables/HistoryViaticsTable.vue';
 import AuthorizeViaticsTable from './tables/AuthorizeViaticsTable.vue';
@@ -82,10 +83,11 @@ export default {
         'v-viatics-user': ViaticsUserTable,
         'v-viatics-authorize': AuthorizeViaticsTable,
         'v-viatics-in-process':InProcessViaticsTable,
-        'v-history-viatics': HistoryViaticsTable
+        'v-history-viatics': HistoryViaticsTable,
+        'v-create-viatic': CreateViatic
     },
     mounted(){
-        console.log(this.roles)
+        this.$store.dispatch('projects/loadProjectsUser');
     },
     data: () => ({
         
