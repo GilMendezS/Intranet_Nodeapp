@@ -37,7 +37,7 @@
             <v-tab-item v-if="showInProcessTab">
                 <v-card flat>
                 <v-card-text>
-                    En proceso
+                    <v-viatics-in-process></v-viatics-in-process>
                 </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -75,14 +75,14 @@
 import { mapGetters } from 'vuex';
 import ViaticsUserTable from './tables/ViaticsUserTable.vue';
 import AuthorizeViaticsTable from './tables/AuthorizeViaticsTable.vue';
+import InProcessViaticsTable from './tables/InProcessViaticsTable.vue';
 export default {
     components: {
         'v-viatics-user': ViaticsUserTable,
-        'v-viatics-authorize': AuthorizeViaticsTable
+        'v-viatics-authorize': AuthorizeViaticsTable,
+        'v-viatics-in-process':InProcessViaticsTable
     },
     mounted(){
-        this.$store.dispatch('viatics/loadViaticsUser');
-        this.$store.dispatch('viatics/loadPendingViatics');
     },
     data: () => {
         return {

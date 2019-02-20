@@ -37,7 +37,6 @@
             <v-btn color="primary" @click="initialize">Reload</v-btn>
         </template>
         </v-data-table>
-        {{viatics}}
     </div>
 </template>
 <script>
@@ -46,6 +45,9 @@ import moment from 'moment';
 import { mapGetters } from  'vuex';
 export default {
     mixins:[mixins],
+    mounted(){
+        this.$store.dispatch('viatics/loadPendingViatics');
+    },
     data: () => ({
         headers: [
         {

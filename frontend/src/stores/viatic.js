@@ -5,6 +5,7 @@ export default {
     state: {
         viaticsUser: [],
         pendingViatics: [],
+        viaticsInProcess: [],
         editingViatic: new Viatic(),
     },
     mutations: {
@@ -13,7 +14,11 @@ export default {
         },
         setPendingViatics: (state, payload) => {
             state.pendingViatics = payload;
+        },
+        setViaticsInProcess: (state, payload) => {
+            state.viaticsInProcess = payload;
         }
+
     },
     actions: {
         loadViaticsUser : ({commit}) => {
@@ -27,10 +32,18 @@ export default {
             .then(response => {
                 commit('setPendingViatics', response.data.data);
             })
-        }
+        },
+        loadViaticsInProcess: ({commit}) => {
+            axios.get(`/viatics/inprocess`)
+            .then(response => {
+                commit('setViaticsInProcess', response.data.data);
+            })
+        },
+
     },
     getters: {
         getViaticsUser: state => state.viaticsUser,
         gePendingViatics: state => state.pendingViatics,
+        getViaticsInProcess: state => state.viaticsInProcess,
     }
 }

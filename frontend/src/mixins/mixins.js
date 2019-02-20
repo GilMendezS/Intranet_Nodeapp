@@ -1,7 +1,6 @@
 export default {
     methods: {
         getTdColor(status) {
-            alert('223')
             let color = '';
             switch(status){
                 case 'created':
