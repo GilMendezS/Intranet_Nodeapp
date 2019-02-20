@@ -8,6 +8,7 @@
         >
             <v-list>
                 <v-list-tile
+                    v-if="canSeeProjectsModule"
                     router
                     to="/projects"
                 >
@@ -17,6 +18,7 @@
                     <v-list-tile-title>Proyectos</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
+                    v-if="canSeeViaticsModule"
                     router
                     to="/viatics"
                 >
@@ -26,6 +28,7 @@
                     <v-list-tile-title>Viáticos</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
+                    v-if="canSeeHoursModule"
                     router
                     to='/hours'
                 >
@@ -35,6 +38,7 @@
                     <v-list-tile-title>Horas</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
+                    v-if="canSeeCompanyModule"
                     router
                     to='/company'
                 >
@@ -42,6 +46,16 @@
                         <v-icon>domain</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-title>Empresa</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile
+                    v-if="canSeeUsersModule"
+                    router
+                    to='/users'
+                >
+                    <v-list-tile-action>
+                        <v-icon>group</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-title>Usuarios</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
                     @click="onLogout"
@@ -91,8 +105,30 @@ import { mapGetters } from 'vuex';
     },
     computed: {
         ...mapGetters({
-            'userIsAuthenticated': 'auth/isAuthenticated'
-        })
+            'roles': 'auth/getRolesCurrentUser',
+            'userIsAuthenticated': 'auth/isAuthenticated',
+            'rolesNames': 'auth/getRolesNamesCurrentUser'
+        }),
+        canSeeViaticsModule(){
+            return true;
+        },
+        canSeeProjectsModule(){
+            const roles_with_permissions = ['admin','supervisor','pm','super-pm'];
+            return this.rolesNames.some( r => roles_with_permissions.includes(r));
+        },
+        canSeeUsersModule(){
+            const roles_with_permissions = ['admin'];
+            return this.rolesNames.some( r => roles_with_permissions.includes(r));
+        },
+        canSeeCompanyModule(){
+            const roles_with_permissions = ['admin','supervisor'];
+            return this.rolesNames.some( r => roles_with_permissions.includes(r));
+        },
+        canSeeHoursModule(){
+            const roles_with_permissions = ['supervisor','pm','engineer','super-pm'];
+            return this.rolesNames.some( r => roles_with_permissions.includes(r));
+        }
+        
     },
   }
 </script>

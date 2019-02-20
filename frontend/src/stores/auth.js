@@ -61,9 +61,15 @@ export default {
             return state.token && state.user;
         },
         getRolesCurrentUser: state => {
-            let roles = [];
             try {
                 return jwt_decode(state.token).roles;    
+            } catch (error) {
+                return [];
+            }
+        },
+        getRolesNamesCurrentUser: state => {
+            try {
+                return jwt_decode(state.token).roles.map(r => r.name);    
             } catch (error) {
                 return [];
             }
