@@ -44,7 +44,7 @@
             <v-tab-item v-if="showHistoryTab">
                 <v-card flat>
                 <v-card-text>
-                    Historial
+                    <v-history-viatics></v-history-viatics>
                 </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -74,21 +74,22 @@
 <script>
 import { mapGetters } from 'vuex';
 import ViaticsUserTable from './tables/ViaticsUserTable.vue';
+import HistoryViaticsTable from './tables/HistoryViaticsTable.vue';
 import AuthorizeViaticsTable from './tables/AuthorizeViaticsTable.vue';
 import InProcessViaticsTable from './tables/InProcessViaticsTable.vue';
 export default {
     components: {
         'v-viatics-user': ViaticsUserTable,
         'v-viatics-authorize': AuthorizeViaticsTable,
-        'v-viatics-in-process':InProcessViaticsTable
+        'v-viatics-in-process':InProcessViaticsTable,
+        'v-history-viatics': HistoryViaticsTable
     },
     mounted(){
+        console.log(this.roles)
     },
-    data: () => {
-        return {
-            
-        }
-    },
+    data: () => ({
+        
+    }),
     computed: {
         ...mapGetters({
             'roles': 'auth/getRolesCurrentUser'

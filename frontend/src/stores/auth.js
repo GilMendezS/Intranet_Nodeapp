@@ -65,7 +65,7 @@ export default {
             try {
                 return jwt_decode(state.token).roles;    
             } catch (error) {
-                return roles;
+                return [];
             }
         }
     }

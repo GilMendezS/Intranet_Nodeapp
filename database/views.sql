@@ -13,8 +13,8 @@ create or replace view viatics_details as
 select v.*, 
 s.name as status_name, s.title as status_title, 
 p.code, 
-u.name as user_name, u.lastname as user_lastname, 
-ua.name as authorizator_name, ua.lastname as authorizator_lastname ,
+concat(u.name, ' ', u.lastname) as requester_name, 
+concat(ua.name,'',ua.lastname) authorizator,
 p.user_id as responsable_id
 from viatics as v
 inner join statuses as s on s.id = v.status_id
