@@ -1,7 +1,10 @@
+const DataTable = require('../helpers/SSP');
 const User = require('../models/models').User;
 const Role = require('../models/models').Role;
 const Viatic = require('../models/models').Viatic;
 const Project = require('../models/models').Project;
+const VIATICS_COLUMNS = require('../dt_definitions/viatics');
+
 const ViaticComment = require('../models/models').ViaticComment;
 
 exports.addViatic = async (req, res, next) => {
@@ -138,6 +141,24 @@ exports.getViaticsInProcess = async(req, res, next) => {
             error
         });
     }
+}
+exports.getHistoryViatics = async(req, res, next) => {
+    const roles_can_see_all = ['admin','revisor','supervisor','super-pm']
+    const roles_current_user = req.user.roles.map(r => r.name);
+    let wheres = [];
+    if(roles_current_user.includes('pm')){
+        wheres = [`viatics_details.responsable_id = ${req.user.id} OR viatics_details.user_id = ${req.user.id}`]
+    }
+    else if (roles_current_user.some(r => roles_can_see_all.includes(r))){
+        wheres = [];
+    }
+    else {
+        wheres = [`viatics_details.user_id = ${req.user.id}`];
+    }
+    const datatable = new DataTable();
+
+    const data = await datatable.simple(req, null, 'viatics_details', 'viatics_details.id', VIATICS_COLUMNS, wheres);
+    return res.status(200).json(data);
 }
 exports.getViatic = async (req, res, next) => {
     try {
