@@ -12,9 +12,11 @@ on u.id = p.user_id;
 create or replace view viatics_details as 
 select v.*, 
 s.name as status_name, s.title as status_title, 
-p.code ,
+p.code, 
 u.name as user_name, u.lastname as user_lastname, 
-ua.name as authorizator_name, ua.lastname as authorizator_lastname from viatics as v
+ua.name as authorizator_name, ua.lastname as authorizator_lastname ,
+p.user_id as responsable_id
+from viatics as v
 inner join statuses as s on s.id = v.status_id
 inner join projects as p on p.id = v.project_id
 inner join users as u on u.id = v.user_id
