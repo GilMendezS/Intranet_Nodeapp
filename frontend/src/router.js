@@ -6,6 +6,7 @@ import ProjectsRoutes from './routes/project';
 import CompanyRoutes from './routes/company';
 import HoursRoutes from './routes/hour';
 import ViaticsRoutes from './routes/viatic';
+import UsersRoutes from './routes/users';
 
 Vue.use(Router)
 
@@ -21,6 +22,7 @@ export default new Router({
     ...ProjectsRoutes,
     ...CompanyRoutes,
     ...HoursRoutes,
-    ...ViaticsRoutes
+    ...ViaticsRoutes,
+    ...UsersRoutes
   ]
 })

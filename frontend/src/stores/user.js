@@ -18,8 +18,8 @@ export default {
         }
     },
     getters: {
-        getUsers: (state) => {
-            return state.users;
-        }
+        getUsers: state => state.users,
+        getActiveUsers: state => state.users.filter( u => u.active),
+        getInativeUsers: state => state.users.filter( u => !u.active )
     }
 }

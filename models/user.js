@@ -7,7 +7,11 @@ module.exports = (sequelize, DataTypes) => {
     lastname: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    employee_number: DataTypes.STRING
+    employee_number: DataTypes.STRING,
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    }
   }, {
     timestamps: false,
     updatedAt: 'updated_at',

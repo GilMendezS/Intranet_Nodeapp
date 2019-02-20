@@ -28,7 +28,7 @@ module.exports = {
       )
     })
     .then(() => {
-      queryInterface.addColumn(
+      return queryInterface.addColumn(
         'users',
         'position_id',
         {
@@ -38,6 +38,16 @@ module.exports = {
             model: 'positions',
             key: 'id'
           }
+        }
+      )
+    })
+    .then(() => {
+      return queryInterface.addColumn(
+        'users',
+        'active',
+        {
+          type: Sequelize.BOOLEAN,
+          defaultValue: true,
         }
       )
     })
