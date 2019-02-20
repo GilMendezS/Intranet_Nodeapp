@@ -51,7 +51,7 @@ exports.addViatic = async (req, res, next) => {
             money_checked: 0.0,
             money_refunded: 0.0
         });
-        //await project.reduceBudget(parseFloat(money));
+        
         if(req.body.comments != ''){
             await ViaticComment.create({
                 user_id: req.user.id,
@@ -60,10 +60,11 @@ exports.addViatic = async (req, res, next) => {
                 
             });
         }
+        const viaticWithRelations = await Viatic.findByPk(newViatic.id, {include:{all:true}});
         return res.status(200).json({
             message: 'Viatic created successfully',
             success: true,
-            data: newViatic
+            data: viaticWithRelations
         });
 
     } catch (error) {
