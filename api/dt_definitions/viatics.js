@@ -68,6 +68,13 @@ const columns = [
             dt: 9,
             db_type: 'int'
         }
+    ],
+    [
+        {
+            db: 'viatics_details.status_name',
+            dt: 10,
+            db_type: 'int'
+        }
     ]
 ]
 

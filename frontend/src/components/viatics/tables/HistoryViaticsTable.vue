@@ -23,9 +23,11 @@
 </template>
 <script>
 import moment from 'moment';
+import mixins  from '../../../mixins/mixins.js';
 window.$ = window.jQuery = require('jquery');
 const dt = require('datatables.net');
 export default {
+    mixins: [mixins],
     mounted(){
         const self = this;
         $(function(){
@@ -56,7 +58,18 @@ export default {
                         buttons[i].classList += ' v-btn theme--light blue text--white';
                     }
                 },
+                'rowCallback': function(row, data, index){
+                    try {
+                        const color = self.getTdColor(data[10])
+                        $(row).find('td:eq(2)').addClass(color);
+                        $(row).find('td:eq(2)').addClass('white--text ');
+                    } catch (error) {
+                        return data[2]
+                    }
+                    
+                },
                 columnDefs: [
+                    
                     {
                         targets: 9,
                         render: (value, type, row) => {
