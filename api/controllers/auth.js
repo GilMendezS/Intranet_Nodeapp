@@ -12,6 +12,12 @@ exports.postLogin = async (req, res ,next) => {
                 success: false
             })
         }
+        if(!user.active){
+            return res.status(401).json({
+                message :'Your account is inactive',
+                succes: false
+            })
+        }
         const result = await user.checkPassword(req.body.password);
         if(result){
             const token = await user.getToken();
