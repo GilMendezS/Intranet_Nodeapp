@@ -19,8 +19,6 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-         
-        </v-card-actions>
          <v-btn
             color="red"
             flat

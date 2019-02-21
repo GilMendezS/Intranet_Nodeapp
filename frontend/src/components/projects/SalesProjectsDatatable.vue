@@ -41,12 +41,16 @@ export default {
                     url: 'http://localhost:8081/api/v1/projects/sales/datatable',
                     beforeSend: function (request) {
                         request.setRequestHeader("Authorization", localStorage.getItem('token'));
+                        self.$store.dispatch('updateStateLoadingResource',true)
                     },
                     error: function (xhr, error, thrown) {
                         if(xhr.status === 401){
                             self.logoutUser(true);
                         }
                     }
+                },
+                initComplete: function(settings, json){
+                    self.$store.dispatch('updateStateLoadingResource',false)
                 },
                 "drawCallback": function () {
                     const buttons = document.querySelectorAll('.paginate_button');
