@@ -1,4 +1,5 @@
 import axios from 'axios';
+import vue from 'vue';
 export default {
     namespaced: true,
     state: {
@@ -7,6 +8,9 @@ export default {
     mutations : {
         setUsers: (state, payload) => {
             state.users = payload;
+        },
+        setNewUser: (state, payload) => {
+            state.users = [payload, ...state.users];
         }
     },
     actions : {
@@ -14,6 +18,19 @@ export default {
             axios.get(`/users`)
             .then(response => {
                 commit('setUsers', response.data.data)
+            })
+        },
+        addUser: ({commit}, payload) => {
+            
+            axios.post(`/users`, payload)
+            .then(response => {
+                if(response.data.success){
+                    commit('setNewUser', response.data.data);
+                }
+                vue.toasted.info(response.data.message)
+            })
+            .finally(() => {
+
             })
         }
     },

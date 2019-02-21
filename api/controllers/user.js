@@ -30,15 +30,19 @@ exports.getUser = async (req, res, next) => {
 }
 exports.addUser = async (req, res ,next) => {
     try {
-        const newUser = await User.create(req.body)
+        const newUser = await User.create({
+            ...req.body,
+            active : true
+        })
+        const userWithRelationships = await User.findByPk(newUser.id, {include:{all:true}})
         return res.status(200).json({
             message: 'User created',
-            data: newUser
+            data: userWithRelationships
         })
     } catch (error) {
         return res.status(500).json({
             message: 'Something was wrong',
-            error: err
+            error: error
         })
     }
     

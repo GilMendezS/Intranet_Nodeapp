@@ -19,6 +19,7 @@ Vue.use(VModal, { dialog: true })
 Vue.config.productionTip = false
 
 axios.interceptors.request.use(config => {
+  store.dispatch('updateStateLoadingResource',true, {root:true})
   const token = localStorage.getItem('token');
   if(token){
     config.headers.Authorization = token;
@@ -29,11 +30,19 @@ axios.interceptors.request.use(config => {
 }, error => Promise.reject(error))
 
 axios.interceptors.response.use( response => {
+  store.dispatch('updateStateLoadingResource',false, {root:true})
   return response
 }, error => {
-  
+  store.dispatch('updateStateLoadingResource',false, {root:true})
   if (error.response.status === 401){
-    Vue.toasted.info('Your sesion has expired, login again :)')
+    store.dispatch('auth/logoutUser',null,{root:true})
+    if(error.response.data.message){
+      Vue.toasted.error(error.response.data.message)
+    }
+    else {
+      Vue.toasted.info('Your sesion has expired, login again :)')
+    }
+    
     router.push('/');
   }
   else if(error.response.status == 403){

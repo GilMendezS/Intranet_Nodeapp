@@ -11,9 +11,17 @@ module.exports = (sequelize, DataTypes) => {
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+    },
+    area_id: {
+      type: DataTypes.INTEGER
+    },
+    department_id: {
+      type: DataTypes.INTEGER
+    },
+    position_id: {
+      type: DataTypes.INTEGER
     }
   }, {
-    timestamps: false,
     updatedAt: 'updated_at',
     createdAt: 'created_at',
     
@@ -28,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       email: this.email,
       lastname: this.lastname,
       employee_number: this.employee_number,
+      active: this.active,
       area_id: this.area_id,
       department_id: this.department_id,
       position_id: this.position_id,

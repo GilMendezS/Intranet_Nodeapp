@@ -26,6 +26,18 @@
                     </v-tab-item>
                     
                 </v-tabs>
+                <v-btn
+                    absolute
+                    dark
+                    fab
+                    top
+                    router
+                    to='/users/add'
+                    right
+                    color="cyan"
+                >
+                    <v-icon>add</v-icon>
+                </v-btn>
             </v-flex>
         </v-layout>
     </v-container>
