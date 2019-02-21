@@ -108,6 +108,9 @@ export default {
         onContinue(){
           this.userToDelete.active = false;
           this.$store.dispatch('users/changeStatusUser', this.userToDelete)
+        },
+        editItem(user){
+          this.$router.push({name: 'edit-user', params: {id: user.id}});
         }
     },
     computed: {

@@ -106,6 +106,9 @@ export default {
         onContinue(){
           this.userToActivate.active = true;
           this.$store.dispatch('users/changeStatusUser', this.userToActivate)
+        },
+        editItem(user){
+          this.$router.push({name: 'edit-user', params: {id: user.id}});
         }
     },
     computed: {

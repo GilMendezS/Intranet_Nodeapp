@@ -28,6 +28,21 @@ exports.getUser = async (req, res, next) => {
         })
     }
 }
+exports.getUserById = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.id, {include: {all:true}});
+        return res.status(200).json({
+            data: user,
+            success:true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error fetching the user',
+            success: false,
+            error
+        })
+    }
+}
 exports.addUser = async (req, res ,next) => {
     try {
         const newUser = await User.create({
@@ -46,6 +61,23 @@ exports.addUser = async (req, res ,next) => {
         })
     }
     
+}
+exports.updateUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id, {include: {all:true}});
+        const updatedUser = await user.update(req.body)
+        return res.status(200).json({
+            message: 'User updated',
+            success: true,
+            data: updatedUser
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error updating the user',
+            success: false,
+            error
+        })
+    }
 }
 exports.changeStatusUser = async(req, res, next) => {
     try {

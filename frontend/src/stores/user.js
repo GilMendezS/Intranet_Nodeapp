@@ -1,8 +1,10 @@
 import axios from 'axios';
+import User from '@/models/user.js';
 export default {
     namespaced: true,
     state: {
-        users: []
+        users: [],
+        editingUser: new User()
     },
     mutations : {
         setUsers: (state, payload) => {
@@ -14,6 +16,15 @@ export default {
         setNewStatusUser: (state, payload) => {
             const userIdx = state.users.findIndex( u => u.id == payload.id);
             if(userIdx){
+                state.users[userIdx] = payload;
+            }
+        },
+        setEditingUser: (state, payload) => {
+            state.editingUser = payload;
+        },
+        setUpdatedUser: (state, payload) => {
+            const userIdx = state.users.findIndex( u => u.id == payload.id);
+            if(userIdx) {
                 state.users[userIdx] = payload;
             }
         }
@@ -33,8 +44,14 @@ export default {
                     
                 }
             })
-            .finally(() => {
-
+           
+        },
+        loadUser : ({commit}, payload) => {
+            axios.get(`/users/${payload}`)
+            .then(response => {
+                if(response.data.success){
+                    commit('setEditingUser', response.data.data);
+                }
             })
         },
         changeStatusUser: ({dispatch}, payload) => {
@@ -44,6 +61,25 @@ export default {
                     dispatch('users/loadUsers', null, {root: true})
                 }
                 
+            })
+        },
+        updateUserInfo: ({comit, getters}, modifiedPassword) => {
+            const dataToSend = {
+                name: getters.getEditingUser.name,
+                lastname: getters.getEditingUser.lastname,
+                area_id: getters.getEditingUser.area_id,
+                department_id :getters.getEditingUser.department_id,
+                position_id: getters.getEditingUser.position_id
+            }
+            if(modifiedPassword){
+                dataToSend.password  = modifiedPassword;
+            }
+            axios.put(`/users/${getters.getEditingUser.id}`, dataToSend)
+            .then(response => {
+                console.log(response.data.data);
+                if(response.data.success){
+                    commit('setUpdatedUser', response.data.data);
+                }
             })
         }
     },
@@ -69,6 +105,8 @@ export default {
             department: u.department ? u.department.title : 'N/A',
             position: u.position ? u.position.title :'N/A'
         })),
-        
+        getEditingUser: state => {
+            return state.editingUser;
+        }
     }
 }
