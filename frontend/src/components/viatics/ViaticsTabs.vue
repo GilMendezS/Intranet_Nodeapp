@@ -58,7 +58,7 @@
             <v-tab-item v-if="showEditViaticTab">
                 <v-card flat>
                 <v-card-text>
-                    Editar solicitud
+                    <v-edit-viatic></v-edit-viatic>
                 </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -78,13 +78,15 @@ import ViaticsUserTable from './tables/ViaticsUserTable.vue';
 import HistoryViaticsTable from './tables/HistoryViaticsTable.vue';
 import AuthorizeViaticsTable from './tables/AuthorizeViaticsTable.vue';
 import InProcessViaticsTable from './tables/InProcessViaticsTable.vue';
+import EditViatic from './edit/EditViatic.vue'
 export default {
     components: {
         'v-viatics-user': ViaticsUserTable,
         'v-viatics-authorize': AuthorizeViaticsTable,
         'v-viatics-in-process':InProcessViaticsTable,
         'v-history-viatics': HistoryViaticsTable,
-        'v-create-viatic': CreateViatic
+        'v-create-viatic': CreateViatic,
+        'v-edit-viatic': EditViatic
     },
     mounted(){
         this.$store.dispatch('projects/loadProjectsUser');

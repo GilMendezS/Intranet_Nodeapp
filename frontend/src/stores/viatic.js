@@ -7,6 +7,7 @@ export default {
         pendingViatics: [],
         viaticsInProcess: [],
         editingViatic: new Viatic(),
+        viaticFoundIt : new Viatic()
     },
     mutations: {
         setViaticsUser: (state, payload) => {
@@ -20,8 +21,13 @@ export default {
         },
         addViaticCurrentUser: (state, payload) => {
             state.viaticsUser = [payload, ...state.viaticsUser]
+        },
+        setViaticFoundIt: (state, payload) => {
+            state.viaticFoundIt = payload;
+        },
+        setEditingViatic: (state, payload) => {
+            state.editingViatic = payload;
         }
-
     },
     actions: {
         loadViaticsUser : ({commit}) => {
@@ -48,6 +54,23 @@ export default {
                 commit('addViaticCurrentUser', response.data.data)
                 dispatch('syncMessage', response.data.message, {root: true})
             })
+        },
+        loadViatic: ({dispatch, commit}, payload) => {
+            dispatch('updateStateLoadingResource', true, {root:true})
+            axios.get(`/viatics/${payload.id}`)
+            .then(response => {
+                if(response.data.success){
+                    if(payload.toEdit){
+                        commit('setEditingViatic', response.data.data)
+                    }
+                    else {
+                        commit('setViaticFoundIt', response.data.data)
+                    }
+                }
+            })
+            .finally(() => {
+                dispatch('updateStateLoadingResource', false, {root:true})
+            })
         }
 
     },
@@ -55,5 +78,7 @@ export default {
         getViaticsUser: state => state.viaticsUser,
         gePendingViatics: state => state.pendingViatics,
         getViaticsInProcess: state => state.viaticsInProcess,
+        getEditingViatic: state => state.editingViatic,
+        getViaticFoundIt: state => state.viaticFoundIt,
     }
 }

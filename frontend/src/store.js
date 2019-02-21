@@ -23,24 +23,28 @@ export default new Vuex.Store({
   },
   state: {
     api: 'http://localhost:8081/api/v1',
-    message: ''
+    message: '',
+    loadingResource: false
   },
   mutations: {
     setMessage: (state, payload) => {
       state.message = payload;
+    },
+    setStateLoadingResource: (state, payload) => {
+      state.loadingResource = payload;
     }
   },
   actions: {
     syncMessage: ({commit}, payload) => {
       commit('setMessage', payload)
+    },
+    updateStateLoadingResource: ({commit}, payload) => {
+      commit('setStateLoadingResource', payload);
     }
   },
   getters: {
-    api: state => {
-      return state.api;
-    },
-    message: state => {
-      return state.message;
-    }
+    api: state => state.api,
+    message: state => state.message,
+    loadingResource: state => state.loadingResource
   }
 })

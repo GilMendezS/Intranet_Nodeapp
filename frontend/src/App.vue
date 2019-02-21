@@ -6,6 +6,17 @@
         <v-container fluid>
           <v-layout row wrap >
             <v-dialog/>
+            <v-flex xs12>
+              <div class="text-xs-center">
+                <v-progress-circular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="loadingResource"
+                ></v-progress-circular>
+              </div>
+            </v-flex>
+            
             <router-view></router-view>
           </v-layout>
         </v-container>
@@ -36,6 +47,9 @@ export default {
   computed: {
     message() {
       return this.$store.getters['message'];
+    },
+    loadingResource(){
+      return this.$store.getters['loadingResource']
     }
   },
   watch: {
