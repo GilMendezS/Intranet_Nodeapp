@@ -46,8 +46,7 @@ export default {
             if(autoLogout){
                 dispatch('syncMessage', 'Es necesario que inicies sesión.', {root:true})
             }
-            commit('logout');
-            
+            commit('logout'); 
         }
     },
     getters: {

@@ -21,11 +21,12 @@
                 edit
             </v-icon>
             <v-icon
+                title="Desactivar usuario"
                 small
                 class="red--text"
                 @click="deleteItem(props.item)"
             >
-                delete
+                close
             </v-icon>
             </td>
         </template>
@@ -33,14 +34,26 @@
             <v-btn color="primary" @click="initialize">Reload</v-btn>
         </template>
         </v-data-table>
+        <v-modal-confirm 
+          @continueDeleting="onContinue"
+          :title="titleModal"
+          :text="textModal"
+        ref="modalusers"></v-modal-confirm>
     </div>
 </template>
 <script>
-
 import moment from 'moment';
+import User from '@/models/user.js';
 import { mapGetters } from  'vuex';
+import ModalToConfirm from '@/components/includes/ModalToConfirm.vue';
 export default {
+    components:{
+      'v-modal-confirm':ModalToConfirm
+    },
     data: () => ({
+        userToDelete: new User(),
+        titleModal : 'Confirmar',
+        textModal: '¿Realmente quires desativar este usuario?',
         headers: [
         {
           text: 'Nombre',
@@ -81,16 +94,29 @@ export default {
         { text: 'Actions', value: 'id', sortable: false }
       ],
     }),
+    mounted(){
+      
+    },
     methods: {
         initialize(){
             this.$store.dispatch('users/loadUsers');
         },
+        deleteItem(user){
+            this.$refs.modalusers.dialog = true;
+            this.userToDelete = user;
+        },
+        onContinue(){
+          this.userToDelete.active = false;
+          this.$store.dispatch('users/changeStatusUser', this.userToDelete)
+        }
     },
     computed: {
         ...mapGetters({
             'activeUsers': 'users/getActiveUsers',
         }),
+        
     }
+
 }
 </script>
 

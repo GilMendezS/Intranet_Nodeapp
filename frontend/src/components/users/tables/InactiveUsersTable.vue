@@ -2,7 +2,7 @@
     <div>
         <v-data-table
         :headers="headers"
-        :items="InactiveUsers"
+        :items="inactiveUsers"
         class="elevation-1"
         >
         <template slot="items" slot-scope="props">
@@ -88,8 +88,9 @@ export default {
     },
     computed: {
         ...mapGetters({
-            'InactiveUsers': 'users/getInativeUsers',
+            'inactiveUsers': 'users/getInactiveUsers',
         }),
+  
     }
 }
 </script>

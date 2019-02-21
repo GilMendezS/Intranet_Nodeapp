@@ -5,7 +5,6 @@
       <v-content>
         <v-container fluid>
           <v-layout row wrap >
-            <v-dialog/>
             <v-flex xs12>
               <div class="text-xs-center">
                 <v-progress-circular

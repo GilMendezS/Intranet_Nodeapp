@@ -12,4 +12,6 @@ router.post('/', [CheckAuth, RolesMiddleware(['admin'])],UserController.addUser)
 
 router.get('/profile', [CheckAuth],UserController.getUser);
 
+router.put('/:id(\\d+)/changestatus', [CheckAuth], UserController.changeStatusUser);
+
 module.exports = router;

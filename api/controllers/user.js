@@ -47,3 +47,26 @@ exports.addUser = async (req, res ,next) => {
     }
     
 }
+exports.changeStatusUser = async(req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if(!user){
+            return res.status(404).json({
+                message :'User not found',
+                success: false
+            })
+        }
+        user.active = req.body.active;
+        await user.save();
+        const message = req.body.active ? 'User as enabled': 'User was disabled';
+        return res.status(200).json({
+            message: message,
+            success: true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error disabling the user',
+            success: false
+        })
+    }
+}
