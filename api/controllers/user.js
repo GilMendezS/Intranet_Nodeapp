@@ -58,7 +58,7 @@ exports.changeStatusUser = async(req, res, next) => {
         }
         user.active = req.body.active;
         await user.save();
-        const message = req.body.active ? 'User as enabled': 'User was disabled';
+        const message = req.body.active ? 'User was enabled': 'User was disabled';
         return res.status(200).json({
             message: message,
             success: true

@@ -53,7 +53,7 @@ export default {
     data: () => ({
         userToDelete: new User(),
         titleModal : 'Confirmar',
-        textModal: '¿Realmente quires desativar este usuario?',
+        textModal: '¿Realmente quieres desativar este usuario?',
         headers: [
         {
           text: 'Nombre',

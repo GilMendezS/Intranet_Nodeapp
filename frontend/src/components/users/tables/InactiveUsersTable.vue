@@ -22,25 +22,39 @@
             </v-icon>
             <v-icon
                 small
-                class="red--text"
+                class="green--text"
                 @click="deleteItem(props.item)"
             >
-                delete
+                how_to_reg
             </v-icon>
             </td>
         </template>
         <template slot="no-data">
-            <v-btn color="primary" @click="initialize">Reload</v-btn>
+            No hay usuarios desactivados.
         </template>
         </v-data-table>
+        <v-modal-confirm 
+          @continueDeleting="onContinue"
+          :title="titleModal"
+          :text="textModal"
+          ref="modalusers"></v-modal-confirm>
     </div>
 </template>
 <script>
 
 import moment from 'moment';
 import { mapGetters } from  'vuex';
+import User from '@/models/user.js';
+import ModalToConfirm from '@/components/includes/ModalToConfirm.vue';
+
 export default {
+    components:{
+      'v-modal-confirm':ModalToConfirm
+    },
     data: () => ({
+        userToActivate: new User(),
+        titleModal : 'Confirmar',
+        textModal: '¿Realmente quieres activar de nuevo este usuario?',
         headers: [
         {
           text: 'Nombre',
@@ -85,6 +99,14 @@ export default {
         initialize(){
             this.$store.dispatch('users/loadUsers');
         },
+        deleteItem(user){
+            this.$refs.modalusers.dialog = true;
+            this.userToActivate = user;
+        },
+        onContinue(){
+          this.userToActivate.active = true;
+          this.$store.dispatch('users/changeStatusUser', this.userToActivate)
+        }
     },
     computed: {
         ...mapGetters({
