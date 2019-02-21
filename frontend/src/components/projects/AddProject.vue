@@ -89,7 +89,18 @@
                     </v-flex>
                 </v-card-text>
             </v-card>
-           
+           <v-btn
+                absolute
+                dark
+                fab
+                top
+                router
+                to='/projects'
+                right
+                color="cyan"
+            >
+                <v-icon>arrow_back</v-icon>
+            </v-btn>
         </v-layout>
     </v-container>
               
