@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     updatedAt: 'updated_at',
     createdAt: 'created_at',
-    
+    hooks: {
+
+    }
   });
   User.prototype.checkPassword = function(candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
@@ -50,6 +52,21 @@ module.exports = (sequelize, DataTypes) => {
     .catch(err => {
       return new Error(err)
     });
+  });
+  User.beforeUpdate((user, options) => {
+      
+      if (options.fields.includes('password')) {
+        
+        return bcrypt.hash(user.password, 12).then(hashedPw => {
+          user.password = hashedPw;
+        })
+        .catch(err => {
+          return new Error(err)
+        });
+      }
+      else {
+        console.log('not update password')
+      }
   });
   
   return User;
