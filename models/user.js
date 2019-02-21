@@ -64,9 +64,7 @@ module.exports = (sequelize, DataTypes) => {
           return new Error(err)
         });
       }
-      else {
-        console.log('not update password')
-      }
+
   });
   
   return User;

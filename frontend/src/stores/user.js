@@ -76,7 +76,6 @@ export default {
             }
             axios.put(`/users/${getters.getEditingUser.id}`, dataToSend)
             .then(response => {
-                console.log(response.data.data);
                 if(response.data.success){
                     commit('setUpdatedUser', response.data.data);
                 }
