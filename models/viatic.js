@@ -119,8 +119,8 @@ module.exports = (sequelize, DataTypes) => {
         break;
       case 5:
         let money = 0.0;
-        if(req.body.money_requested){
-          money = req.body.money_requested;
+        if(req.body.money_deposited){
+          money = req.body.money_deposited;
         }
         this.status_id = 6;
         this.auth_user_id = null;
