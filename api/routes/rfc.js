@@ -8,7 +8,8 @@ router.get(`/`, AuthMiddleware, RfcController.getRfcs);
 
 router.post('/', AuthMiddleware, RfcController.addRfc);
 
-router.put('/:id(\\+d)/', AuthMiddleware, RfcController.updateRfc);
+router.put('/:id(\\d+)/', AuthMiddleware, RfcController.updateRfc);
 
-router.put(`/:id(\\+d)/disable`, AuthMiddleware, RfcController.disableRfc);
+router.put(`/:id(\\d+)/disable`, AuthMiddleware, RfcController.disableRfc);
 
+module.exports = router;
