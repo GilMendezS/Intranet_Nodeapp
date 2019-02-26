@@ -67,7 +67,18 @@ export default {
                     }
                 }
             })
-           
+        },
+        approveViatic: ({commit}, payload) => {
+            axios.put(`/viatics/${payload.id}/approve`, payload)
+            .then(response => {
+                console.log(response.data);
+            })
+        },
+        denyViatic: ({commit}, payload) => {
+            axios.put(`/viatics/${payload.id}/deny`, payload)
+            .then(response => {
+                console.log(response.data);
+            })
         }
 
     },

@@ -110,26 +110,26 @@ module.exports = (sequelize, DataTypes) => {
       success: false
     }
     switch(this.status_id){
-      case 1:
-        this.status_id = 2;
+      case 4:
+        this.status_id = 5;
         this.auth_user_id = admin.id;
         await this.save();
         data.success = true;
         return data;
         break;
-      case 2:
+      case 5:
         let money = 0.0;
         if(req.body.money_requested){
           money = req.body.money_requested;
         }
-        this.status_id = 3;
+        this.status_id = 6;
         this.auth_user_id = null;
         this.money_deposited = money;
         data.success = true;
         await this.save();
         return data;
         break;
-      case 3:
+      case 6:
         let authorizator = 0;
         if (!req.user.roles.map(r => r.name).includes('supervisor')){
           let authorizator = project.user_id;
@@ -141,10 +141,10 @@ module.exports = (sequelize, DataTypes) => {
               authorizator = admin.id;
             }
           }
-          this.status_id = 4;    
+          this.status_id = 7;    
         }
         else {
-          this.status_id = 5;
+          this.status_id = 8;
           this.auth_user_id = revisor.id;
         }
         data.message = 'Comprobation finished';
@@ -152,25 +152,25 @@ module.exports = (sequelize, DataTypes) => {
         await this.save();
         return data;
         break;
-      case 4:
-        this.status_id = 5;
+      case 7:
+        this.status_id = 8;
         this.auth_user_id = revisor.id;
         data.message = 'Accepted Comprobation';
         data.success = true;
         await this.save();
         return data;
         break;
-      case 5: 
+      case 8: 
         if(this.money_checked > this.money_deposited){
-          this.status_id = 9;
+          this.status_id = 12;
           this.auth_user_id = admin.id;
         }
         else if(this.money_checked < this.money_deposited){
-          this.status_id = 8;
+          this.status_id = 11;
           this.auth_user_id = null;
         }
         else {
-          this.status_id = 11;
+          this.status_id = 14;
           this.auth_user_id = null;
         }
         data.message = 'Revision finished';
@@ -178,7 +178,7 @@ module.exports = (sequelize, DataTypes) => {
         await this.save();
         return data;
         break;
-      case 9:
+      case 12:
         data.message = 'Request Finished';
         money = parseFloat(this.money_checked) - parseFloat(this.money_deposited);
         if(money != req.body.money_requested){
@@ -187,23 +187,23 @@ module.exports = (sequelize, DataTypes) => {
           return data;
         }
         this.auth_user_id  = 0;
-        this.status_id = 11;
+        this.status_id = 14;
         this.money_refunded = req.body.money_requested;
         data.success = true;
         await this.save();
         return data;
         break;
-      case 10:
+      case 13:
         this.auth_user_id = 0;
-        this.status_id = 11;
+        this.status_id = 14;
         data.message = 'Request finished';
         project.money_spent = project.money_spent + this.money_checked;
         await project.save();
         data.success = true;
         break;
-      case 12:
+      case 15:
         this.auth_user_id = 0;
-        this.status_id = 11;
+        this.status_id = 14;
         project.money_spent = project.money_spent + this.money_checked;
         data.message = 'Request finished';
         await this.save();
@@ -217,26 +217,26 @@ module.exports = (sequelize, DataTypes) => {
       success: false
     }
     switch(this.status_id){
-      case 1:
-        this.status_id = 6;
-        this.auth_user_id = null;
-        break;
-      case 2: 
-        this.status_id = 6;
-        this.auth_user_id = null;
-        break;
       case 4:
-        this.status_id = 3;
+        this.status_id = 9;
+        this.auth_user_id = null;
+        break;
+      case 5: 
+        this.status_id = 9;
+        this.auth_user_id = null;
+        break;
+      case 7:
+        this.status_id = 6;
         this.auth_user_id = null;
         data.message = 'Rejected comprobation';
         break;
-      case 5:
-        this.status_id = 3;
+      case 8:
+        this.status_id = 6;
         this.auth_user_id = null;
         data.message = 'Rejected revision';
         break;
-      case 12:
-        this.status_id = 8;
+      case 15:
+        this.status_id = 11;
         this.auth_user_id = null;
         data.message = 'Rejected revision';
         break;

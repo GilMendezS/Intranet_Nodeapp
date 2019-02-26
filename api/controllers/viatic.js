@@ -309,7 +309,6 @@ exports.denyViatic = async (req, res ,next) => {
                     user_id: req.user.id,
                     comments: req.body.comments,
                     viatic_id: viatic.id,
-                    
                 });
             }
             return res.status(200).json({
