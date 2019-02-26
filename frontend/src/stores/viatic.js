@@ -56,7 +56,6 @@ export default {
             })
         },
         loadViatic: ({dispatch, commit}, payload) => {
-            dispatch('updateStateLoadingResource', true, {root:true})
             axios.get(`/viatics/${payload.id}`)
             .then(response => {
                 if(response.data.success){
@@ -68,9 +67,7 @@ export default {
                     }
                 }
             })
-            .finally(() => {
-                dispatch('updateStateLoadingResource', false, {root:true})
-            })
+           
         }
 
     },

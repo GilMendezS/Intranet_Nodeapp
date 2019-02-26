@@ -16,7 +16,12 @@ export default class Viatic {
         comments = '',
         created_at = '',
         updated_at = '',
-        allcomments = []
+        allcomments = [],
+        user= {},
+        status= {},
+        project = {}
+        
+
     ){
         this.id = id;
         this.arrive = arrive;
@@ -35,5 +40,8 @@ export default class Viatic {
         this.money_refunded = money_refunded;
         this.money_requested = money_requested;
         this.money_deposited = money_deposited;
+        this.user = user;
+        this.status = status;
+        this.project = project;
     }
 }
