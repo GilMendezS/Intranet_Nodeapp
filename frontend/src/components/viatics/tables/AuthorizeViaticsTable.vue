@@ -117,6 +117,14 @@ export default {
         initialize(){
             this.$store.dispatch('viatics/loadPendingViatics');
         },
+        editItem(viatic){
+          this.$router.push({
+            name: 'edit-viatic',
+            params: {
+              id: viatic.id
+            }
+          })
+        }
         
     },
     computed: {

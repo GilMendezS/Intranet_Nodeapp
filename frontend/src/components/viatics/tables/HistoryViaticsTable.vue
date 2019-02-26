@@ -101,7 +101,7 @@ export default {
             
             const viaticId = $(this).data('id');
             if(viaticId){
-                self.onShowViatic(viaticId);
+                self.editItem(viaticId);
             }
             
         })
@@ -112,6 +112,14 @@ export default {
         },
         logoutUser(auto){
             this.$store.dispatch('auth/logoutUser', auto)
+        },
+        editItem(id){
+          this.$router.push({
+            name: 'edit-viatic',
+            params: {
+              id: id
+            }
+          })
         }
     }
 }
