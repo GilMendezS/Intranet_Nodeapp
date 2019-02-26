@@ -43,7 +43,7 @@ module.exports = class RelationShips {
         Project.belongsToMany(User, { 
             as: 'users',
             through: Permissions, 
-            foreignKey: 'user_id', otherKey: 'project_id'
+            foreignKey: 'project_id', otherKey: 'user_id'
           }
         )
         //hours
