@@ -9,6 +9,7 @@ import projects from './stores/project';
 import hours from './stores/hours';
 import viatics from './stores/viatic';
 import roles from './stores/role';
+import rfcs from './stores/rfc';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     projects,
     hours,
     viatics,
-    roles
+    roles,
+    rfcs
   },
   state: {
     api: 'http://localhost:8081/api/v1',
