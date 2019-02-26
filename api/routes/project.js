@@ -16,7 +16,7 @@ router.post('/adduser/:id(\\d+)/', [Authenticated], ProjectController.addUserToP
 
 router.get('/sales/datatable', [Authenticated], ProjectController.getActiveSales);
 
-router.put('/:id(\\d+)//permissions', [Authenticated], ProjectController.modifyPermissions);
+router.put('/:id(\\d+)/permissions', [Authenticated], ProjectController.modifyPermissions);
 
 router.post('/removeuser/:id(\\d+)/', [Authenticated], ProjectController.removeUserFromProject);
 
