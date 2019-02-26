@@ -1,4 +1,5 @@
 const User = require('../models/models').User;
+const Role = require('../models/models').Role;
 exports.getUsers = async (req, res ,next) =>  {
     try {
         const users = await User.findAll({include:[{all:true}]});
@@ -99,6 +100,27 @@ exports.changeStatusUser = async(req, res, next) => {
         return res.status(500).json({
             message: 'Error disabling the user',
             success: false
+        })
+    }
+}
+exports.modifyRoles = async(req, res, next) => {
+    try {
+        const userId= req.params.id;
+        const user = await User.findByPk(userId, {include: ['roles']});
+        await user.removeRoles(user.roles);
+        const newRoles = await Role.findAll({where:{
+            id: req.body.roles
+        }})
+        await user.addRoles(newRoles);
+        return res.status(200).json({
+            message: 'Roles were modified',
+            success: true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error modifying the roles user',
+            success: false,
+            error
         })
     }
 }

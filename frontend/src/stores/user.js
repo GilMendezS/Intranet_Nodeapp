@@ -63,7 +63,7 @@ export default {
                 
             })
         },
-        updateUserInfo: ({comit, getters}, modifiedPassword) => {
+        updateUserInfo: ({commit, getters}, modifiedPassword) => {
             const dataToSend = {
                 name: getters.getEditingUser.name,
                 lastname: getters.getEditingUser.lastname,
@@ -79,6 +79,12 @@ export default {
                 if(response.data.success){
                     commit('setUpdatedUser', response.data.data);
                 }
+            })
+        },
+        modifyRoles: ({commit}, payload) => {
+            axios.put(`/users/${payload.id}/modifyroles`, { roles: payload.roles })
+            .then(response => {
+                console.log(response.data)
             })
         }
     },

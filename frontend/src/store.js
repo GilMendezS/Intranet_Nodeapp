@@ -8,6 +8,7 @@ import positions from './stores/position';
 import projects from './stores/project';
 import hours from './stores/hours';
 import viatics from './stores/viatic';
+import roles from './stores/role';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     positions,
     projects,
     hours,
-    viatics
+    viatics,
+    roles
   },
   state: {
     api: 'http://localhost:8081/api/v1',

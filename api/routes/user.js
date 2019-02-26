@@ -18,4 +18,6 @@ router.put('/:id(\\d+)/', [CheckAuth],UserController.updateUser);
 
 router.put('/:id(\\d+)/changestatus', [CheckAuth], UserController.changeStatusUser);
 
+router.put('/:id(\\d+)/modifyroles', [CheckAuth], UserController.modifyRoles);
+
 module.exports = router;
