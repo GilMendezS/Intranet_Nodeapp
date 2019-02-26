@@ -26,6 +26,7 @@ const projectsRoutes = require('./api/routes/project');
 const hoursRoutes = require('./api/routes/hour');
 const viaticsRoutes = require('./api/routes/viatic');
 const rolesRoutes = require('./api/routes/role');
+const invoicesRoutes = require('./api/routes/invoice');
 app.use(`${API_VERSION}/users`, usersRoutes);
 app.use(`${API_VERSION}/auth`, authRoutes);
 app.use(`${API_VERSION}/areas`, areasRoutes);
@@ -36,6 +37,7 @@ app.use(`${API_VERSION}/projects`, projectsRoutes);
 app.use(`${API_VERSION}/hours`, hoursRoutes);
 app.use(`${API_VERSION}/viatics`, viaticsRoutes);
 app.use(`${API_VERSION}/roles`, rolesRoutes);
+app.use(`${API_VERSION}/invoices`, invoicesRoutes);
 
 
 app.get('*', (req, res, next) => {

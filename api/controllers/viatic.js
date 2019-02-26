@@ -1,10 +1,7 @@
 const DataTable = require('../helpers/SSP');
-const User = require('../models/models').User;
-const Role = require('../models/models').Role;
 const Viatic = require('../models/models').Viatic;
 const Project = require('../models/models').Project;
 const VIATICS_COLUMNS = require('../dt_definitions/viatics');
-
 const ViaticComment = require('../models/models').ViaticComment;
 
 exports.addViatic = async (req, res, next) => {
