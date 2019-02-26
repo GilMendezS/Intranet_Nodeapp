@@ -1,42 +1,44 @@
 const Type = require('../models/models').Type;
-const Project = require('../models/models').Project;
 const User = require('../models/models').User;
+const Project = require('../models/models').Project;
 const DataTable = require('../helpers/SSP');
+const Permissions = require('../models/models').Permissions;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
-exports.addProject = (req, res, next) => { 
-        Project.create({
-            name: req.body.name,
-            code: req.body.code,
-            client: req.body.client,
-            user_id: req.body.user_id,
-            status_id: 2,//default - active
-            type_id: req.body.type_id,
-            budget: req.body.budget,
-            comments: {
+exports.addProject = async (req, res, next) => { 
+        try {
+            const newProject = await Project.create({
+                name: req.body.name,
+                code: req.body.code,
+                client: req.body.client,
                 user_id: req.body.user_id,
-                comment: req.body.extra_comments// pending
+                status_id: 2,//default - active
+                type_id: req.body.type_id,
+                budget: req.body.budget,
+                comments: {
+                    user_id: req.body.user_id,
+                    comment: req.body.extra_comments// pending
+                }
+            },
+            {
+                include: [{
+                    association: Project.Comments,
+                }]
             }
-        },
-        {
-            include: [{
-                association: Project.Comments,
-            }]
-        }
-        )
-        .then(project => {
+            )
+            const responsable = await User.findByPk(req.body.user_id);
+            await newProject.addUsers(responsable);
             return res.status(200).json({
                 message: 'Project created',
                 success: true,
-                data: project
+                data: newProject
             })
-        })
-        .catch(error => {
+        } catch (error) {
             return res.status(500).json({
                 message: 'Error creating the project',
                 success: false,
                 error
             })
-        })
+        }
 }
 exports.addUserToProject = async (req, res, next) => {
     try {
@@ -107,18 +109,15 @@ exports.modifyPermissions = async (req, res, next) => {
     } catch (error) {
         return res.status(500).json({
             message: `Error modifying permission's user`,
-            success: error
+            success: false,
+            error
         })
     }
 }
 exports.getProject = async (req, res, next) => {
     try {
         const projectId = req.params.id;
-        const project = await Project.findById(projectId, {include: [{
-            model: Comment,
-            as: 'comments',
-            include: ['user']
-        },'users','status','type']})
+        const project = await Project.findById(projectId, {include: {all:true}})
         return res.status(200).json({
             data: project
         })
