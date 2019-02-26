@@ -43,7 +43,7 @@
                                 <h4>Salida</h4>
                                 <v-date-picker
                                     
-                                    landscape='true'
+                                    landscape='landscape'
                                     v-model='viatic.departure'>
                                 </v-date-picker>
                                 
@@ -51,7 +51,7 @@
                             <v-flex xs12 md6>
                                 <h4>LLegada</h4>
                                 <v-date-picker
-                                    landscape='true'
+                                    landscape='landscape'
                                     v-model='viatic.arrive'>
                                 </v-date-picker>
                                 
@@ -92,6 +92,7 @@ export default {
     },
     data: () => ({
         viatic: new Viatic(),
+        landscape: true
     }),
     methods: {
         onSubmit(){
