@@ -16,3 +16,4 @@ exports.Viatic = sequelize.import(path.join(rootDir ,'models', 'viatic'));
 exports.ViaticComment = sequelize.import(path.join(rootDir ,'models', 'viatic_comment'));
 exports.Role = sequelize.import(path.join(rootDir ,'models', 'role'));
 exports.Concept = sequelize.import(path.join(rootDir ,'models', 'concept'));
+exports.Rfc = sequelize.import(path.join(rootDir ,'models', 'rfc'));

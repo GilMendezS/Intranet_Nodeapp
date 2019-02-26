@@ -2,6 +2,9 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    return new Promise((solved, rejected) => {
+      solved(true);
+    });
     return queryInterface.bulkInsert('role_users', [
       {
         user_id: 1,
