@@ -19,4 +19,8 @@ router.post('/adddeductible',
     ]),
     InvoiceController.addDeductible);
 
+router.post('/addnodeductible', FilesHandler.fields([{
+    name:'pdf', maxCount: 1
+}]), InvoiceController.addNoDeductible);
+
 module.exports = router;

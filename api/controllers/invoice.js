@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Viatic = require('../models/models').Viatic;
 const Concept = require('../models/models').Concept;
 const Invoice = require('../models/models').Invoice;
@@ -60,3 +61,28 @@ exports.addDeductible = async (req, res, next) => {
         
     }
 } 
+exports.addNoDeductible = async (req, res, next) => {
+    try {
+        const newInvoice = await Invoice.create({
+            viatic_id: req.body.viatic_id,
+            concept_id: req.body.concept_id,
+            path_pdf: req.files.pdf[0].path,
+            date: moment(req.body.date).format('YYYY-MM-DD'),
+            deductible: 0,
+            company_name: req.body.name,
+            total: req.body.total,
+            comments: req.body.comments
+        })
+        return res.status(200).json({
+            message: 'Comprobante agregado con éxito',
+            success: true,
+            data: newInvoice
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error guardando el comprobrante',
+            success: false,
+            error
+        })
+    }
+}
