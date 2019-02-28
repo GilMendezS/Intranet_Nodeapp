@@ -130,3 +130,21 @@ exports.getInvoicesByViatic = async (req, res, next) => {
         });
     }
 }
+exports.getInvoicePdfFile = async (req, res, next) => {
+    try {
+        const invoiceId = req.params.id;
+        const invoice = await Invoice.findByPk(invoiceId);
+        return res.download(invoice.path_pdf);
+    } catch (error) {
+        return res.status(404);
+    }
+}
+exports.getInvoiceXmlFile = async (req, res, next) => {
+    try {
+        const invoiceId = req.params.id;
+        const invoice = await Invoice.findByPk(invoiceId);
+        return res.download(invoice.path_xml);
+    } catch (error) {
+        return res.status(404);
+    }
+}

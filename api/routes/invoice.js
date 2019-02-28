@@ -24,5 +24,6 @@ router.post('/adddeductible',AuthMiddleware ,
 router.post('/addnodeductible',AuthMiddleware, FilesHandler.fields([{
     name:'pdf', maxCount: 1
 }]), InvoiceController.addNoDeductible);
-
+router.get('/:id(\\d+)/download/pdf',AuthMiddleware ,InvoiceController.getInvoicePdfFile);
+router.get('/:id(\\d+)/download/xml',AuthMiddleware ,InvoiceController.getInvoiceXmlFile);
 module.exports = router;
