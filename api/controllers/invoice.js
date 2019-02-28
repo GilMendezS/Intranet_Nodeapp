@@ -22,6 +22,21 @@ exports.addDeductible = async (req, res, next) => {
     try {
         const dataXml = await xmlReader.readFile(req.files.xml[0].path);
         const xmlInfo  = await xmlReader.getJsonData(dataXml);
+
+        const viatic = await Viatic.findByPk(req.body.viatic_id);
+        const candidate_date = moment(xmlInfo.date).format('YYYY-MM-DD');
+        if(!viatic){
+            return res.status(500).json({
+                message: 'Ha surgido un error vuelve a intentarlo'
+            })
+        }
+        const project = viatic.getProject();
+        if(project.invalidDateForInvoice(candidate_date)){
+            return res.status(422).json({
+                message: 'La fecha válida para comprobaciones no es válida',
+                success: false
+            })
+        }
         const newInvoice = await Invoice.create({
             viatic_id : req.body.viatic_id,
             uuid: xmlInfo.uuid,
@@ -31,7 +46,7 @@ exports.addDeductible = async (req, res, next) => {
             rfc_id : xmlInfo.rfc_validated.id,
             deductible: 1,
             folio: xmlInfo.folio,
-            date: xmlInfo.date,
+            date: candidate_date,
             company_rfc: xmlInfo.company_rfc,
             company_name: xmlInfo.company_name,
             subtotal: xmlInfo.subtotal,
@@ -39,12 +54,6 @@ exports.addDeductible = async (req, res, next) => {
             iva: xmlInfo.iva,
             comments: req.body.comments
         })
-        const viatic = await Viatic.findByPk(req.body.viatic_id);
-        if(!viatic){
-            return res.status(500).json({
-                message: 'Ha surgido un error vuelve a intentarlo'
-            })
-        }
         viatic.money_checked = parseFloat(viatic.money_checked) + parseFloat(xmlInfo.total);
         await viatic.save();
         return res.status(200).json({
@@ -63,22 +72,30 @@ exports.addDeductible = async (req, res, next) => {
 } 
 exports.addNoDeductible = async (req, res, next) => {
     try {
-        const newInvoice = await Invoice.create({
-            viatic_id: req.body.viatic_id,
-            concept_id: req.body.concept_id,
-            path_pdf: req.files.pdf[0].path,
-            date: moment(req.body.date).format('YYYY-MM-DD'),
-            deductible: 0,
-            company_name: req.body.name,
-            total: req.body.total,
-            comments: req.body.comments
-        })
         const viatic = await Viatic.findByPk(req.body.viatic_id);
+        const candidate_date = moment(req.body.date).format('YYYY-MM-DD');
         if(!viatic){
             return res.status(500).json({
                 message: 'Ha surgido un error vuelve a intentarlo'
             })
         }
+        const project = viatic.getProject();
+        if(project.invalidDateForInvoice(candidate_date)){
+            return res.status(422).json({
+                message: 'La fecha válida para comprobaciones no es válida',
+                success: false
+            })
+        }
+        const newInvoice = await Invoice.create({
+            viatic_id: req.body.viatic_id,
+            concept_id: req.body.concept_id,
+            path_pdf: req.files.pdf[0].path,
+            date: candidate_date,
+            deductible: 0,
+            company_name: req.body.name,
+            total: req.body.total,
+            comments: req.body.comments
+        })
         viatic.money_checked = parseFloat(viatic.money_checked) + parseFloat(req.body.total);
         await viatic.save();
         return res.status(200).json({

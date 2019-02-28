@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment');
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('project', {
     name: DataTypes.STRING,
@@ -28,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
   Project.prototype.reduceBudget = function(money_spent= 0.0){
     this.money_spent =parseFloat(this.money_spent) +  parseFloat(money_spent);
     this.save();
+  }
+  Project.prototype.invalidDateForInvoice = function(date){
+    return moment(date).isBefore(this.valid_date_for_invoices);
   }
   return Project;
 };
