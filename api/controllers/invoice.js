@@ -73,6 +73,14 @@ exports.addNoDeductible = async (req, res, next) => {
             total: req.body.total,
             comments: req.body.comments
         })
+        const viatic = await Viatic.findByPk(req.body.viatic_id);
+        if(!viatic){
+            return res.status(500).json({
+                message: 'Ha surgido un error vuelve a intentarlo'
+            })
+        }
+        viatic.money_checked = parseFloat(viatic.money_checked) + parseFloat(req.body.total);
+        await viatic.save();
         return res.status(200).json({
             message: 'Comprobante agregado con éxito',
             success: true,
@@ -84,5 +92,24 @@ exports.addNoDeductible = async (req, res, next) => {
             success: false,
             error
         })
+    }
+}
+exports.getInvoicesByViatic = async (req, res, next) => {
+    try {
+        const viaticId = req.params.id;
+        const invoices = await Invoice.findAll({
+            where: {
+                viatic_id: viaticId
+            }
+        });
+        return res.status(200).json({
+            data: invoices,
+            success: true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error cargando las comprobraciones',
+            success: false
+        });
     }
 }

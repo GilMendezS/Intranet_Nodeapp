@@ -8,6 +8,8 @@ const InvoiceController = require('../controllers/invoice');
 
 router.get('/concepts', AuthMiddleware, InvoiceController.getConcepts);
 
+router.get('/viatic/:id(\\d+)/', InvoiceController.getInvoicesByViatic);
+
 router.post('/adddeductible',
     FilesHandler.fields([
         {
