@@ -8,9 +8,9 @@ const InvoiceController = require('../controllers/invoice');
 
 router.get('/concepts', AuthMiddleware, InvoiceController.getConcepts);
 
-router.get('/viatic/:id(\\d+)/', InvoiceController.getInvoicesByViatic);
+router.get('/viatic/:id(\\d+)/', AuthMiddleware, InvoiceController.getInvoicesByViatic);
 
-router.post('/adddeductible',
+router.post('/adddeductible',AuthMiddleware ,
     FilesHandler.fields([
         {
             name: 'pdf', maxCount: 1
@@ -21,7 +21,7 @@ router.post('/adddeductible',
     ]),
     InvoiceController.addDeductible);
 
-router.post('/addnodeductible', FilesHandler.fields([{
+router.post('/addnodeductible',AuthMiddleware, FilesHandler.fields([{
     name:'pdf', maxCount: 1
 }]), InvoiceController.addNoDeductible);
 
