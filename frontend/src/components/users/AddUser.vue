@@ -34,7 +34,7 @@
                                         <v-text-field
                                             v-model="user.password"
                                             type="password"
-                                            label="Presupuesto"
+                                            label="Password"
                                         ></v-text-field>
                                     </v-flex>
                                     <v-flex xs12 sm6 md3>

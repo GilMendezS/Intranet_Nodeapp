@@ -9,7 +9,8 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios);
 
 
-axios.defaults.baseURL = 'https://viatics.gmsdevelopment.com.mx/api/v1';
+//axios.defaults.baseURL = 'https://viatics.gmsdevelopment.com.mx/api/v1';
+axios.defaults.baseURL = 'http://localhost:8081/api/v1';
 
 Vue.use(Toasted, {
   duration:3000
