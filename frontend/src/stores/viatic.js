@@ -31,7 +31,10 @@ export default {
         },
         setStatusesViatics: (state, payload) => {
             state.statuses = payload;
-        } 
+        },
+        setEmptyFoundViatic: (state) => {
+            state.viaticFoundIt= new Viatic();
+        }
     },
     actions: {
         loadViaticsUser : ({commit}) => {
@@ -95,6 +98,9 @@ export default {
             .then(response => {
                 
             })
+        },
+        setEmptyViatic: ({commit}) => {
+            commit('setEmptyFoundViatic');
         }
 
     },

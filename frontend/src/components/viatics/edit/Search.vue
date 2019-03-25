@@ -37,6 +37,7 @@ export default {
     }),
     methods: {
         onSubmit(){
+            this.$store.dispatch('viatics/setEmptyViatic')
             this.$store.dispatch('viatics/loadViatic', {
                 id: this.search,
                 toEdit: false

@@ -1,5 +1,5 @@
 <template>
-     <v-card>
+     <v-card v-show="viatic.id">
         <v-card-title>
             <h3>Editar</h3>
         </v-card-title>
