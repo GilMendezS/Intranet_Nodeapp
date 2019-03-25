@@ -34,13 +34,21 @@ export default {
                 if (response.data.success){
                     commit('addDepartment', response.data.data)
                 }
-                dispatch('syncMessage', response.data.message, {root:true})
+                
             })
         },
         updateDepartment: ({dispatch,commit, rootGetters}, payload) => {
             axios.put(`/departments/${payload.id}`, payload)
             .then(response => {
-                dispatch('syncMessage', response.data.message, {root:true})
+                
+            })
+        },
+        removeDepartment: ({commit}, payload) => {
+            axios.delete(`/departments/${payload.id}`)
+            .then(response => {
+                if(response.status == 200){
+                    commit('removeDepartment', payload)
+                }
             })
         }
     },

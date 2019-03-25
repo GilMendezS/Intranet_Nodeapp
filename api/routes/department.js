@@ -2,14 +2,16 @@ const router = require('express').Router();
 
 const DepartmentController = require('../controllers/department');
 
-router.get('/', DepartmentController.getDepartments);
+const Authenticated = require('../middlewares/auth');
 
-router.post('/', DepartmentController.addDepartment);
+router.get('/', Authenticated, DepartmentController.getDepartments);
 
-router.get('/:id(\\d+)/', DepartmentController.getDepartment);
+router.post('/', Authenticated,DepartmentController.addDepartment);
 
-router.put('/:id(\\d+)/', DepartmentController.updateDepartment);
+router.get('/:id(\\d+)/', Authenticated,DepartmentController.getDepartment);
 
-router.delete('/:id(\\d+)/', DepartmentController.removeDepartment);
+router.put('/:id(\\d+)/', Authenticated, DepartmentController.updateDepartment);
+
+router.delete('/:id(\\d+)/', Authenticated, DepartmentController.removeDepartment);
 
 module.exports = router;

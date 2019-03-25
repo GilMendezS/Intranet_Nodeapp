@@ -51,8 +51,7 @@ exports.updateArea = async(req, res, next) => {
         const area = await Area.findByPk(areaId);
         area.user_id = req.body.user_id;
         area.title = req.body.title;
-        area.save();
-        console.log(area);
+        await area.save();
         await LogHelper.write(req.user.id, `Information area was updated: ${area.title}`, 'areas',area.id);
         return res.status(200).json({
             message: 'Area updated',
