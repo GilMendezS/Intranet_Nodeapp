@@ -7,7 +7,8 @@ export default {
         pendingViatics: [],
         viaticsInProcess: [],
         editingViatic: new Viatic(),
-        viaticFoundIt : new Viatic()
+        viaticFoundIt : new Viatic(),
+        statuses: []
     },
     mutations: {
         setViaticsUser: (state, payload) => {
@@ -27,7 +28,10 @@ export default {
         },
         setEditingViatic: (state, payload) => {
             state.editingViatic = payload;
-        }
+        },
+        setStatusesViatics: (state, payload) => {
+            state.statuses = payload;
+        } 
     },
     actions: {
         loadViaticsUser : ({commit}) => {
@@ -79,6 +83,18 @@ export default {
             .then(response => {
                 console.log(response.data);
             })
+        },
+        loadStatusesViatics: ({commit}) => {
+            axios.get(`/status/viatics`)
+            .then(response => {
+                commit('setStatusesViatics', response.data.data);
+            })
+        },
+        changeStatusViatic: ({dispatch}, payload) => {
+            axios.put(`/viatics/${payload.id}/changestatus`, payload)
+            .then(response => {
+                
+            })
         }
 
     },
@@ -88,5 +104,6 @@ export default {
         getViaticsInProcess: state => state.viaticsInProcess,
         getEditingViatic: state => state.editingViatic,
         getViaticFoundIt: state => state.viaticFoundIt,
+        getStatuses: state => state.statuses,
     }
 }

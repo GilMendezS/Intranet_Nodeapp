@@ -19,7 +19,8 @@ export default class Viatic {
         allcomments = [],
         user= {},
         status= {},
-        project = {}
+        project = {},
+        authorizator = {}
         
 
     ){
@@ -43,5 +44,6 @@ export default class Viatic {
         this.user = user;
         this.status = status;
         this.project = project;
+        this.authorizator = authorizator;
     }
 }

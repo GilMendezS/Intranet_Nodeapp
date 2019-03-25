@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment');
 const path = require('path');
 const rootDir = require('../api/utils/path');
 const sequelize = require('../api/utils/database');
@@ -48,11 +49,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     departure: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      get(){
+        return moment(this.getDataValue('departure')).format('YYYY-MM-DD')
+      }
     },
     arrive: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      get(){
+        return moment(this.getDataValue('arrive')).format('YYYY-MM-DD')
+      }
     },
     money_requested: {
       type: DataTypes.DECIMAL,
