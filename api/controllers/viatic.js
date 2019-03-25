@@ -1,3 +1,4 @@
+const moment = require('moment');
 const DataTable = require('../helpers/SSP');
 const Viatic = require('../models/models').Viatic;
 const Project = require('../models/models').Project;
@@ -168,6 +169,7 @@ exports.getViatic = async (req, res, next) => {
                 success: false
             });
         }
+        
         return res.status(200).json({
             data: viatic,
             success: true
@@ -248,6 +250,36 @@ exports.updateViatic = async (req, res, next) => {
             message: 'Error updating the viatic',
             error,
             success: false
+        })
+    }
+}
+exports.changeStatusViatic = async (req, res, next) => {
+    try {
+        const viaticId = req.params.id;
+        const updatedViatic = await Viatic.update({status_id: req.body.status_id}, {
+            where: {
+                id: viaticId
+            },
+            returning: true
+        });
+        if(req.body.comments != ''){
+            await ViaticComment.create({
+                user_id: req.user.id,
+                comments: req.body.comments,
+                viatic_id: viaticId,
+            });
+        }
+        return res.status(200).json({
+            message: 'El estatus del viático ha sido actualizado',
+            success: true,
+            data: updatedViatic
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error actualizando el estatus del viático, intentalo mas tarde',
+            success: false,
+            error
         })
     }
 }

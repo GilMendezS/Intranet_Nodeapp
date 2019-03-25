@@ -14,9 +14,11 @@ router.get('/history', [AuthMiddleware], ViaticController.getHistoryViatics);
 
 router.get('/inprocess', [AuthMiddleware], ViaticController.getViaticsInProcess);
 
-router.get('/:id(\\d+)/',[AuthMiddleware],ViaticController.getViatic);
+router.get('/:id(\\d+)/',[],ViaticController.getViatic);
 
 router.put('/:id(\\d+)/', [AuthMiddleware], ViaticController.updateViatic);
+
+router.put('/:id(\\d+)/changestatus', [AuthMiddleware], ViaticController.changeStatusViatic);
 
 router.put('/:id(\\d+)/approve', [AuthMiddleware], ViaticController.approveViatic);
 
