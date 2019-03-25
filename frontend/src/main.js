@@ -56,6 +56,14 @@ axios.interceptors.response.use( response => {
         Vue.toasted.error('Something went wrong. Please try again.')
       }
     }
+    else if(error.response.status == 404){
+      if(error.response.data.message){
+        Vue.toasted.error(error.response.data.message)
+      }
+      else {
+        Vue.toasted.error('Error consutando la información del recurso solicitado')
+      }
+    }
     else if(error.response.status === 500){
       if(error.response.data.message){
         Vue.toasted.error(error.response.data.message)
@@ -66,7 +74,6 @@ axios.interceptors.response.use( response => {
       
     }
   }
-  
   return Promise.reject(error);
 })
 
