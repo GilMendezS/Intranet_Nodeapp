@@ -50,6 +50,10 @@ exports.addUser = async (req, res ,next) => {
             ...req.body,
             active : true
         })
+        if(req.body.selected_role != ''){
+            const givenRole = await Role.findByPk(req.body.selected_role);
+            await newUser.addRoles(givenRole);
+        }
         const userWithRelationships = await User.findByPk(newUser.id, {include:{all:true}})
         return res.status(200).json({
             message: 'User created',

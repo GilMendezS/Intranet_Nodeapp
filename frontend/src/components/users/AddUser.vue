@@ -70,6 +70,17 @@
 
                                         </v-select>
                                     </v-flex>  
+                                    <v-flex xs12 sm6 md3>
+                                        <v-select
+                                            v-model="user.selected_role"
+                                            :items="filteredRoles"
+                                            item-value="id"
+                                            item-text="text"
+                                            label="Asignar rol"
+                                        >
+
+                                        </v-select>
+                                    </v-flex>  
                                 </v-layout>
                             </v-container>
                         
@@ -112,6 +123,7 @@ export default {
         this.$store.dispatch('areas/loadAreas');
         this.$store.dispatch('departments/loadDepartments');
         this.$store.dispatch('positions/loadPositions');
+        this.$store.dispatch('roles/loadRoles');
     },
     methods: {
         onSubmit(){
@@ -123,7 +135,8 @@ export default {
             'users': 'users/getUsers',
             'areas': 'areas/getAreas',
             'departments': 'departments/getDepartments',
-            'positions': 'positions/getPositions'
+            'positions': 'positions/getPositions',
+            'roles': 'roles/getRoles'
         }),
         itemAreas(){
             return this.areas.map( a => ({id: a.id, text: a.title}));
@@ -133,6 +146,12 @@ export default {
         },
         filteredPositions(){
             return this.positions.filter( p => p.department_id == this.user.department_id).map( p => ({id:p.id, text: p.title}) );
+        },
+        filteredRoles(){
+            return this.roles.map( r => ({
+                id: r.id,
+                text: r.name
+            }));
         },
         invalidForm(){
             return this.user.name == '' 

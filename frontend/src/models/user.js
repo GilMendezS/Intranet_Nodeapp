@@ -10,17 +10,18 @@ export default class User{
         area_id = '',
         department_id = '',
         positon_id = '',
+        selected_role = ''
     ){
         this.id = id;
         this.name = name;
-        this.lastname = lastname;
         this.email = email;
-        this.password = password;
-        this.employee_number = employee_number;
         this.active = active;
         this.area_id = area_id;
-        this.department_id = department_id;
+        this.password = password;
+        this.lastname = lastname;
         this.positon_id = positon_id;
-        
+        this.selected_role = selected_role;
+        this.department_id = department_id;
+        this.employee_number = employee_number;
     }
 }
