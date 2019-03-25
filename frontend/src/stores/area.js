@@ -33,22 +33,22 @@ export default {
             axios.post(`/areas`,payload)
             .then(response => {
                 commit('addArea', response.data.data)
-                dispatch('syncMessage', 'Área creada con éxito.', {root:true})
+                
             })
         },
         updateArea: ({dispatch,commit, rootGetters}, payload) => {
             axios.put(`/areas/${payload.id}`, payload)
             .then(response => {
-                dispatch('syncMessage', response.data.message, {root:true})
+                
             })
         },
         removeArea: ({dispatch, commit, rootGetters}, payload) => {
-            axios.delete(`/area/${payload.id}`)
+            axios.delete(`/areas/${payload.id}`)
             .then(response => {
                 if (response.data.success){
                     commit('removeArea', payload)
                 }
-                dispatch('syncMessage', response.data.message, {root:true})
+                
             })
         }
     },

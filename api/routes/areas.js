@@ -3,12 +3,12 @@ const AreaController = require('../controllers/area');
 const Authenticated = require('../middlewares/auth');
 router.get('/', [Authenticated],AreaController.getAreas);
 
-router.post('/', AreaController.addArea);
+router.post('/', Authenticated,AreaController.addArea);
 
-router.get('/:id(\\d+)/', AreaController.getArea);
+router.get('/:id(\\d+)/', Authenticated,AreaController.getArea);
 
-router.put('/:id(\\d+)/', AreaController.updateArea);
+router.put('/:id(\\d+)/', Authenticated,AreaController.updateArea);
 
-router.delete('/:id(\\d+)/', AreaController.removeArea);
+router.delete('/:id(\\d+)/', Authenticated,AreaController.removeArea);
 
 module.exports = router;
