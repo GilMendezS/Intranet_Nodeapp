@@ -41,7 +41,7 @@ export default {
                 if(response.data.success){
                     commit('addNewHour', response.data.data)
                 }
-                dispatch('syncMessage', response.data.message, {root:true})
+                
             })
         }
     },
