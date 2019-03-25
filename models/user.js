@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.checkPassword = function(candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
   }
+  User.prototype.hasRole = function(role){
+    return this.roles.map( r => r.name).includes(role);
+  }
+  User.prototype.hasAnyRole= function(roles){
+    return roles.map(r => r.name).some( r => this.roles.includes(r));
+  }
   User.prototype.getToken = async function(){
     return jwt.sign({
       id: this.id,

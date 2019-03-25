@@ -151,7 +151,14 @@ exports.updateProject = async (req, res, next) => {
 exports.getActiveProjects = async (req, res, next) => {
     try {
         const datatable = new DataTable();
-        const wheres = [`projects_details.status_id = 2`, 'projects_details.type_id = 3']
+        let wheres;
+        const currentUserIsProjectManager = req.user.hasRole('pm');
+        if(currentUserIsProjectManager){
+            wheres = [`projects_details.status_id = 2`, 'projects_details.type_id in (1,3)', `projects_details.user_id = ${req.user.id}`]
+        }
+        else {
+            wheres = [`projects_details.status_id = 2`, 'projects_details.type_id = 3']
+        }
         const data = await datatable.simple(req, null, 'projects_details', 'projects_details.id', COLUMNS_PROJECTS, wheres);
         return res.status(200).json(data);
     } catch (error) {
@@ -164,7 +171,17 @@ exports.getActiveProjects = async (req, res, next) => {
 exports.getActiveSales = async (req, res, next) => {
     try {
         const datatable = new DataTable();
-        const wheres = [`projects_details.status_id = 2`, 'projects_details.type_id = 2']
+        let wheres;
+        const rolesCanSeeAll = ['supervisor','admin','super-pm'];
+        const canSeeAll = req.user.hasAnyRole(rolesCanSeeAll);
+        console.log('\n\n\n \t\tCAN SEE ALL',canSeeAll)
+        if(!canSeeAll){
+            wheres = [`projects_details.status_id = 2`, 'projects_details.type_id = 2',`projects_details.user_id = ${req.user.id}`]
+        }
+        else {
+            wheres = [`projects_details.status_id = 2`, 'projects_details.type_id = 2']
+        }
+        console.log("USER ID: ",req.user.id)
         const data = await datatable.simple(req, null, 'projects_details', 'projects_details.id', COLUMNS_PROJECTS, wheres);
         return res.status(200).json(data);
     } catch (error) {
@@ -190,7 +207,19 @@ exports.getActiveBudgets = async (req, res, next) => {
 exports.getFinishedProjects = async (req, res, next) => {
     try {
         const datatable = new DataTable();
-        const wheres = [`projects_details.status_id = 3`]
+        const currentuUserIsPm = req.user.hasRole('pm');
+        const curentUserIsSPM = req.user.hasRole('super-pm');
+        let wheres;
+        if(currentuUserIsPm){
+            wheres = [`projects_details.status_id = 3`,`projects_details.user_id = ${req.user.id}`];
+        }
+        else if(curentUserIsSPM){
+            wheres = [`projects_details.status_id = 3`,'projects_details.type_id != 1']
+        }
+        else {
+            wheres = [`projects_details.status_id = 3`];
+        }
+        
         const data = await datatable.simple(req, null, 'projects_details', 'projects_details.id', COLUMNS_PROJECTS, wheres);
         return res.status(200).json(data);
     } catch (error) {
