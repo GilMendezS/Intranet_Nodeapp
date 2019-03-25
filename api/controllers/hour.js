@@ -1,5 +1,6 @@
-const Hour = require('../models/models').Hour;
 const moment = require('moment');
+const Hour = require('../models/models').Hour;
+const LogHelper = require('../helpers/logHelper');
 exports.getHours = async(req, res, next) => {
     try {
         const hours = await Hour.findAll({include: {all:true}})
@@ -84,20 +85,20 @@ exports.addHour = async(req, res ,next) => {
         else {
             data.in_time = false;
         }
-
         const hour = await Hour.create(data);
-        const hour_with_associations = await Hour.findByPk(hour.id, {include:{all:true}})
+        const hour_with_associations = await Hour.findByPk(hour.id, {include:{all:true}});
+        await LogHelper.write(req.user.id, `Hour(s) registered, total: ${hour.hours}, project: ${hour_with_associations.project.code}`, 'hours',hour.id);
         return res.status(200).json({
             message: 'Hour created',
             data: hour_with_associations,
             success: true
-        })
+        });
     } catch (error) {
         return res.status(500).json({
             message: 'Error saving the Hour',
             error,
             success:false
-        })
+        });
     }
 }
 exports.updateHour = async(req, res, next) => {
@@ -109,31 +110,33 @@ exports.updateHour = async(req, res, next) => {
             },
             returning: true
         })
+        await LogHelper.write(req.user.id, `Hour(s) updated, total: ${updatedHour.hours}`, 'hours',updatedHour.id);
         return res.status(200).json({
             message: 'Hour updated',
             data: updatedHour,
             success: true
-        })
+        });
     } catch (error) {
         return res.status(500).json({
             message: 'Error updating the Hour',
             sucess: false
-        })
+        });
     }
 }
 exports.removeHour = async (req, res, next) => {
     try {
-        await Hour.destroy({where:{
-            id: req.params.id
-        }})
+        const hourId = req.params.id;
+        const hour = await Hour.findByPk(hourId, { include: {all: true} });
+        await LogHelper.write(req.user.id, `Hour(s) removed, total: ${hour.hours}, project: ${hour.project.code}`, 'hours',hour.id);
+        await hour.destroy();
         return res.status(200).json({
-            message: 'Hour removed',
+            message: 'Hour(s) removed',
             success: true
-        })
+        });
     } catch (error) {
         return res.status(500).json({
             message: 'Error removing the Hour',
             sucess: false
-        })
+        });
     }   
 }
