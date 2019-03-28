@@ -17,32 +17,38 @@ export default {
                 state.positions[positionIdx] = payload;
             }
         },
-        removePepartment: (state, payload) => {
+        removePosition: (state, payload) => {
             state.positions = state.positions.filter( p => p.id != payload.id)
         }
     },
     actions: {
-        loadPositions: ({commit, rootGetters}) => {
+        loadPositions: ({commit}) => {
             axios.get(`/positions`)
             .then(response => {
                 commit('setPositions', response.data.data)
             })
             
         },
-        createPosition: ({dispatch, commit, rootGetters}, payload) => {
+        createPosition: ({commit}, payload) => {
             axios.post(`/positions`,payload)
             .then(response => {
                 if (response.data.success){
                     commit('addPosition', response.data.data)
-                }
-                dispatch('syncMessage', response.data.message, {root:true})
+                }                
+            })
+        },
+        updatePosition: ({commit}, payload) => {
+            axios.put(`/positions/${payload.id}`, payload)
+            .then(response => {
                 
             })
         },
-        updatePosition: ({dispatch,commit, rootGetters}, payload) => {
-            axios.put(`/positions/${payload.id}`, payload)
+        removePosition: ({commit}, payload) => {
+            axios.delete(`/positions/${payload.id}`)
             .then(response => {
-                dispatch('syncMessage', response.data.message, {root:true})
+                if(response.status == 200){
+                    commit('removePosition', payload);
+                }
             })
         }
     },

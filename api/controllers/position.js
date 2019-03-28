@@ -59,7 +59,7 @@ exports.updatePosition = async (req, res, next) => {
         return res.status(200).json({
             message: 'Position updated',
             success: true,
-            data: updatedPosition
+            data: position
         })
     } catch (error) {
         return res.status(500).json({
