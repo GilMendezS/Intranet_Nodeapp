@@ -1,3 +1,4 @@
+const LogHelper = require('../helpers/logHelper');
 const Position = require('../models/models').Position;
 exports.getPositions = async (req, res, next) => {
     try {
@@ -19,6 +20,7 @@ exports.addPosition = async (req, res, next) => {
             department_id: req.body.department_id,
             area_id: req.body.area_id
         })
+        await LogHelper.write(req.user.id, `Position created: '${newPosition.title}'`, 'positons', newPosition.id);
         return res.status(200).json({
             message: 'Position cretaed',
             data: newPosition,
@@ -48,7 +50,12 @@ exports.getPosition = async (req, res, next) => {
 exports.updatePosition = async (req, res, next) => {
     try {
         const positionId = req.params.id;
-        const updatedPosition = await Position.update(req.body, {where: {id: positionId}});
+        const position = await Position.findByPk(positionId);
+        position.title = req.body.title;
+        position.department_id = req.body.department_id;
+        position.area_id = req.body.area_id;
+        await position.save();
+        await LogHelper.write(req.user.id, `Position updated: ${position.title}`, 'positions',position.id);
         return res.status(200).json({
             message: 'Position updated',
             success: true,
@@ -64,7 +71,9 @@ exports.updatePosition = async (req, res, next) => {
 exports.removePosition = async (req, res, next) => {
     try {
         const positionId = req.params.id;
-        await Position.destroy({where:{id:positionId}});
+        const position = await Position.findByPk(positionId);
+        await LogHelper.write(req.user.id, `Position removed : ${position.title}`, 'positions', position.id);
+        await position.destroy();
         return res.status(200).json({
             message: 'Position removed',
             success: true
