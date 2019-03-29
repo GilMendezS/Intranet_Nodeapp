@@ -1,15 +1,18 @@
 const router = require('express').Router();
 
+const CheckRoles = require('../middlewares/role');
+
 const RfcController = require('../controllers/rfc');
 
-const AuthMiddleware = require('../middlewares/auth');
+const Authenticated = require('../middlewares/auth');
 
-router.get(`/`, AuthMiddleware, RfcController.getRfcs);
 
-router.post('/', AuthMiddleware, RfcController.addRfc);
+router.get(`/`, Authenticated, CheckRoles('admin'), RfcController.getRfcs);
 
-router.put('/:id(\\d+)/', AuthMiddleware, RfcController.updateRfc);
+router.post('/', Authenticated, CheckRoles('admin'), RfcController.addRfc);
 
-router.put(`/:id(\\d+)/disable`, AuthMiddleware, RfcController.disableRfc);
+router.put('/:id(\\d+)/', Authenticated, CheckRoles('admin'), RfcController.updateRfc);
+
+router.put(`/:id(\\d+)/disable`, Authenticated, CheckRoles('admin'), RfcController.disableRfc);
 
 module.exports = router;

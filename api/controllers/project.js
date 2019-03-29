@@ -1,7 +1,8 @@
-const Type = require('../models/models').Type;
-const User = require('../models/models').User;
-const Project = require('../models/models').Project;
 const DataTable = require('../helpers/SSP');
+const User = require('../models/models').User;
+const Type = require('../models/models').Type;
+const LogHelper = require('../helpers/logHelper');
+const Project = require('../models/models').Project;
 const Permissions = require('../models/models').Permissions;
 const COLUMNS_PROJECTS = require('../dt_definitions/project');
 exports.addProject = async (req, res, next) => { 
@@ -27,6 +28,7 @@ exports.addProject = async (req, res, next) => {
             )
             const responsable = await User.findByPk(req.body.user_id);
             await newProject.addUsers(responsable);
+            await LogHelper.write(req.user.id, `Project created: ${newProject.code}`, 'projects', newProject.id);
             return res.status(200).json({
                 message: 'Project created',
                 success: true,
@@ -45,6 +47,7 @@ exports.addUserToProject = async (req, res, next) => {
         const project = await Project.findById(req.params.id);
         const user = await User.findById(req.body.user_id);
         await project.addUsers(user, { through: { can_add_viatics: false, can_add_hours: false }})
+        await LogHelper.write(req.user.id, `${user.name} was added to the project ${project.code}`, 'projects', project.id);
         return res.status(200).json({
             message: `${user.name} was added to the project ${project.code}`,
             success: true,
@@ -76,8 +79,10 @@ exports.removeUserFromProject = async (req, res, next) => {
         const project = await Project.findById(req.params.id);
         const user = await User.findByPk(req.body.user_id);
         await project.removeUsers(user);
+        const message = `${user.name} was removed from project ${project.code}`;
+        await LogHelper.write(req.user.id, message, projects, project.id);
         return res.status(200).json({
-            message: `${user.name} was removed from project ${project.code}`,
+            message,
             success:true
         })
     } catch (error) {
@@ -94,21 +99,36 @@ exports.modifyPermissions = async (req, res, next) => {
         const projectId = req.params.id;
         const permission_type_viatics = req.body.is_viatic;
         const permission_modified = req.body.permission;
+        const user = await User.findByPk(userId);
+        let message = '';
         const user_permissions = await Permissions.findOne({where:{project_id: projectId, user_id: userId}});
         if (permission_type_viatics === 'true' || permission_type_viatics == true){
             user_permissions.can_add_viatics = permission_modified;
+            if(permission_modified){
+                message = `Permission given to add viatics - ${user.name} ${user.lastname}`;
+            }
+            else {
+                message = `Permission to add viatics removed - ${user.name} ${user.lastname}`;
+            }
         }
         else {
             user_permissions.can_add_hours = permission_modified;
+            if(permission_modified){
+                message = `Permission given to add hours - ${user.name} ${user.lastname}`;
+            }
+            else {
+                message = `Permission to add hours removed - ${user.name} ${user.lastname}`;
+            }
         }
         await user_permissions.save();
+        await LogHelper.write(req.user.id, message, 'projects', projectId);
         return res.status(200).json({
-            message: 'Permissions updated',
+            message,
             success: true,
         })
     } catch (error) {
         return res.status(500).json({
-            message: `Error modifying permission's user`,
+            message: `Error modifying users's permission`,
             success: false,
             error
         })
@@ -132,14 +152,16 @@ exports.getProject = async (req, res, next) => {
 exports.updateProject = async (req, res, next) => {
     try {
         const projectId = req.params.id;
-        const updatedProject = await Project.update(req.body, {where: {id: projectId}});
+        await Project.update(req.body, {where: {id: projectId}});
+        const project = await Project.findByPk(projectId);
         if (req.body.extra_comments != ''){
-            await Comment.create({project_id: projectId, comment: req.body.extra_comments, user_id: req.body.user_id});//TODO - pending to get user form request
+            await Comment.create({project_id: projectId, comment: req.body.extra_comments, user_id: req.user.id});
         }
+        await LogHelper.write(req.user.id, `Project updated: ${project.code}`,'projects', project.id);
         return res.status(200).json({
             message: 'Project updated',
             success: true,
-            data: updatedProject
+            data: project
         })        
     } catch (error) {
         return res.status(500).json({

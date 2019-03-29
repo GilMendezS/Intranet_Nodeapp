@@ -18,3 +18,4 @@ exports.Role = sequelize.import(path.join(rootDir ,'models', 'role'));
 exports.Concept = sequelize.import(path.join(rootDir ,'models', 'concept'));
 exports.Rfc = sequelize.import(path.join(rootDir ,'models', 'rfc'));
 exports.Invoice = sequelize.import(path.join(rootDir ,'models', 'invoice'));
+exports.Log = sequelize.import(path.join(rootDir,'models','logs'))

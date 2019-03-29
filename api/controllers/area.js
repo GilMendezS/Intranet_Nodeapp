@@ -1,4 +1,5 @@
 const Area  = require('../models/models').Area;
+const LogHelper = require('../helpers/logHelper');
 exports.getAreas = async(req, res, next) => {
     try {
         areas = await Area.findAll({include: {all:true}})
@@ -32,6 +33,7 @@ exports.addArea = async(req, res ,next) => {
             title: req.body.title,
             user_id: req.body.user_id
         }).save()
+        await LogHelper.write(req.user.id, `New area was created ${area.title}`, 'areas',area.id);
         return res.status(200).json({
             messsage: 'Area created',
             data: area
@@ -46,14 +48,14 @@ exports.addArea = async(req, res ,next) => {
 exports.updateArea = async(req, res, next) => {
     try {
         const areaId = req.params.id;
-        const updatedArea = await Area.update(req.body, {
-            where: {
-                id: areaId
-            }
-        })
+        const area = await Area.findByPk(areaId);
+        area.user_id = req.body.user_id;
+        area.title = req.body.title;
+        await area.save();
+        await LogHelper.write(req.user.id, `Information area was updated: ${area.title}`, 'areas',area.id);
         return res.status(200).json({
             message: 'Area updated',
-            data: updatedArea,
+            data: area,
             success: true
         })
     } catch (error) {
@@ -65,9 +67,10 @@ exports.updateArea = async(req, res, next) => {
 }
 exports.removeArea = async (req, res, next) => {
     try {
-        await Area.destroy({where:{
-            id: req.params.id
-        }})
+        const areaId = req.params.id;
+        const area = await Area.findByPk(areaId);
+        await LogHelper.write(req.user.id, `Information area was removed: ${area.title}`, 'areas',area.id);
+        await area.destroy();
         return res.status(200).json({
             message: 'Area removed',
             success: true

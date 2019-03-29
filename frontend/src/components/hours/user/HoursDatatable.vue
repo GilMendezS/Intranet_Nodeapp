@@ -1,4 +1,5 @@
 <template>
+  <div>
     <v-data-table
       :headers="headers"
       :items="hoursUser"
@@ -29,32 +30,52 @@
           </v-icon>
         </td>
       </template>
-     
+    
     </v-data-table>
+    <v-modal-confirm 
+          @continueDeleting="onContinue"
+          :title="titleModal"
+          :text="textModal"
+        ref="modalusershour">
+      </v-modal-confirm>
+  
+  </div>
 </template>
 <script>
 import moment from 'moment';
 import { mapGetters } from 'vuex';
+import ModalToConfirm from '@/components/includes/ModalToConfirm.vue';
+
 export default {
+    components:{
+      'v-modal-confirm':ModalToConfirm
+    },
     data: () => ({
-        headers: [
-            {text: 'Proyecto', align: 'left', sortable: true, value: 'project'},
-            {text: 'Actividad', align: 'left', sortable: true, value: 'activity'},
-            {text: 'Horas', align: 'left', sortable: true, value: 'hours'},
-            {text: 'Registrado por', align: 'left', sortable: true, value: 'created_by'},
-            {text: 'En Tiempo', align: 'left', sortable: true, value: 'in_time'},
-            {text: 'Fecha', align: 'left', sortable: true, value: 'date'},
-            {text: 'Creado', align: 'left', sortable: true, value: 'created_at'},
-            { text: 'Actions', value: 'name', sortable: false }
-        ],
+      titleModal : 'Confirmar',
+      textModal: '¿Realmente quieres eliminar esta hora?',
+      headers: [
+          {text: 'Proyecto', align: 'left', sortable: true, value: 'project'},
+          {text: 'Actividad', align: 'left', sortable: true, value: 'activity'},
+          {text: 'Horas', align: 'left', sortable: true, value: 'hours'},
+          {text: 'Registrado por', align: 'left', sortable: true, value: 'created_by'},
+          {text: 'En Tiempo', align: 'left', sortable: true, value: 'in_time'},
+          {text: 'Fecha', align: 'left', sortable: true, value: 'date'},
+          {text: 'Creado', align: 'left', sortable: true, value: 'created_at'},
+          { text: 'Actions', value: 'name', sortable: false }
+      ],
+      hourToRemove: null
     }),
     methods: {
         editItem(hour){
 
         },
         deleteItem(hour){
-
-        }
+          this.hourToRemove = hour;
+          this.$refs.modalusershour.dialog = true;
+        },
+        onContinue(){
+          this.$store.dispatch('hours/removeHour', this.hourToRemove)
+        },
     },
     computed: {
         ...mapGetters({
@@ -62,6 +83,7 @@ export default {
         }),
         hoursUser(){
             return this.hours.map( h => ({
+                id: h.id,
                 project: h.project.code,
                 activity: h.activity,
                 hours: h.hours,

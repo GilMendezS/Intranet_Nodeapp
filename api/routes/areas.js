@@ -1,14 +1,19 @@
 const router = require('express').Router();
-const AreaController = require('../controllers/area');
+
+const CheckRoles = require('../middlewares//role');
+
 const Authenticated = require('../middlewares/auth');
-router.get('/', [Authenticated],AreaController.getAreas);
 
-router.post('/', AreaController.addArea);
+const AreaController = require('../controllers/area');
 
-router.get('/:id(\\d+)/', AreaController.getArea);
+router.get('/', Authenticated ,AreaController.getAreas);
 
-router.put('/:id(\\d+)/', AreaController.updateArea);
+router.get('/:id(\\d+)/', Authenticated,AreaController.getArea);
 
-router.delete('/:id(\\d+)/', AreaController.removeArea);
+router.post('/', Authenticated, CheckRoles('admin'), AreaController.addArea);
+
+router.put('/:id(\\d+)/', Authenticated, CheckRoles('admin'), AreaController.updateArea);
+
+router.delete('/:id(\\d+)/', Authenticated, CheckRoles('admin'), AreaController.removeArea);
 
 module.exports = router;

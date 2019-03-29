@@ -15,23 +15,26 @@ export default {
         },
         setAllHours: (state, payload) => {
             state.allHours = payload;
+        },
+        removeHour: (state, payload) => {
+            state.currentHours = state.currentHours.filter( h => h.id != payload.id );
         }
     },
     actions: {
-        loadCurrentHours: ({commit, rootGetters}) => {
+        loadCurrentHours: ({commit}) => {
             axios.get(`/hours/today`)
             .then(response => {
                 commit('setCurrentHours', response.data.data)
             })
 
         },
-        loadHistoryHours: ({commit, rootGetters}) => {
+        loadHistoryHours: ({commit}) => {
             axios.get(`/hours/history`)
             .then(response => {
                 commit('setAllHours', response.data.data)
             })
         },
-        addHour: ({dispatch, commit, rootGetters}, payload) => {
+        addHour: ({commit, rootGetters}, payload) => {
             const currentUser = rootGetters['auth/getUser'];
             payload.user_id = currentUser.id;
             payload.reg_user_id = null;
@@ -41,7 +44,14 @@ export default {
                 if(response.data.success){
                     commit('addNewHour', response.data.data)
                 }
-                dispatch('syncMessage', response.data.message, {root:true})
+            })
+        },
+        removeHour: ({commit}, payload) => {
+            axios.delete(`/hours/${payload.id}`)
+            .then(response => {
+                if(response.status == 200){
+                    commit('removeHour', payload)
+                }
             })
         }
     },

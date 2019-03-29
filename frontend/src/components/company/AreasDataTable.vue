@@ -71,14 +71,24 @@
         <v-btn color="primary" @click="initialize">Reload</v-btn>
       </template>
     </v-data-table>
-    
+    <v-modal-confirm 
+          @continueDeleting="onContinue"
+          :title="titleModal"
+          :text="textModal"
+        ref="modalareas"></v-modal-confirm>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import Area from '../../models/area.js';
+import ModalToConfirm from '@/components/includes/ModalToConfirm.vue';
 export default {
+    components:{
+      'v-modal-confirm':ModalToConfirm
+    },
     data: () => ({
+      titleModal : 'Confirmar',
+      textModal: '¿Realmente quieres eliminar el área?',
       dialog: false,
       formTitle: '',
       creating: false,
@@ -95,6 +105,7 @@ export default {
       editedIndex: -1,
       editedItem: new Area(),
       defaultItem: new Area(),
+      areaToRemove: null
     }),
     mounted() {
       
@@ -130,11 +141,15 @@ export default {
             this.editedItem = area;
         },
         deleteItem(area){
-         
+         this.areaToRemove = area;
+         this.$refs.modalareas.dialog = true;
         },
         continueRemoving(area){
-          this.$store.dispatch('areas/removeArea', area)
-        }
+          this.$store.dispatch('areas/removeArea', area.id)
+        },
+        onContinue(){
+          this.$store.dispatch('areas/removeArea', this.areaToRemove)
+        },
 
     },
     computed: {

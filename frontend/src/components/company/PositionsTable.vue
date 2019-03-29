@@ -81,13 +81,25 @@
         <v-btn color="primary" @click="initialize">Reload</v-btn>
       </template>
     </v-data-table>
+    <v-modal-confirm 
+      @continueDeleting="onContinue"
+      :title="titleModal"
+      :text="textModal"
+      ref="modalpositions">
+    </v-modal-confirm>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import Position from '../../models/position.js';
+import ModalToConfirm from '@/components/includes/ModalToConfirm.vue';
 export default {
+    components:{
+      'v-modal-confirm':ModalToConfirm
+    },
     data: () => ({
+      titleModal : 'Confirmar',
+      textModal: '¿Realmente quieres eliminar este puesto?',
       dialog: false,
       formTitle: '',
       creating: false,
@@ -104,6 +116,7 @@ export default {
       editedIndex: -1,
       editedItem: new Position(),
       defaultItem: new Position(),
+      positionToRemove: null
     }),
     methods: {
         initialize(){
@@ -135,9 +148,13 @@ export default {
             this.creating = false;
             this.editedItem = position;
         },
-        deleteItem(area){
-
-        }
+        deleteItem(position){
+          this.positionToRemove = position;
+          this.$refs.modalpositions.dialog = true;
+        },
+        onContinue(){
+          this.$store.dispatch('positions/removePosition', this.positionToRemove)
+        },
 
     },
     computed: {

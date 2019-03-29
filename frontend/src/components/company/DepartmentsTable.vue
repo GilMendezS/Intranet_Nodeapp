@@ -79,13 +79,25 @@
         <v-btn color="primary" @click="initialize">Reload</v-btn>
       </template>
     </v-data-table>
+    <v-modal-confirm 
+          @continueDeleting="onContinue"
+          :title="titleModal"
+          :text="textModal"
+        ref="modaldepartments"></v-modal-confirm>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import Department from '../../models/department.js';
+import ModalToConfirm from '@/components/includes/ModalToConfirm.vue';
+
 export default {
+    components:{
+      'v-modal-confirm':ModalToConfirm
+    },
     data: () => ({
+      titleModal : 'Confirmar',
+      textModal: '¿Realmente quieres eliminar el departamento?',
       dialog: false,
       formTitle: '',
       creating: false,
@@ -102,6 +114,7 @@ export default {
       editedIndex: -1,
       editedItem: new Department(),
       defaultItem: new Department(),
+      departmentToRemove: null
     }),
     methods: {
         initialize(){
@@ -127,15 +140,19 @@ export default {
                 this.$store.dispatch('departments/updateDepartment', this.editedItem);
             }
         },
-        editItem(area){
+        editItem(department){
             this.dialog = true;
             this.formTitle = 'Editar departamento';
             this.creating = false;
-            this.editedItem = area;
+            this.editedItem = department;
         },
-        deleteItem(area){
-
-        }
+        deleteItem(department){
+          this.departmentToRemove = department;
+          this.$refs.modaldepartments.dialog = true;
+        },
+        onContinue(){
+          this.$store.dispatch('departments/removeDepartment', this.departmentToRemove);
+        },
 
     },
     computed: {
